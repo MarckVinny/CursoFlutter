@@ -8,6 +8,20 @@ main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  final _perguntas = const [
+    {
+      'texto': 'Qual é a sua cor favorita?',
+      'resposta': ['Preto', 'vermelho', 'verde', 'branco']
+    },
+    {
+      'texto': 'Qual é o seu animal favorito?',
+      'resposta': ['Coelho', 'Cobra', 'Elefante', 'Leão']
+    },
+    {
+      'texto': 'Qual é o seu instrutor favorito?',
+      'resposta': ['Maria', 'João', 'Leo', 'Pedro']
+    },
+  ];
 
   void _responder() {
     setState(() {
@@ -20,23 +34,8 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, Object>> perguntas = [
-      {
-        'texto': 'Qual é a sua cor favorita?',
-        'resposta': ['Preto', 'vermelho', 'verde', 'branco']
-      },
-      {
-        'texto': 'Qual é o seu animal favorito?',
-        'resposta': ['Coelho', 'Cobra', 'Elefante', 'Leão']
-      },
-      {
-        'texto': 'Qual é o seu instrutor favorito?',
-        'resposta': ['Maria', 'João', 'Leo', 'Pedro']
-      },
-    ];
-
     // Cria uma Lista contendo as respostas da Pergunta
-    List<String> respostas = perguntas[_perguntaSelecionada]['respostas'];
+    List<String> respostas = _perguntas[_perguntaSelecionada]['respostas'];
 
     return MaterialApp(
       home: Scaffold(
@@ -44,7 +43,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
           title: const Text('Perguntas'),
         ),
         body: Column(children: [
-          Questao(perguntas[_perguntaSelecionada]['texto'].toString()),
+          Questao(_perguntas[_perguntaSelecionada]['texto'].toString()),
           // Pegar as Respostas, converter a Lista de Strings
           // em Lista de Widgets e transformar o resultado do Map
           // em uma Lista e usar o Spread "..." pra colocar a
