@@ -36,7 +36,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
     ];
 
     // Cria uma Lista contendo as respostas da Pergunta
-    List<String> Respostas = perguntas[_perguntaSelecionada]['respostas'];
+    List<String> respostas = perguntas[_perguntaSelecionada]['respostas'];
 
     return MaterialApp(
       home: Scaffold(
@@ -45,7 +45,11 @@ class _PerguntaAppState extends State<PerguntaApp> {
         ),
         body: Column(children: [
           Questao(perguntas[_perguntaSelecionada]['texto'].toString()),
-          ...respostas,
+          // Pegar as Respostas, converter a Lista de Strings
+          // em Lista de Widgets e transformar o resultado do Map
+          // em uma Lista e usar o Spread "..." pra colocar a
+          // Lista dentro dos Filhos de Column.
+          ...respostas.map((texto) => Resposta(texto, _responder)).toList(),
 /*           ElevatedButton(
             onPressed: () {
               // ignore: avoid_print
