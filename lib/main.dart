@@ -35,6 +35,9 @@ class _PerguntaAppState extends State<PerguntaApp> {
       },
     ];
 
+    // Cria uma Lista contendo as respostas da Pergunta
+    List<String> Respostas = perguntas[_perguntaSelecionada]['respostas'];
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
