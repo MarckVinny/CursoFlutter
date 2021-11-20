@@ -35,13 +35,6 @@ class _PerguntaAppState extends State<PerguntaApp> {
       },
     ];
 
-    List<Widget> respostas = [];
-
-    for (String textoResp
-        in perguntas[_perguntaSelecionada].cast()['respostas']) {
-      respostas.add(Resposta(textoResp, _responder));
-    }
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
