@@ -25,9 +25,12 @@ class _PerguntaAppState extends State<PerguntaApp> {
   ];
 
   void _responder() {
-    setState(() {
-      _perguntaSelecionada++;
-    });
+    //  Evita mudanças de estado desnecessárias.
+    if (temPerguntaSelecionada) {
+      setState(() {
+        _perguntaSelecionada++;
+      });
+    }
 
     // ignore: avoid_print
     print(_perguntaSelecionada);
