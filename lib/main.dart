@@ -55,13 +55,18 @@ class _PerguntaAppState extends State<PerguntaApp> {
         appBar: AppBar(
           title: const Text('Perguntas'),
         ),
-        body: Column(children: [
-          Questao(_perguntas[_perguntaSelecionada]['texto'].toString()),
-          // Pegar as Respostas, converter a Lista de Strings
-          // em Lista de Widgets e transformar o resultado do Map
-          // em uma Lista e usar o Spread "..." pra colocar a
-          // Lista dentro dos Filhos de Column.
-          ...respostas.map((texto) => Resposta(texto, _responder)).toList(),
+        // Se body tiver uma Pergunta Selecionada
+        // Mostra a Column, caso contrário Não mostra nada.
+        body: temPerguntaSelecionada
+            ? Column(children: [
+                Questao(_perguntas[_perguntaSelecionada]['texto'].toString()),
+                // Pegar as Respostas, converter a Lista de Strings
+                // em Lista de Widgets e transformar o resultado do Map
+                // em uma Lista e usar o Spread "..." pra colocar a
+                // Lista dentro dos Filhos de Column.
+                ...respostas
+                    .map((texto) => Resposta(texto, _responder))
+                    .toList(),
 /*           ElevatedButton(
             onPressed: () {
               // ignore: avoid_print
@@ -78,7 +83,8 @@ class _PerguntaAppState extends State<PerguntaApp> {
             onPressed: () {},
             child: const Text('Resposta 4'),
           ), */
-        ]),
+              ])
+            : [],
       ),
     );
   }
