@@ -43,7 +43,12 @@ class _PerguntaAppState extends State<PerguntaApp> {
   @override
   Widget build(BuildContext context) {
     // Cria uma Lista contendo as respostas da Pergunta
-    List<String> respostas = _perguntas[_perguntaSelecionada]['respostas'];
+    // Se respostas tiver Pergunta Selecionada,
+    // mostra a Lista de Respostas
+    // caso contrário Não mostra nada.
+    List<String> respostas = temPerguntaSelecionada
+        ? _perguntas[_perguntaSelecionada]['respostas']
+        : [];
 
     return MaterialApp(
       home: Scaffold(
