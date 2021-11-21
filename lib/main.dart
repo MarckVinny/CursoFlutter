@@ -8,6 +8,7 @@ main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+//   Cria a Lista de Perguntas e Respostas
   final _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
@@ -30,6 +31,13 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
     // ignore: avoid_print
     print(_perguntaSelecionada);
+  }
+
+  // Método Getter
+  bool get temPerguntaSelecionada {
+    // Se o índice for menor que o tamanho da lista
+    // Significa que tem uma Pergunta Selecionada
+    return _perguntaSelecionada < _perguntas.length;
   }
 
   @override
