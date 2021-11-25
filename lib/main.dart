@@ -1,5 +1,3 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import './questao.dart';
 import './resposta.dart';
@@ -12,15 +10,15 @@ class _PerguntaAppState extends State<PerguntaApp> {
   final _perguntas = const [
     {
       'texto': 'Qual é a sua cor favorita?',
-      'resposta': ['Preto', 'vermelho', 'verde', 'branco']
+      'respostas': ['Preto', 'vermelho', 'verde', 'branco']
     },
     {
       'texto': 'Qual é o seu animal favorito?',
-      'resposta': ['Coelho', 'Cobra', 'Elefante', 'Leão']
+      'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão']
     },
     {
       'texto': 'Qual é o seu instrutor favorito?',
-      'resposta': ['Maria', 'João', 'Leo', 'Pedro']
+      'respostas': ['Maria', 'João', 'Leo', 'Pedro']
     },
   ];
 
@@ -50,7 +48,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
     // mostra a Lista de Respostas
     // caso contrário Não mostra nada.
     List<String> respostas = temPerguntaSelecionada
-        ? _perguntas[_perguntaSelecionada]['respostas']
+        ? _perguntas[_perguntaSelecionada].cast()['respostas']
         : [];
 
     return MaterialApp(
@@ -67,9 +65,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 // em Lista de Widgets e transformar o resultado do Map
                 // em uma Lista e usar o Spread "..." pra colocar a
                 // Lista dentro dos Filhos de Column.
-                ...respostas
-                    .map((texto) => Resposta(texto, _responder))
-                    .toList(),
+                ...respostas.map((t) => Resposta(t, _responder)).toList(),
 /*           ElevatedButton(
             onPressed: () {
               // ignore: avoid_print
@@ -87,7 +83,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
             child: const Text('Resposta 4'),
           ), */
               ])
-            : [],
+            : null,
       ),
     );
   }
