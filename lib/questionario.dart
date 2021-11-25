@@ -26,7 +26,7 @@ class Questionario extends StatelessWidget {
     // Se respostas tiver Pergunta Selecionada,
     // mostra a Lista de Respostas
     // caso contrário Não mostra nada.
-    List<String> respostas = temPerguntaSelecionada
+    List<Map<String, Object>> respostas = temPerguntaSelecionada
         ? perguntas[perguntaSelecionada].cast()['respostas']
         : [];
 
@@ -36,7 +36,9 @@ class Questionario extends StatelessWidget {
       // em Lista de Widgets e transformar o resultado do Map
       // em uma Lista e usar o Spread "..." pra colocar a
       // Lista dentro dos Filhos de Column.
-      ...respostas.map((t) => Resposta(t, quandoResponder)).toList(),
+      ...respostas
+          .map((resp) => Resposta(resp['texto'].toString(), quandoResponder))
+          .toList(),
 /*           ElevatedButton(
             onPressed: () {
               // ignore: avoid_print
