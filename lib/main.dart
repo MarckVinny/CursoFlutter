@@ -39,7 +39,8 @@ class _PerguntaAppState extends State<PerguntaApp> {
     },
   ];
 
-  void _responder() {
+  // O Método _responder() vai receber por parâmetro a pontuação do usuário.
+  void _responder(int pontuacao) {
     //  Evita mudanças de estado desnecessárias.
     if (temPerguntaSelecionada) {
       setState(() {
