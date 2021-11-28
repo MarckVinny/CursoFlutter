@@ -46,6 +46,9 @@ class _PerguntaAppState extends State<PerguntaApp> {
     if (temPerguntaSelecionada) {
       setState(() {
         _perguntaSelecionada++;
+        // Soma o valor do parâmetro pontuacao com o valor da
+        //Variável Global _pontuacaoTotal .
+        _pontuacaoTotal += pontuacao;
       });
     }
 
