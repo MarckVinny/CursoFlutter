@@ -54,6 +54,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
     // ignore: avoid_print
     print(_perguntaSelecionada);
+    print(_pontuacaoTotal);
   }
 
   // Método Getter
