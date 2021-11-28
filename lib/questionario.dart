@@ -37,9 +37,8 @@ class Questionario extends StatelessWidget {
       // em uma Lista e usar o Spread "..." pra colocar a
       // Lista dentro dos Filhos de Column.
       ...respostas
-          .map((resp) => Resposta(
-                resp['texto'].toString(),
-              ))
+          .map((resp) => Resposta(resp['texto'].toString(),
+              () => quandoResponder(resp['pontuacao'])))
           .toList(),
 /*           ElevatedButton(
             onPressed: () {
