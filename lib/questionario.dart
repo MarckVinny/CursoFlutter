@@ -5,7 +5,7 @@ import './resposta.dart';
 class Questionario extends StatelessWidget {
   final List<Map<String, Object>> perguntas;
   final int perguntaSelecionada;
-  final void Function() quandoResponder;
+  final void Function(int) quandoResponder;
 
   const Questionario({
     @required this.perguntas,
