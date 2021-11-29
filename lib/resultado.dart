@@ -13,7 +13,7 @@ class Resultado extends StatelessWidget {
     } else if (pontuacao < 16) {
       return 'Impressionante!!!';
     } else {
-      return 'Nível jedi!!!!!';
+      return 'Nível Jedi!!!!!';
     }
   }
 
