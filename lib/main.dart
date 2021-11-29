@@ -80,7 +80,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntaSelecionada: _perguntaSelecionada,
                 quandoResponder: _responder,
               )
-            : Resultado('Parabéns, você fez $_pontuacaoTotal pontos!!!'),
+            : Resultado(_pontuacaoTotal),
       ),
     );
   }
