@@ -9,6 +9,7 @@ main() => runApp(PerguntaApp());
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
   var _pontuacaoTotal = 0;
+
 //   Cria a Lista de Perguntas e Respostas
   final _perguntas = const [
     {
@@ -79,7 +80,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntaSelecionada: _perguntaSelecionada,
                 quandoResponder: _responder,
               )
-            : Resultado('Parabéns!!!'),
+            : Resultado('Parabéns, você fez $_pontuacaoTotal pontos!!!'),
       ),
     );
   }
