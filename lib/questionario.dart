@@ -36,10 +36,15 @@ class Questionario extends StatelessWidget {
       // em Lista de Widgets e transformar o resultado do Map
       // em uma Lista e usar o Spread "..." pra colocar a
       // Lista dentro dos Filhos de Column.
-      ...respostas
-          .map((resp) => Resposta(resp['texto'].toString(),
-              () => quandoResponder(resp['pontuacao'])))
-          .toList(),
+      ...respostas.map((resp) {
+        return Resposta(
+          // tense a "Resposta(" passando o valor textual e convertendo para String
+          resp['texto'].toString(),
+          // Método Anônimo "()"  que irá chamar "=>" o Método "quandoResponder"
+          //passando a resposta "resp" acessando o Valor "['pontuacao']".
+          () => quandoResponder(resp['pontuacao']),
+        );
+      }).toList(),
 /*           ElevatedButton(
             onPressed: () {
               // ignore: avoid_print
