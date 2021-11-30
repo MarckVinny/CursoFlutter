@@ -58,6 +58,14 @@ class _PerguntaAppState extends State<PerguntaApp> {
     print(_pontuacaoTotal);
   }
 
+  // Os dois valores foram reinicializados para seus valores inicial.
+  void _reiniciarQuestionario() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
+  }
+
   // Método Getter
   bool get temPerguntaSelecionada {
     // Se o índice for menor que o tamanho da lista
@@ -80,7 +88,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 perguntaSelecionada: _perguntaSelecionada,
                 quandoResponder: _responder,
               )
-            : Resultado(_pontuacaoTotal),
+            : Resultado(_pontuacaoTotal, _reiniciarQuestionario),
       ),
     );
   }
