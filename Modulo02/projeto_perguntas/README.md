@@ -4,7 +4,7 @@
 # CURSO DE FLUTTER
 ###### Anotações do Curso ministrado pelo prof.: Leonardo Leitão da [COD3R](https://www.cod3r.com.br)
 
-## MÓDULO 2
+## MÓDULO 2-
 
 ### Função main()
 
