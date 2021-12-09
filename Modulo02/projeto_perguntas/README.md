@@ -1,12 +1,17 @@
-* auto-gen TOC:
-{:toc}
+# SUMÁRIO
+* [Módulo 2](#modulo-2)
+  * [Função main()](funcao-main)
+      * [Código de Exemplo](codigo-de-exemplo)
+      * [Código Completo](codigo-completo)
+      * [Breve Resumo](breve-resumo)
+      
 
 # CURSO DE FLUTTER
 ###### Anotações do Curso ministrado pelo prof.: Leonardo Leitão da [COD3R](https://www.cod3r.com.br)
 
-## MÓDULO 2
+## MÓDULO 2 <a name="modulo-2"></a>
 
-### Função main()
+### Função main() <a name="funcao-main"></a>
 
 A _**função main()**_ é a porta de entrada de uma aplicação Flutter. É dentro dela que é chamada a _**função runApp()**_ que roda a aplicação em si.
 
@@ -35,7 +40,7 @@ _**Exemplo:**_ `home: Text('Olá Flutter!!!'),`.
 2:50
 ###### 2. Noções básicas de Flutter
 ###### 31. Construindo o Primeiro Widget #02
-### Código de Exemplo
+### Código de Exemplo <a name="codigo-de-exemplo"></a>
 
 _**Exemplo:**_
 
@@ -69,8 +74,7 @@ main(){
 4:16
 ###### 2. Noções básicas de Flutter
 ###### 31. Construindo o Primeiro Widget #02
-### CÓDIGO COMPLETO
-
+### CÓDIGO COMPLETO <a name="codigo-completo"></a>
 ```
 import 'package:flutter/material.dart';
  
@@ -91,7 +95,7 @@ class PerguntaApp extends StatelessWidget {
 0:09
 ###### 2. Noções básicas de Flutter
 ###### 32. Resumo até Aqui
-### BREVE RESUMO:
+### BREVE RESUMO: <a name="breve-resumo"></a>
 
 No _**Método main()**_, ao invés de usar a abertura e fechamento de chaves, pode-se usar uma arrow function, sendo mais comum ser encontrada nos códigos.
 
