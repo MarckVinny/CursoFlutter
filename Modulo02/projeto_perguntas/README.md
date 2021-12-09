@@ -1,9 +1,42 @@
-<ul>
-  <li {% if page.url contains 'Função-main()' %}class="active"{% endif %}><a href="Função-main()">Função main()</a></li>
-  <li {% if page.url contains 'código-de-Exemplo' %}class="active"{% endif %}><a href="código-de-Exemplo">Código de Exemplo</a></li>
-  <li {% if page.url contains '/about' %}class="active"{% endif %}><a href="/about/">About</a></li>
-  <li {% if page.url contains '/blog' %}class="active"{% endif %}><a href="/blog/">Blog</a></li>
-</ul>
+  * [MÓDULO 2](#m-dulo-2)
+    + [Função main()](#fun--o-main--)
+        + [Código de Exemplo](#c-digo-de-exemplo)
+        + [CÓDIGO COMPLETO](#c-digo-completo)
+        + [BREVE RESUMO:](#breve-resumo-)
+    + [CONSTRUINDO A ÁRVORE DE COMPONENTES](#construindo-a--rvore-de-componentes)
+
+        + [EXEMPLO DO CÓDIGO ALTERADO](#exemplo-do-c-digo-alterado)
+        + [USANDO COLUNAS Column() PARA ORGANIZAR OS _WIDGETS_](#usando-colunas-column---para-organizar-os--widgets-)
+        + [FAZENDO O MESMO PROCEDIMENTO MAIS RÁPIDO:](#fazendo-o-mesmo-procedimento-mais-r-pido-)
+        + [CÓDIGO DE EXEMPLO ATÉ O MOMENTO:](#c-digo-de-exemplo-at--o-momento-)
+        + [FUNÇÕES ANÔNIMAS](#fun--es-an-nimas)
+    + [CONVERTENDO UM STATELESSWIDGET EM STATEFULWIDGET](#convertendo-um-statelesswidget-em-statefulwidget)
+    + [TRANSFORMANDO Variáveis, _Métodos, **_Classes_** e Componentes em PRIVADOS](#transformando-vari-veis---m-todos-----classes----e-componentes-em-privados)
+      - [CÓDIGO ATUALIZADO COM **_CLASSE_**, METODOS E VARIÁVEIS PRIVADOS](#c-digo-atualizado-com----classe-----metodos-e-vari-veis-privados)
+    + [CRIANDO UM NOVO WIDGET - QUESTÃO](#criando-um-novo-widget---quest-o)
+      - [CÓDIGO **_CLASSE_** QUESTAO CRIADA](#c-digo----classe----questao-criada)
+      - [APLICANDO ESTILO AO COMPONENTE QUESTAO](#aplicando-estilo-ao-componente-questao)
+    + [USANDO TIPO MAP NAS PERGUNTAS](#usando-tipo-map-nas-perguntas)
+      - [EXEMPLO DE CÓDIGO IMPERATIVO:](#exemplo-de-c-digo-imperativo-)
+      - [Objetivo Principal:](#objetivo-principal-)
+    + [REFATORANDO O CÓDIGO](#refatorando-o-c-digo)
+      - [DE IMPERATIVO PARA DECLARATIVO USANDO O MAP](#de-imperativo-para-declarativo-usando-o-map)
+      - [Resumo do que essa lina de comando faz:](#resumo-do-que-essa-lina-de-comando-faz-)
+      - [TRATANDO O ERRO INDICE INVÁLIDO](#tratando-o-erro-indice-inv-lido)
+    + [CRIANDO UMA ATRIBUIÇÃO CONDICIONAL](#criando-uma-atribui--o-condicional)
+    + [CRIANDO UMA ATRIBUIÇÃO CONDICIONAL AO BODY](#criando-uma-atribui--o-condicional-ao-body)
+    + [CRIANDO O COMPONENTE QUESTIONÁRIO](#criando-o-componente-question-rio)
+    + [ADICIONANDO PONTUAÇÃO](#adicionando-pontua--o)
+    + [Revisando:](#revisando-)
+    + [Código Completo:](#c-digo-completo-)
+    + [ADICIONANDO PONTUAÇÃO](#adicionando-pontua--o-1)
+    + [Reiniciando o Questionário](#reiniciando-o-question-rio)
+    + [Exemplo Comunicação Direta:](#exemplo-comunica--o-direta-)
+    + [Exemplo Comunicação Indireta:](#exemplo-comunica--o-indireta-)
+    + [Será adicionado um TextButton:](#ser--adicionado-um-textbutton-)
+    + [Conclusão:](#conclus-o-)
+    + [Código do arquivo Main:](#c-digo-do-arquivo-main-)
+    + [Código do arquivo Resultado:](#c-digo-do-arquivo-resultado-)
 
 # CURSO DE FLUTTER
 ###### Anotações do Curso ministrado pelo prof.: Leonardo Leitão da [COD3R](https://www.cod3r.com.br)
