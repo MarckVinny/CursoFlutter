@@ -1,7 +1,9 @@
-<div style="background: red" markdown=1>  Testing **Markdown** inside a red-background div.  </div>
-
-<div data-view-content="true" class="layout-sidebar">
-<div class="BorderGrid BorderGrig--spacious" data-pjax>
+<ul>
+  <li {% if page.url contains 'Função-main()' %}class="active"{% endif %}><a href="Função-main()">Função main()</a></li>
+  <li {% if page.url contains 'código-de-Exemplo' %}class="active"{% endif %}><a href="código-de-Exemplo">Código de Exemplo</a></li>
+  <li {% if page.url contains '/about' %}class="active"{% endif %}><a href="/about/">About</a></li>
+  <li {% if page.url contains '/blog' %}class="active"{% endif %}><a href="/blog/">Blog</a></li>
+</ul>
 
 # CURSO DE FLUTTER
 ###### Anotações do Curso ministrado pelo prof.: Leonardo Leitão da [COD3R](https://www.cod3r.com.br)
@@ -29,10 +31,6 @@ _**Exemplo:**_  `build(BuildContext context){}`.
 Dentro das chaves do _**Método build**_, o _Widget_ retornado return, será o `MaterialApp();`.
 
 _**Exemplo:**_ `return MaterialApp();`.
-
-</div>
-</div>
-<div>
 
 Digitando **CTRL+ESPAÇO** no teclado dentro dos parênteses de _**MaterialApp**_, irá mostrar todos os atributos nomeados que poderão ser usados, que no caso em questão, será o home e será passado um outro _Widget_ de texto `Text()` para colocar o nome da home.
 
@@ -1393,5 +1391,3 @@ class Resultado extends StatelessWidget {
   }
 }
 ```
-
-</div>
