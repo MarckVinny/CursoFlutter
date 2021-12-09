@@ -1,10 +1,10 @@
 # SUMÁRIO
 * [Módulo 2](#modulo-2)
-  * [Função main()](funcao-main)
-      * [Código de Exemplo](codigo-de-exemplo)
-      * [Código Completo](codigo-completo)
-      * [Breve Resumo](breve-resumo)
-      
+  * [Função main()](#funcao-main)
+      * [Código de Exemplo](#codigo-de-exemplo)
+      * [Código Completo](#codigo-completo)
+      * [Breve Resumo](#breve-resumo)
+
 
 # CURSO DE FLUTTER
 ###### Anotações do Curso ministrado pelo prof.: Leonardo Leitão da [COD3R](https://www.cod3r.com.br)
