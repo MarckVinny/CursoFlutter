@@ -1,6 +1,6 @@
 <div style="background: red" markdown=1>  Testing **Markdown** inside a red-background div.  </div>
 
-<div display:flex flex-wrap: wrap markdown="1">
+<div display:flex flex-wrap:wrap markdown="1">
 
 # CURSO DE FLUTTER
 ###### Anotações do Curso ministrado pelo prof.: Leonardo Leitão da [COD3R](https://www.cod3r.com.br)
