@@ -1,3 +1,7 @@
+<div style="background: red" markdown=1>  Testing **Markdown** inside a red-background div.  </div>
+
+<div display:flex flex-wrap: wrap markdown="1">
+
 # CURSO DE FLUTTER
 ###### Anotações do Curso ministrado pelo prof.: Leonardo Leitão da [COD3R](https://www.cod3r.com.br)
 
@@ -24,6 +28,8 @@ _**Exemplo:**_  `build(BuildContext context){}`.
 Dentro das chaves do _**Método build**_, o _Widget_ retornado return, será o `MaterialApp();`.
 
 _**Exemplo:**_ `return MaterialApp();`.
+
+</div>
 
 Digitando **CTRL+ESPAÇO** no teclado dentro dos parênteses de _**MaterialApp**_, irá mostrar todos os atributos nomeados que poderão ser usados, que no caso em questão, será o home e será passado um outro _Widget_ de texto `Text()` para colocar o nome da home.
 
