@@ -1,10 +1,42 @@
 # SUMÁRIO
-* [Módulo 2](#modulo-2)
-  * [Função main()](#funcao-main)
-      * [Código de Exemplo](#codigo-de-exemplo)
-      * [Código Completo](#codigo-completo)
-      * [Breve Resumo](#breve-resumo)
-
+* [Módulo 2 :.](#modulo-2)
+  * [Função main() :.](#funcao-main)
+      * [Código de Exemplo :.](#codigo-de-exemplo)
+      * [Código Completo :.](#codigo-completo)
+      * [Breve Resumo :.](#breve-resumo)
+      * [Construindo a Árvore de Componentes :.](#construindo-a-arvore-de-componentes)
+        * [Exemplo do Código Alterado :.](#exemplo-do-codigo-alterado)
+      * [Usando Column() para Organizar os Widgets :.](#usando-colunas-para-organizar-os-widgets)
+        * [Fazendo o mesmo procedimento mais rápido :.](#fazendo-o-mesmo-procedimento-mais-rapido)
+        * [Código de Exemplo até o momento :.](#codigo-de-exemplo-ate-o-momento)
+      * [Funções Anônimas :.](#funcoes-anonimas)
+      * [Convertendo um StatelessWidget em StatefulWidget :.](#convertendo-um-statelesswidget-em-statefulwidget)
+      * [Transformando Variáveis, Métodos, Classes em Componentes Privados](#transformando-variaveis-metodos-classes-componentes-privados)
+        * [Código Atualizado com Classes Métodos e Variáveis Privados](#codigo-atualizado-classes-metodos-variaveis-privados)
+      * [Criando um Novo Widget - Questao](#criando-novo-widget-questao)
+        * [Código Classe Questao Criada](#codigo-classe-questao-criada)
+      * [Aplicando Estilo ao Componente Questao](#aplicando-estilo-componente-questao)
+      * [Passando Função Callback](#passando-funcao-callback)
+      * [Usando Tipo Map nas Perguntas](#usando-tipo-map-nas-perguntas)
+        * [Correção dos erros de tipo *Object* e *String*](#correcao-erro-object-string)
+      * [Lista para Widgets](#lista-para-widgets)
+        * [Exemplo de Código Imperativo](#exemplo-codigo-imperativo)
+        * [Refatorando o Código](#refatorando-o-codigo)
+      * [Evitando Acessar Pergunta Inválida](#evitando-acessar-pergunta-invalida)
+        * [Tratando o Erro Indice Inválido](#tratando-erro-indice-invalido)
+        * [Criando uma Atribuição Condicional](#criando-uma-atribuicao-condicional)
+        * [Criando uma Atribuição Condicional ao Body](#criando-uma-atribuicao-condicional-body)
+      * [Criando Componente Questionario](#criando-componente-questionario)
+      * [Adicionando Pontuação](#adicionando-pontuacao)
+        * [Revisando](#revisando)
+        * [Código Completo](#codigo-completo)
+      * [Reiniciando o Questionário](#reiniciando-questionario)
+        * [Exemplo Comunicação Direta](#exemplo-comunicacao-direta)
+        * [Exemplo Comunicação Indireta](#exemplo-comunicacao-indireta)
+        * [Adicionando um TextButton](#adicionando-textbutton)
+        * [Conclusão](#conclusao)
+        * [Código arquivo Main](#codigo-arquivo-main)
+        * [Código arquivo Resultado](#codigo-arquivo-resultado)
 
 # CURSO DE FLUTTER
 ###### Anotações do Curso ministrado pelo prof.: Leonardo Leitão da [COD3R](https://www.cod3r.com.br)
@@ -125,7 +157,7 @@ Os parâmetros posicionais são obrigatórios, os nomeados são opcionais e even
 0:21
 ###### 2. Noções básicas de Flutter
 ###### 33. Árvore de _Widgets_
-### CONSTRUINDO A ÁRVORE DE COMPONENTES
+### CONSTRUINDO A ÁRVORE DE COMPONENTES<a name="construindo-a-arvore-de-componentes"></a>
 
 Modificando a `home:` para ao invés de só usar o Componente `Text()` para colocar um texto simples, irá ser colocado outro Componente, o `Scaffold()` que cria a estrutura do Aplicativo, onde serão colocados outros _Widgets_ para dar forma ao App.
 
@@ -150,7 +182,7 @@ O correto é usar o _Widget_ `Text()`, `title: const Text('Perguntas')`
 ###### 33. Árvore de _Widgets_
 E por último, saindo de `appBar:` e voltando para `home:` clicando em **CTRL+ESPAÇO** vamos encontrar parâmetro nomeado `body:` que é o corpo da aplicação e que também espera um _Widget_ como parâmetro. Que no caso vai ser usado um texto simples por enquanto. **Ex.:** `body: Text('Olá Flutter!!!'),`.
 
-### EXEMPLO DO CÓDIGO ALTERADO
+### EXEMPLO DO CÓDIGO ALTERADO<a name="exemplo-do-codigo-alterado"></a>
 
 ```
 // ignore_for_file: use_key_in_widget_constructors
@@ -175,7 +207,7 @@ class PerguntaApp extends StatelessWidget {
 0:04
 ###### 2. Noções básicas de Flutter
 ###### 37. Usando Column para Organizar o _Widgets_
-### USANDO COLUNAS Column() PARA ORGANIZAR OS _WIDGETS_
+### USANDO COLUNAS Column() PARA ORGANIZAR OS _WIDGETS_ <a name="usando-colunas-para-organizar-os-widgets"></a>
 
 0:50
 ###### 2. Noções básicas de Flutter
@@ -196,7 +228,7 @@ Column(
 1:54
 ###### 2. Noções básicas de Flutter
 ###### 37. Usando Column para Organizar o _Widgets_
-### FAZENDO O MESMO PROCEDIMENTO MAIS RÁPIDO:
+### FAZENDO O MESMO PROCEDIMENTO MAIS RÁPIDO <a name="fazendo-o-mesmo-procedimento-mais-rapido"></a>
 
 Usando o atalho **CTRL+PONTO** vai abrir um menu várias opções para envolver (wrap) esse trecho de código e nesse caso será envolvido por uma coluna `Column()`.
 
@@ -230,7 +262,7 @@ O outro atributo que `RaisedButton()` recebe é a ação do click do botão ele 
 5:34
 ###### 2. Noções básicas de Flutter
 ###### 37. Usando Column para Organizar o _Widgets_
-### CÓDIGO DE EXEMPLO ATÉ O MOMENTO:
+### CÓDIGO DE EXEMPLO ATÉ O MOMENTO <a name="codigo-de-exemplo-ate-o-momento"></a>
 
 Já com alterações Dart 2.14
 ```
@@ -276,7 +308,7 @@ class PerguntaApp extends StatelessWidget {
 0:03
 ###### 2. Noções básicas de Flutter
 ###### 39. Funções Anônimas
-### FUNÇÕES ANÔNIMAS
+### FUNÇÕES ANÔNIMAS <a name="funcoes-anonimas"></a>
 
 Para habilitar um botão, e preciso criar uma função anônima no atributo _**onPressed**_.
 
@@ -322,7 +354,7 @@ _**Exemplo:**_ `onPressed: () => print('Resposta 3!!!!'),`
 6:14
 ###### 2. Noções básicas de Flutter
 ###### 42. Usando StatefulWidget #02
-### CONVERTENDO UM STATELESSWIDGET EM STATEFULWIDGET
+### CONVERTENDO UM STATELESSWIDGET EM STATEFULWIDGET <a name="convertendo-um-statelesswidget-em-statefulwidget"></a>
 
 6:23
 ###### 2. Noções básicas de Flutter
@@ -368,7 +400,7 @@ Dessa forma, ele irá ficar monitorando se houve alguma mudança e essa mudança
 5:52
 ###### 2. Noções básicas de Flutter
 ###### 44. Tornando Membros Privados
-### TRANSFORMANDO Variáveis, _Métodos, **_Classes_** e Componentes em PRIVADOS
+### TRANSFORMANDO Variáveis, _Métodos, **_Classes_** e Componentes em PRIVADOS <a name="transformando-variaveis-metodos-classes-componentes-privados"></a>
 
 6:01
 ###### 2. Noções básicas de Flutter
@@ -380,7 +412,7 @@ E para ser acessado externamente, deverá ser criado um _Método get e um set_.
 7:05
 ###### 2. Noções básicas de Flutter
 ###### 44. Tornando Membros Privados
-#### CÓDIGO ATUALIZADO COM **_CLASSE_**, METODOS E VARIÁVEIS PRIVADOS
+#### CÓDIGO ATUALIZADO COM **_CLASSE_**, METODOS E VARIÁVEIS PRIVADOS <a name="codigo-atualizado-classes-metodos-variaveis-privados"></a>
 ```
 // ignore_for_file: use_key_in_widget_constructors
  
@@ -452,7 +484,7 @@ O ***Componente PerguntaApp*** continuará público, caso seja enviado para outr
 0:12
 ###### 2. Noções básicas de Flutter
 ###### 45. Criando Widget Questão
-### CRIANDO UM NOVO WIDGET - QUESTÃO
+### CRIANDO UM NOVO WIDGET - QUESTÃO <a name="criando-novo-widget-questao"></a>
 
 Neste *Widget* ficará todas as formatações relacionadas a este *Componente*, evitando de poluir a *Árvore de Componentes*.
 
@@ -479,7 +511,7 @@ Widget build(BuildContext context){
 2:32
 ###### 2. Noções básicas de Flutter
 ###### 45. Criando Widget Questão
-#### CÓDIGO **_CLASSE_** QUESTAO CRIADA
+#### CÓDIGO **_CLASSE_** QUESTAO CRIADA <a name="codigo-classe-questao-criada"></a>
 ```
 import 'package:flutter/material.dart';
  
@@ -516,7 +548,7 @@ Com isso, se cria diversos componentes com configurações distintas que depois 
 0:03
 ###### 2. Noções básicas de Flutter
 ###### 47. Aplicando Estilo ao Widget Questão
-#### APLICANDO ESTILO AO COMPONENTE QUESTAO
+#### APLICANDO ESTILO AO COMPONENTE QUESTAO <a name="aplicando-estilo-componente-questao"></a>
 
 Agora ficará claro o motivo de se dividir os componentes.
 ```
@@ -556,6 +588,7 @@ questao.dart
 4:26
 ###### 2. Noções básicas de Flutter
 ###### 51. Passando Função Callback
+### PASSANDO FUNÇÃO CALLBACK <a name="passando-funcao-callback"></a>
 ```
 main.dart
 
@@ -588,7 +621,7 @@ Já em ***main.dart*** o segundo parâmetro do *Componente Resposta*, será usad
 0:01
 ###### 2. Noções básicas de Flutter
 ###### 53. Usando Tipo Map nas Perguntas
-***OBS.:*** Correção dos erros de tipo *Object* e *String*
+***OBS.:*** Correção dos erros de tipo *Object* e *String* <a name="correcao-erro-object-string"></a>
 
 > Fala, pessoal!
 > 
@@ -622,7 +655,7 @@ Já em ***main.dart*** o segundo parâmetro do *Componente Resposta*, será usad
 0:18
 ###### 2. Noções básicas de Flutter
 ###### 53. Usando Tipo Map nas Perguntas
-### USANDO TIPO MAP NAS PERGUNTAS
+### USANDO TIPO MAP NAS PERGUNTAS <a name="usando-tipo-map-nas-perguntas"></a>
 
 0:23
 ###### 2. Noções básicas de Flutter
@@ -648,11 +681,10 @@ No ***Componente Questao***, as perguntas eram acessadas através de uma ***List
 2:35
 ###### 2. Noções básicas de Flutter
 ###### 55. Lista para _Widgets_ #01
+### LISTA PARA WIDGETS <a name="lista-para-widgets"></a>
 >***DICA:*** ESTUDAR DIFERENÇA ENTRE CÓDIGO IMPERATIVO E CÓDIGO DECLARATIVO.
 
-
-
-#### EXEMPLO DE CÓDIGO IMPERATIVO:
+#### EXEMPLO DE CÓDIGO IMPERATIVO <a name="exemplo-codigo-imperativo"></a>
 
 2:56
 ###### 2. Noções básicas de Flutter
@@ -666,8 +698,6 @@ No ***Componente Questao***, as perguntas eram acessadas através de uma ***List
 2. Então será criado um `for` que irá guardar em `textoResp` a pergunta selecionada `perguntas[_perguntaSelecionada]`  a chave `['resposta']`. Neste `for`, irá dar todas as respostas relacionadas à pergunta. ***Ex.:*** `for(String textoResp in perguntas[_perguntaSelecionada]['respostas']){};`
 
 4. Agora devemos criar um Componente do Tipo `Resposta` com todas as respostas, para isso, será criada uma Lista `List` de Widget `<Widget>` com nome de ***respostas*** que recebe uma Lista vazia `['']`. ***Ex.:*** `List<Widget> respostas = [''];`
-
-
 
 4:53
 ###### 2. Noções básicas de Flutter
@@ -683,7 +713,7 @@ Será usado o operador três pontinhos ***"spread"*** `...`  que irá fazer com 
 0:05
 ###### 2. Noções básicas de Flutter
 ###### 56. Lista para _Widgets_ #02
-### REFATORANDO O CÓDIGO
+### REFATORANDO O CÓDIGO <a name="refatorando-o-codigo"></a>
 #### DE IMPERATIVO PARA DECLARATIVO USANDO O MAP
 
 Refatorando o laço `for`: criar uma ***Lista de String*** com nome ***respostas:*** `List<String> respostas = perguntas[_perguntaSelecionada]['respostas'];`
@@ -737,6 +767,7 @@ Por último,  foi usado o ***Spread*** `...` para pegar cada um dos ***elementos
 0:33
 ###### 2. Noções básicas de Flutter
 ###### 58. Evitando Acessar Pergunta Inválida
+### EVITANDO ACESSAR PERGUNTA INVÁLIDA <a name="evitando-acessar-pergunta-invalida"></a>
 Extraindo a ***Lista de Perguntas e Respostas*** de dentro do _Método build_, transformando-a em ***privado*** `_perguntas` e em constante `const`
 ```
 main.dart
@@ -769,7 +800,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
 1:33
 ###### 2. Noções básicas de Flutter
 ###### 58. Evitando Acessar Pergunta Inválida
-#### TRATANDO O ERRO INDICE INVÁLIDO
+#### TRATANDO O ERRO INDICE INVÁLIDO <a name="tratando-erro-indice-invalido"></a>
 
 Criando um _Método Getter_ `bool get temPerguntaSelecionada{}` se tem pergunta selecionada será mostrada a pergunta, caso contrário, a pergunta não será mostrada.
 ```
@@ -785,7 +816,7 @@ bool get temPerguntaSelecionada{
 2:32
 ###### 2. Noções básicas de Flutter
 ###### 58. Evitando Acessar Pergunta Inválida
-### CRIANDO UMA ATRIBUIÇÃO CONDICIONAL
+### CRIANDO UMA ATRIBUIÇÃO CONDICIONAL <a name="criando-uma-atribuicao-condicional"></a>
 
 Se tiver ***Pergunta Selecionada*** `temPerguntaSelecionada`  ***então*** `?`  mostra a ***Lista de Respostas*** `_perguntas[_perguntaSelecionada]['respostas']`  ***caso contrário*** `:`  não mostra nada `[]` .
 ```
@@ -799,7 +830,7 @@ List<String> respostas = temPerguntaSelecionada
 3:01
 ###### 2. Noções básicas de Flutter
 ###### 58. Evitando Acessar Pergunta Inválida
-### CRIANDO UMA ATRIBUIÇÃO CONDICIONAL AO BODY
+### CRIANDO UMA ATRIBUIÇÃO CONDICIONAL AO BODY <a name="criando-uma-atribuicao-condicional-body"></a>
 
 O ***body*** recebe a Coluna `Column` e para corrigir isso será atribuido ao ***body*** uma condição.
 
@@ -824,7 +855,7 @@ void _responder() {
 0:05
 ###### 2. Noções básicas de Flutter
 ###### 64. Widget Questionário
-### CRIANDO O COMPONENTE QUESTIONÁRIO
+### CRIANDO O COMPONENTE QUESTIONÁRIO <a name="criando-componente-questionario"></a>
 
 Criar um novo arquivo chamado ***questionario.dart***
 
@@ -940,7 +971,7 @@ body: temPerguntaSelecionada
 0:05
 ###### 2. Noções básicas de Flutter
 ###### 66. Adicionando Pontuação #01
-### ADICIONANDO PONTUAÇÃO
+### ADICIONANDO PONTUAÇÃO <a name="adicionando-pontuacao"></a>
 
 Dentro do ***main.dart*** estão as ***Respostas*** e a cada uma das `respostas`, estará associada sua `nota`.
 ```
@@ -988,7 +1019,7 @@ E dentro de ***questionario.dart*** quando for ***mapear*** as respostas, não s
 
 Uma vez recebendo as ***respostas*** vai estar percorrendo as ***respostas*** `respostas.map((resp)` e estará ***pegando a resposta*** `texto => Respostas(resp['texto']` e depois ***convertendo em String*** `.toString(),`
 
-### Revisando:
+### Revisando: <a name="revisando"></a>
 
 No `build` do ***Questionario***, está pegando uma ***Lista de Maps*** `List<Map<String, Object>>` está pegando cada uma das **Listas de respostas**:
 ```
@@ -1012,7 +1043,7 @@ Dentro do  `.map((resp)` ***chave : valor***, usando a ***função Map*** para t
 
 Como as ***respostas*** `(resp` é cada um dos elementos que tem ***texto*** e ***nota*** neste caso queremos o ***valor textual*** `(resp['texto'].toString,`.
 
-### Código Completo:
+### Código Completo: <a name="codigo-completo"></a>
 ```
 questionario.dart
 
@@ -1026,7 +1057,7 @@ questionario.dart
 0:01
 ###### 2. Noções básicas de Flutter
 ###### 68. Adicionando Pontuação #02
-### ADICIONANDO PONTUAÇÃO
+### ADICIONANDO PONTUAÇÃO <a name="adicionando-pontuacao-02"></a>
 
 Modificar a chave `'nota'` por `'pontuacao'` para facilitar o entendimento.
 
@@ -1088,7 +1119,7 @@ resultado.dart
 0:02
 ###### 2. Noções básicas de Flutter
 ###### 70. Reiniciando Questionário
-### Reiniciando o Questionário
+### Reiniciando o Questionário <a name="reiniciando-questionario"></a>
 Será criado um botão para que possa voltar para o inicio do questionário com o valor das variáveis zeradas.
 
 Uma das questões importantes com relação a comunicação entre os Componentes é a ***Comunicação Direta*** e ***Comunicação Indireta***.
@@ -1100,7 +1131,7 @@ Uma das questões importantes com relação a comunicação entre os Componentes
 0:50
 ###### 2. Noções básicas de Flutter
 ###### 70. Reiniciando Questionário
-### Exemplo Comunicação Direta:
+### Exemplo Comunicação Direta: <a name="exemplo-comunicacao-direta"></a>
 
 O *Componente Pai*, `PerguntaApp` passou um parâmetro `_pontuacaoTotal` para o *Componente Filho* `Resultado` que mostrou um determinado Valor.
 
@@ -1130,7 +1161,7 @@ main.dart
 2:17
 ###### 2. Noções básicas de Flutter
 ###### 70. Reiniciando Questionário
-### Exemplo Comunicação Indireta:
+### Exemplo Comunicação Indireta: <a name="exemplo-comunicacao-indireta"></a>
 
 Será criado um _Método_ `_reiniciarQuestionario(){}`,  dentro, será chamado o `setState((){})` e dentro irá reiniciar as variáveis: `_perguntaSelecionada = 0;` e `_pontuacaoTotal = 0;`
 
@@ -1194,7 +1225,7 @@ Agora, dentro de ***Resultado*** dentro de `build`, o ***Widget Center*** será 
 
 Agora que o Componente tem mais de um Elemento, mais de um filho, depois de ***Center*** pode se colocar mais um ***Elemento***.
 
-### Será adicionado um TextButton:
+### Adicionado um TextButton: <a name="adicionando-textbutton"></a>
 ```
 resultado.dart
  
@@ -1233,7 +1264,7 @@ No `onPressed`, ***Ex.:*** `onPressed: quandoReiniciarQuestionario,` a ***Funç�
 7:19
 ###### 2. Noções básicas de Flutter
 ###### 70. Reiniciando Questionário
-### Conclusão:
+### Conclusão: <a name="conclusao"></a>
 
 Agora é possível voltar e reiniciar o formulário quantas vezes forem necessários, nesse caso foi feita uma ***Comunicação Indireta***, foi passado uma ***Função*** de *Comunicação Direta* para o ***Componente Filho*** (o componente pai passando para o componente filho) e no *Componente Filho* a ***Função*** foi invocada de tal forma que conseguiu chamar o *Comportamento no Pai*.
 
@@ -1242,7 +1273,7 @@ Nesse caso, não foi passado nenhum parâmetro mas poderia ter sido passado.
 7:20
 ###### 2. Noções básicas de Flutter
 ###### 70. Reiniciando Questionário
-### Código do arquivo Main:
+### Código do arquivo Main: <a name="codigo-arquivo-main"></a>
 ```
 // ignore_for_file: use_key_in_widget_constructors
  
@@ -1350,7 +1381,7 @@ class PerguntaApp extends StatefulWidget {
 7:32
 ###### 2. Noções básicas de Flutter
 ###### 70. Reiniciando Questionário
-### Código do arquivo Resultado:
+### Código do arquivo Resultado: <a name="codigo-arquivo-resultado"></a>
 ```
 import 'package:flutter/material.dart';
  
