@@ -1,16 +1,30 @@
-# expenses
+# SUMÁRIO
+* [PROJETO DESPESAS PESSOAIS](#projeto-despesas-pessoais)
+* [](#)
 
-A new Flutter project.
 
-## Getting Started
+# MÓDULO 2
 
-This project is a starting point for a Flutter application.
+## PROJETO DESPESAS PESSOAIS <a name="projeto-despesas-pessoais"></a>
 
-A few resources to get you started if this is your first Flutter project:
+***Visão da Aplicação:*** O aplicativo servirá para cadastrar despesas pessoais diversas. 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+***Exemplo:*** contas diversas, compras, lazer, etc. 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+***O aplicativo terá o seguinte comportamento:***
+
+* Terá um ***Card*** com os últimos 7 dias mostrando as despesas de cada dia e uma barra de percentagem do valor do dia em relação com os últimos 7 dias;
+
+* Terá dois pontos de adição de despesas;
+
+    * Um na ***AppBar*** e outro na base da tela centralizado;
+
+* Clicando em um dos pontos de adição, abrirá um ***Modal*** para inserir as seguintes informações:
+
+    * Título da Despesa;
+
+    * Valor da Despesa;
+
+    * Data da Despesa *(através de um botão que abrirá um calendário para selecionar a data)*;
+
+* Abaixo do Card da Semana, fica a Lista de Despesas.
