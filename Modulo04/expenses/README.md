@@ -133,16 +133,21 @@ Usando a propriedade `width: double.infinity,` fará com que o ***Card()*** ocup
 
 O outro Elemento também será um ***Card()*** e também será definido um `child: Text('Lista de Transações'),` e que será substituído mais a frente por um Componente.
 
+> `mainAxisAlignment: MainAxisAlignment.spaceAround,`: Distribui os Elementos com espaços antes e depois dos mesmos.
+> crossAxisAlignment: CrossAxisAlignment.stretch,: Estica o Container na largura da tela, não sendo necessário o uso da propriedade `width: double.infinity,` no `Container()`
+
 #### Código da Aula: <a name="codigo-aula-90"></a>
 
 ```
 main.dart
 ...
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
        children: [
          // ignore: sized_box_for_whitespace
          Container(
-          width: double.infinity,
+          //width: double.infinity,
           child: const Card(
             child: Text('Gráfico'),
             color: Colors.blue,
