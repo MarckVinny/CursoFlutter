@@ -4,6 +4,7 @@
     * [Criação do Projeto no Flutter](#criacao-do-projeto-flutter)
 * [AULA 90 - COMBINANDO WIDGETS](#combinando-widgets)
   * [Código da Aula](#codigo-aula-90)
+* [AULA 93 - CRIANDO CLASSE DE  MODELO](#criando-classe-modelo)
 * [](#)
 
 # MÓDULO 4
@@ -133,7 +134,7 @@ Usando a propriedade `width: double.infinity,` fará com que o ***Card()*** ocup
 
 O outro Elemento também será um ***Card()*** e também será definido um `child: Text('Lista de Transações'),` e que será substituído mais a frente por um Componente.
 
-> `mainAxisAlignment: MainAxisAlignment.spaceAround,`: Distribui os Elementos com espaços antes e depois dos mesmos.
+> `mainAxisAlignment: MainAxisAlignment.spaceAround,`: Distribui os Elementos com espaços antes e depois dos mesmos na Vertical.
 > crossAxisAlignment: CrossAxisAlignment.stretch,: Estica o Container na largura da tela, não sendo necessário o uso da propriedade `width: double.infinity,` no `Container()`
 
 #### Código da Aula: <a name="codigo-aula-90"></a>
@@ -159,5 +160,57 @@ main.dart
          ),
        ],
       ));
+...
+```
+
+## CRIANDO CLASSE DE  MODELO <a name="criando-classe-modelo"></a>
+Será criado uma ***Classe*** que irá representar os dados de uma transação, a ***Classe Transaction***.
+
+Dento de ***lib***, será criado uma ***pasta*** chamada ***models*** e dentro será criado o arquivo ***transaction.dart*** que será nossa ***Classe***.
+
+Dentro do arquivo será criado a ***Classe Transaction*** `class Transaction`  onde serão adicionados os ***Atributos da Classe*** e o ***Construtor da Classe*** com todos os valores ***requeridos*** *"obrigatórios"*.
+
+```
+transaction.dart
+ 
+class Transaction {
+  final String id;
+  final String title;
+  final double value;
+  final DateTime date;
+ 
+  // Construtor da Classe
+  Transaction({
+    required this.id,
+    required this.title,
+    required this.value,
+    required this.date,
+  });
+}
+```
+
+Em ***MyHomePage*** dentro de ***main.dart***, será criado uma variável *privada* do Tipo *final* contendo a *Lista de transações* `final _transactions = [];`  não esquecendo de importar a Classe Transaction `import: './models/transaction.dart';`
+
+
+```
+main.dart
+ 
+...
+class MyHomePage extends StatelessWidget {
+  MyHomePage();
+  final _transactions = [
+    Transaction(
+      id: 'T1',
+      title: 'Novo Tênis de Corrida',
+      value: 310.76,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Conta de Luz',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+  ];
 ...
 ```
