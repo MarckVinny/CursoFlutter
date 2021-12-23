@@ -2,9 +2,10 @@
 * [PROJETO DESPESAS PESSOAIS](#projeto-despesas-pessoais)
 * [AULA 89 - Criando Versão Inicial do APP](#aula-89)
     * [Criação do Projeto no Flutter](#criacao-do-projeto-flutter)
-* [AULA 90](#aula-90)
+* [AULA 90 - COMBINANDO WIDGETS](#combinando-widgets)
+  * [Código da Aula](#projeto-despesas-pessoais)
 
-# MÓDULO 2
+# MÓDULO 4
 
 ## PROJETO DESPESAS PESSOAIS <a name="projeto-despesas-pessoais"></a>
 
@@ -109,4 +110,48 @@ O ***MyHomePage*** será passado como ***Componente do home***: Ex.: `home: MyHo
 
 E para a aplicação começar a rodar, é preciso criar a ***Função main()*** através de uma ***Arrow Function***: `main() => runApp(ExpensesApp());`
 
-E para Debugar a Aplicação pode se usar o atalho ***CTRL + F5***.
+E para Debugar a Aplicação pode se usar o atalho ***CTRL+F5***.
+
+> Durante todo esse Módulo, toda a codificação será feita em um grande arquivo ***main*** e consequentemente uma ***Grande Árvore de Componentes***, mas ao final, o código será ***refatorado***.
+
+## COMBINANDO WIDGETS <a name="combinando-widgets"></a>
+
+No `body:` será substituído o ***Componente Center()*** pelo ***Componente Column()***, o *Column()* diferente do *Center()* recebe um ***Conjunto de Elementos*** `children: <Widget>` que é uma ***Lista***.
+
+Dentro desta Lista serão colocados dois ***Card()***, será definido um `child: Text('Gráfico')`,  que será um ***Gráfico*** representando os gastos da semana e que será substituído mais a frente por um Componente.
+
+Usando a propriedade `elevation: 5`, colocará uma sombra por trás do ***Componente Card()*** dando ao mesmo um ***efeito de volume***.
+
+Usando a propriedade `color: Colors.blue,` adicionará a cor azul ao *background* do *Card()*.
+
+Usando a propriedade `width: double.infinity,` fará com que o ***Card()*** ocupe toda a largura da tela.
+
+> Para fazer com que o ***Card()*** ocupe toda a largura da tela, deverá envolver o ***Card()*** com um Container Wrap with Container.
+> 
+> Na Coluna `Column()` com a propriedade ***crossAxisAlignment*** é possível alinhar o ***Componente Column()*** que por padrão é alinhado ao centro `Column(crossAxisAlignment: CrossAxisAlignment.center);`
+
+O outro Elemento também será um ***Card()*** e também será definido um `child: Text('Lista de Transações'),` e que será substituído mais a frente por um Componente.
+
+#### Código da Aula: <a name="codigo-aula-90"></a>
+
+```
+main.dart
+...
+      body: Column(
+       children: [
+         // ignore: sized_box_for_whitespace
+         Container(
+          width: double.infinity,
+          child: const Card(
+            child: Text('Gráfico'),
+            color: Colors.blue,
+            elevation: 5,
+          ),
+         ),
+         const Card(
+          child: Text('Lista de Transações'),
+         ),
+       ],
+      ));
+...
+```
