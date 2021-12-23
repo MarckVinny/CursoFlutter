@@ -1,3 +1,4 @@
+import './models/transaction.dart';
 import 'package:flutter/material.dart';
 
 main() => runApp(ExpensesApp());
@@ -6,7 +7,7 @@ main() => runApp(ExpensesApp());
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: MyHomePage(),
     );
   }
@@ -14,7 +15,21 @@ class ExpensesApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
-  const MyHomePage();
+  MyHomePage();
+  final _transactions = [
+    Transaction(
+      id: 'T1',
+      title: 'Novo Tênis de Corrida',
+      value: 310.76,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Conta de Luz',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +41,7 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ignore: sized_box_for_whitespace
+            // ignore: sized_box_for_whitespace, avoid_unnecessary_containers
             Container(
               // Usando "crossAxisAlignment: CrossAxisAlignment.stretch," na Column()
               // não é necessário o uso de "width: double.infinity,"
