@@ -1,11 +1,13 @@
 # SUMÁRIO
 * [PROJETO DESPESAS PESSOAIS](#projeto-despesas-pessoais)
 * [AULA 89 - Criando Versão Inicial do APP](#aula-89)
-    * [Criação do Projeto no Flutter](#criacao-do-projeto-flutter)
+  * [Criação do Projeto no Flutter](#criacao-do-projeto-flutter)
 * [AULA 90 - COMBINANDO WIDGETS](#combinando-widgets)
   * [Código da Aula](#codigo-aula-90)
 * [AULA 93 - CRIANDO CLASSE DE  MODELO](#criando-classe-modelo)
 * [AULA 94 - MAPEAR DADOS PARA WIDGETS](#mapear-dados-para-widgets)
+* [AULA 95 - PERSONALIZANDO ITEM DA LISTA](#personalizando-item-da-lista)
+  * [Item Card](#item-card)
 * [](#)
 
 # MÓDULO 4
@@ -227,6 +229,8 @@ Em ***children***, a ***Lista*** será substituída pela ***Função Map*** `_tr
 
 E no final, ter uma ***Lista*** dentro de `children:` associado a Coluna.
 ```
+main.dart
+
 Column(
   children: _transactions.map((tr){
     return Card(
@@ -236,3 +240,14 @@ Column(
 ),
 ```
 Neste exemplo será apresentado uma ***Lista*** contendo somente o ***Título*** de cada ***transação***.
+
+## PERSONALIZANDO ITEM DA LISTA <a name="personalizando-item-da-lista"></a>
+### ITEM CARD <a name="item-card"></a>
+
+Cada ***Item da Lista*** será um ***Card*** e dentro desde *Card* estarão os ***Elementos da Transação*** e a distribuição se dará da seguinte maneira:
+
+* O ***Elemento Card()*** conterá todos os elementos;
+* O ***Elemento Row()*** conterá o Valor, o Título e a Data;
+* O ***Elemento Container()*** conterá o Valor;
+* O ***Elemento Column()*** conterá o Título e a Data.
+
