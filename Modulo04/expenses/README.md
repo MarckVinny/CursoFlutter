@@ -7,8 +7,8 @@
 * [CRIANDO CLASSE DE  MODELO - AULA 93](#criando-classe-modelo)
 * [MAPEAR DADOS PARA WIDGETS - AULA 94](#mapear-dados-para-widgets)
 * [PERSONALIZANDO ITEM DA LISTA - AULA 95](#personalizando-item-da-lista)
-  * [Item Card - Aula 96](#item-card)
-  * [Código Atualizado - Aula 97](#codigo-atualizado-item-card)
+  * [Item Card - Aula 95](#item-card)
+  * [Código Atualizado - Aula 96](#codigo-atualizado-item-card)
 * [](#)
 
 # MÓDULO 4
