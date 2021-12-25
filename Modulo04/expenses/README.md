@@ -9,6 +9,8 @@
 * [PERSONALIZANDO ITEM DA LISTA - AULA 95](#personalizando-item-da-lista)
   * [Item Card - Aula 95](#item-card)
   * [Código Atualizado - Aula 96](#codigo-atualizado-item-card)
+  * [Aplicando Estilo ao Container - Aula 97](#aplicando-estilo-ao-container)
+  * [Código Atualizado - Aula 97](#codigo-atualizado-aula-97)
 * [](#)
 
 # MÓDULO 4
@@ -272,5 +274,34 @@ Column(
       ),
     );
   }).toList(),
+),
+```
+
+## APLICANDO ESTILO AO CONTAINER <a name="aplicando-estilo-ao-container"></a>
+Para aplicar estilo aos componentes do Flutter, usa-se as propriedades e atributos dos Widgets.
+
+Agora iremos aplicar alguns estilos ao ***Container*** que contém o ***valor***:
+
+Para criar a ***Margem Externa:*** `margin: EdgeInserts.symmetric(horizontal: 15, vertical: 10),` com isso o Container terá uma margem.
+
+Para criar uma ***borda ao redor do Container*** vamos usar o *Atributo* `decoration:` com a *Classe* `BoxDecoration()` e dentro usar as Propriedades `border:  Border.all()` dentro será configurado a cor `color: Colors.black,` e a largura da borda `width: 2,`
+
+Para criar uma ***Margem Interna*** usa-se o `padding: EdgeInsets.all(10),` com isso se coloca um espaço de 10 em todos os lados.
+
+### Código Atualizado <a name="codigo-atualizado-aula-97"></a>
+
+```
+Container(
+  margin: const EdgeInsets.symmetric(
+    horizontal: 15,
+    vertical: 10,
+  ),
+  decoration: BoxDecoration(
+      border: Border.all(
+    color: Colors.black,
+    width: 2,
+  )),
+  padding: const EdgeInsets.all(10),
+  child: Text(tr.value.toStringAsFixed(2)),
 ),
 ```
