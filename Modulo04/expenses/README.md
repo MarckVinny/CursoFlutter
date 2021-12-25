@@ -5,6 +5,7 @@
 * [AULA 90 - COMBINANDO WIDGETS](#combinando-widgets)
   * [Código da Aula](#codigo-aula-90)
 * [AULA 93 - CRIANDO CLASSE DE  MODELO](#criando-classe-modelo)
+* [AULA 94 - MAPEAR DADOS PARA WIDGETS](#mapear-dados-para-widgets)
 * [](#)
 
 # MÓDULO 4
@@ -214,3 +215,24 @@ class MyHomePage extends StatelessWidget {
   ];
 ...
 ```
+
+## MAPEAR DADOS PARA WIDGETS <a name="mapear-dados-para-widgets"></a>
+### Objetivo:
+
+Exibir as transações criadas anteriormente em ***Listas*** visíveis na ***Interface Gráfica***, isso será feito através de um ***Map*** `.map()` em cima da ***Lista*** e depois convertendo em ***Elementos Visuais*** com o `.toList()`.
+
+O *Elemento Card* que representa a *Lista de Transações*, será substituído pelo *Elemento Column* que conterá os ***Filhos*** `children:` da *Lista* e dentro dos ***children*** será feito o mapeamento.
+
+Em ***children***, a ***Lista*** será substituída pela ***Função Map*** `_transactions.map()`,  que receberá outra Função e essa Função, irá receber cada um dos ***Elementos*** que no caso é a transação `(tr)`  convertendo um ***Objeto do Tipo Transaction*** em um ***Componente Visual*** e no final do ***Map*** usar o `.toList()` para converter em uma *Lista*.
+
+E no final, ter uma ***Lista*** dentro de `children:` associado a Coluna.
+```
+Column(
+  children: _transactions.map((tr){
+    return Card(
+      child: Text(tr.title),
+    );
+  }).toList(),
+),
+```
+Neste exemplo será apresentado uma ***Lista*** contendo somente o ***Título*** de cada ***transação***.
