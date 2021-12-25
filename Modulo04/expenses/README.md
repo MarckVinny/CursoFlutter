@@ -1,13 +1,14 @@
 # SUMÁRIO
 * [PROJETO DESPESAS PESSOAIS](#projeto-despesas-pessoais)
-* [AULA 89 - Criando Versão Inicial do APP](#aula-89)
+* [CRIANDO VERSÃO INICIAL DO APP - AULA 89](#aula-89)
   * [Criação do Projeto no Flutter](#criacao-do-projeto-flutter)
-* [AULA 90 - COMBINANDO WIDGETS](#combinando-widgets)
+* [COMBINANDO WIDGETS - AULA 90](#combinando-widgets)
   * [Código da Aula](#codigo-aula-90)
-* [AULA 93 - CRIANDO CLASSE DE  MODELO](#criando-classe-modelo)
-* [AULA 94 - MAPEAR DADOS PARA WIDGETS](#mapear-dados-para-widgets)
-* [AULA 95 - PERSONALIZANDO ITEM DA LISTA](#personalizando-item-da-lista)
-  * [Item Card](#item-card)
+* [CRIANDO CLASSE DE  MODELO - AULA 93](#criando-classe-modelo)
+* [MAPEAR DADOS PARA WIDGETS - AULA 94](#mapear-dados-para-widgets)
+* [PERSONALIZANDO ITEM DA LISTA - AULA 95](#personalizando-item-da-lista)
+  * [Item Card - Aula 96](#item-card)
+  * [Código Atualizado - Aula 97](#codigo-atualizado-item-card)
 * [](#)
 
 # MÓDULO 4
@@ -36,7 +37,7 @@
 
 * Abaixo do Card da Semana, fica a Lista de Despesas.
 
-### AULA 89 - Criando Versão Inicia do APP <a name="aula-89"></a>
+### CRIANDO VERSÃO INICIAL DO APP - AULA 89 <a name="aula-89"></a>
 
 ## Criação do Projeto no Flutter <a name="criacao-do-projeto-flutter">
 No terminal digitar o comando a seguir para criar o projeto: flutter create expenses
@@ -251,3 +252,25 @@ Cada ***Item da Lista*** será um ***Card*** e dentro desde *Card* estarão os *
 * O ***Elemento Container()*** conterá o Valor;
 * O ***Elemento Column()*** conterá o Título e a Data.
 
+### CÓDIGO ATUALIZADO <a name="codigo-atualizado-item-card"></a>
+```
+Column(
+  children: _transactions.map((tr) {
+    return Card(
+      child: Row(
+        children: [
+          Container(
+            child: Text(tr.value.toStringAsFixed(2)),
+          ),
+          Column(
+            children: [
+              Text(tr.title),
+              Text(tr.date.toString()),
+            ],
+          )
+        ],
+      ),
+    );
+  }).toList(),
+),
+```
