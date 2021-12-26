@@ -352,4 +352,4 @@ Column(
   ],
 )
 ```
-![img](../lib/img/container_column_row.jpg)
+![img](..expenses/lib/img/container_column_row.jpg)
