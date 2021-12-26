@@ -13,6 +13,7 @@
   * [Código Atualizado - Aula 97](#codigo-atualizado-aula-97)
   * [Aplicando Estilo ao Texto - Aula 98](#aplicando-estilo-ao-texto)
   * [Desafio: Estilo no Título e na Data - Aula 99](#desafio-estilo-no-titulo-e-na-data)
+* [DIFERENÇAS ENTRE CONTAINER E COLUMN/ROW - AULA 101](#container-vs-column)
 * [](#)
 
 # MÓDULO 4
@@ -352,4 +353,6 @@ Column(
   ],
 )
 ```
+
+## DIFERENÇAS ENTRE CONTAINER E COLUMN/ROW <a name="container-vs-column"></a>
 ![img](container_column_row.jpg)
