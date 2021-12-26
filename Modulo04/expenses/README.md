@@ -12,6 +12,7 @@
   * [Aplicando Estilo ao Container - Aula 97](#aplicando-estilo-ao-container)
   * [Código Atualizado - Aula 97](#codigo-atualizado-aula-97)
   * [Aplicando Estilo ao Texto - Aula 98](#aplicando-estilo-ao-texto)
+  * [Desafio: Estilo no Título e na Data - Aula 99](#desafio-estilo-no-titulo-e-na-data)
 * [](#)
 
 # MÓDULO 4
@@ -319,4 +320,35 @@ style: const TextStyle(
     fontSize: 20,
     color: Colors.purple,
 ),
+```
+
+## Desafio: Estilo no Título e na Data <a name="desafio-estilo-no-titulo-e-na-data"></a>
+O desafio é colocar o Título e a Data alinhada à esquerda.
+
+Colocar o Título em negrito e com a fonte 16 e a Data colocar em cinza.
+
+### Resposta:
+1. Para alinhar à esquerda usa-se `crossAxisAlignment: CrossAxisAlignment.start,` no Elemento `Column()`.
+2. Para colocar o ***Título em negrito***, antes precisa usar a *Propriedade* `style:` a *Classe* `TextStyle()` e dentro do TextStyle que se usa-se o ***Peso da Fonte*** para deixar em negrito. `fontWeight: FontWeight.bold,`.
+3. Já para mudar o tamanho da fonte, usa-se `fontSize: 16,` dentro do `TextStyle()` é claro. :-P.
+4. Para mudar a cor da Data para cinza, usar-se `color: Colors.black45,` dentro do `style: const TextStyle()`.
+
+```
+Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text(tr.title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: Colors.black,
+        )),
+    Text(
+      tr.date.toString(),
+      style: const TextStyle(
+        color: Colors.black45,
+      ),
+    ),
+  ],
+)
 ```
