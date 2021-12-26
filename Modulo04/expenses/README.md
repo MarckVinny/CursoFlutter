@@ -11,6 +11,7 @@
   * [Código Atualizado - Aula 96](#codigo-atualizado-item-card)
   * [Aplicando Estilo ao Container - Aula 97](#aplicando-estilo-ao-container)
   * [Código Atualizado - Aula 97](#codigo-atualizado-aula-97)
+  * [Aplicando Estilo ao Texto - Aula 98](#aplicando-estilo-ao-texto)
 * [](#)
 
 # MÓDULO 4
@@ -303,5 +304,19 @@ Container(
   )),
   padding: const EdgeInsets.all(10),
   child: Text(tr.value.toStringAsFixed(2)),
+),
+```
+
+## Aplicando Estilo ao Texto <a name="aplicando-estilo-ao-texto"></a>
+Para dar estilo ao texto usa-se o `style:`  juntamente com o `TextStyle(),`  e dentro dos parênteses usa-se os parâmetros a seguir para configurar o ***Estilo do Texto***:
+
+* No ***Peso da Fonte*** `fontWeight:` pode escolher entre diversos tipos tais como: bold (negrito), normal, etc. `fontWeight: FontWeight.bold,`.
+* No ***Tamanho da Fonte*** `fontSize: 20,`
+* Na ***Cor da Fonte*** `color: Colors.purple,`
+```
+style: const TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+    color: Colors.purple,
 ),
 ```
