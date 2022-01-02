@@ -13,7 +13,8 @@
   * [Código Atualizado - Aula 97](#codigo-atualizado-aula-97)
   * [Aplicando Estilo ao Texto - Aula 98](#aplicando-estilo-ao-texto)
   * [Desafio: Estilo no Título e na Data - Aula 99](#desafio-estilo-no-titulo-e-na-data)
-* [DIFERENÇAS ENTRE CONTAINER E COLUMN/ROW - AULA 101](#container-vs-column)
+  * [Diferenças entre Container e Column/Row - Aula 101](#container-vs-column)
+  * [Interpolação de Strings - Aula 102](#interpolacao-de-strings)
 * [](#)
 
 # MÓDULO 4
@@ -356,3 +357,15 @@ Column(
 
 ## DIFERENÇAS ENTRE CONTAINER E COLUMN/ROW <a name="container-vs-column"></a>
 ![img](container_column_row.jpg)
+
+## Interpolação de Strings <a name="interpolacao-de-strings">
+
+Usando a Interpolação de Strings, será associado ao Valor o símbolo da moeda R$.
+
+Isso pode ser feito de duas maneiras:
+
+1. Usando a ***Concatenação de Strings*** `child: Text('R\$ ' + tr.value.toStringAsFixed(2)),` sendo que, para o ***$*** aparecer corretamente é preciso usar uma barra invertida \ antes do símbolo do dollar, pois é um caractere especial dentro da ***String***.
+
+2. Usando a ***Interpolação de String*** `child: Text('R\$ ${tr.value.toStringAsFixed(2)}),` usando caractere especial ***$*** seguido de um ***par de chaves*** com a variável dentro.
+
+    >***Dica:*** Se o valor da variável não tivesse ponto "**.**" como no exemplo, não seria preciso usar as chaves.
