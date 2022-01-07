@@ -1,7 +1,9 @@
 import './models/transaction.dart';
 import 'package:flutter/material.dart';
 
-main() => runApp(ExpensesApp());
+main() {
+  runApp(ExpensesApp());
+}
 
 // ignore: use_key_in_widget_constructors
 class ExpensesApp extends StatelessWidget {
