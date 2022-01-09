@@ -18,7 +18,14 @@
   * [ Instalando o Pacote Externo INTL - Aula 102](#instalando-pacote-externo-intl)
 * [CRIANDO A TELA DE FORMULÁRIO - Aula 103](#criando-a-tela-de-formulario)
   * [Trabalhando com Variáveis no TextField - Aula 104](#trabalhando-com-variaveis-no-textfield)
-* [](#)
+* [REFATORAÇÃO - DIVIDINDO O APP EM WIDGETS - Aula 105](#refatoracao-dividindo-o-app-em-widgets)
+  * [Código TransactionList() - Aula 105](#codigo-transaction_list)
+  * [Código TransactionForm() - Aula 105](#codigo-transaction_form)
+  * [Código TransactionUser() - Aula 105](#codigo-transaction_user)
+  * [Código Main Refatorado - Aula 105](#codigo-main-refatorado)
+  * [](#)
+  * [](#)
+  * [](#)
 * [](#)
 
 # MÓDULO 4
@@ -502,4 +509,259 @@ TextField(
     ),
 ),
 ...
+```
+
+## Refatoração - Dividindo o APP em Widgets <a name='refatoracao-dividindo-o-app-em-widgets'></a>
+#### [^ Sumário ^](#sumario)
+
+O primeiro passo da ***Refatoração***, é criar a pasta ***Components*** dentro da pasta ***Lib***, depois disso será criado o arquivo ou componente ***transactions_list.dart*** que conterá parte do código do arquivo ***main.dart*** que será todo o conteúdo da ***lista de despesas***.
+
+Dentro do arquivo ***transactions_list.dart*** será o ***Componente StatelessWidget*** `TransactionsList()`  e a seguir o código do arquivo.
+
+#### [^ Sumário ^](#sumario)
+<a name='codigo-transaction_list'></a>
+
+```
+transaction_list.dart
+ 
+import 'package:flutter/material.dart';
+import './models/transaction.dart';
+import 'components/transaction_list.dart';
+import 'components/transaction_form.dart';
+ 
+class TransactionList extends StatelessWidget {
+  final List<Transaction> transactions;
+ 
+  // ignore: use_key_in_widget_constructors
+  const TransactionList(this.transactions);
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: transactions.map((tr) {
+        return Card(
+          child: Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                  color: Colors.purple,
+                  width: 2,
+                )),
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  'R\$ ${tr.value.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.purple,
+                  ),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(tr.title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      )),
+                  Text(
+                    DateFormat('dd-MM-y').format(tr.date),
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+```
+
+Agora, para usar esse ***Componente*** que acabou de ser criado, dentro de ***main.dart*** deverá ser importado o arquivo ***transaction_list.dart***. `import 'components/transaction_list.dart'`;
+
+Depois deverá chamar o ***Componente TransactionList()*** recebendo por parâmetro o ***_transaction*** `TransactionList(_transactions),`  no mesmo local de onde o código foi retirado no processo anterior de ***refatoração***.
+
+Agora será criado o ***Componente TransactionForm()***.
+Dentro da pasta ***Components***, será criado o arquivo ***transaction_form.dart*** e dentro do arquivo, será criado o ***Componente StatelessWidget*** `TransactionForm()` que conterá o conteúdo do ***Card*** que contém o ***formulário*** de Nova Transação que futuramente será transformado em um ***Modal***.
+
+#### [^ Sumário ^](#sumario)
+<a name='codigo-transaction_form'></a>
+
+```
+transaction_form.dart
+ 
+import 'package:flutter/material.dart';
+ 
+class TransactionForm extends StatelessWidget {
+  final titleController = TextEditingController();
+  final valueController = TextEditingController();
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(
+                labelText: 'Título',
+              ),
+            ),
+            TextField(
+              controller: valueController,
+              decoration: const InputDecoration(
+                labelText: 'Valor (R\$)',
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                  child: TextButton(
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.purple),
+                    ),
+                    onPressed: () {
+                      print(titleController.text);
+                      print('R\$ ${valueController.text}');
+                    },
+                    child: const Text('Nova Transação'),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+Agora, para usar esse ***Componente*** que acabou de ser criado, dentro de ***main.dart*** deverá ser importado o arquivo ***transaction_form.dart***. `import 'components/transaction_form.dart';`
+
+Depois deverá chamar o ***Componente StatelessWidget*** `TransactionForm(),` no mesmo local de onde o código foi retirado no processo anterior de ***refatoração***.
+
+Seguindo o processo de ***refatoração***, será criado mais um ***Componente*** *"que mais para frente será excluído"* que é o ***Componente StatefulWidget*** `TransactionUser()` que irá controlar a ***Lista de Transações***, pois, mesmo a Lista sendo ***final***, o conteúdo da Lista pode ir evoluindo *(recebendo mais itens)*. A ***Lista é final***, porque será possível mudar a referencia para a ***variável _transaction*** mas a Lista pode ser mexida, ***cadastrando e excluindo novos elementos***.
+
+Deverá ser importado o arquivo ***transaction_user.dart.*** `import 'components/transaction_user.dart';`, ***transaction_list.dart*** `import 'components/transaction_list.dart';`, ***transaction_form.dart*** `import 'components/transaction_form.dart';` e ***transaction.dart*** `import '../models/transaction.dart';`.
+
+ #### [^ Sumário ^](#sumario)
+<a name='codigo-transaction_user'></a>
+
+```
+transaction_user.dart
+ 
+import 'package:flutter/material.dart';
+import 'transaction_list.dart';
+import 'transaction_form.dart';
+import '../models/transaction.dart';
+ 
+class TransactionUser extends StatefulWidget {
+  @override
+  _TransactionUserState createState() => _TransactionUserState();
+}
+ 
+class _TransactionUserState extends State<TransactionUser> {
+  final _transactions = [
+    Transaction(
+      id: 'T1',
+      title: 'Novo Tênis de Corrida',
+      value: 310.76,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Conta de Luz',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+  ];
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TransactionList(_transactions),
+        TransactionForm(),
+      ],
+    );
+  }
+}
+```
+
+Agora, para usar esse ***Componente*** que acabou de ser criado, dentro de ***main.dart*** deverá ser importado o arquivo ***transaction_user.dart***. `import 'components/transaction_user.dart';`.
+
+Depois deverá chamar o ***Componente StatefulWidget*** `TransactionUser()` no mesmo local de onde o código foi retirado no processo anterior de **refatoração**.
+
+Agora, após todo esse processo de refatoração, o arquivo ***main.dart*** ficou muito mais enxuto e com isso melhor legível e ***mais fácil de dar manutenção***.
+
+#### [^ Sumário ^](#sumario)
+<a name='codigo-main-refatorado'></a>
+
+```
+main.dart
+ 
+import 'package:flutter/material.dart';
+import 'components/transaction_user.dart';
+ 
+main() {
+  runApp(ExpensesApp());
+}
+ 
+// ignore: use_key_in_widget_constructors
+class ExpensesApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: MyHomePage(),
+    );
+  }
+}
+ 
+class MyHomePage extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
+  const MyHomePage();
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Despesas Pessoais'),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // ignore: sized_box_for_whitespace, avoid_unnecessary_containers
+            Container(
+              // Usando "crossAxisAlignment: CrossAxisAlignment.stretch," na Column()
+              // não é necessário o uso de "width: double.infinity,"
+              //width: double.infinity,
+              child: const Card(
+                child: Text('Gráfico'),
+                color: Colors.blue,
+                elevation: 5,
+              ),
+            ),
+            TransactionUser(),
+          ],
+        ));
+  }
+}
 ```
