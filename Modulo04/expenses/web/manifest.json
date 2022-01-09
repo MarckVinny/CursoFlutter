@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Despesas Pessoais - Projeto Módulo 4 do Curso de Flutter.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
