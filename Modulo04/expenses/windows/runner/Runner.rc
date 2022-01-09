@@ -90,7 +90,7 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "br.com.agenciamvdesign" "\0"
-            VALUE "FileDescription", "A new Flutter project." "\0"
+            VALUE "FileDescription", "Despesas Pessoais - Projeto Módulo 4 do Curso de Flutter." "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "expenses" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 br.com.agenciamvdesign. All rights reserved." "\0"
