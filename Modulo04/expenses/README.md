@@ -518,8 +518,9 @@ O primeiro passo da ***Refatoração***, é criar a pasta ***Components*** dentr
 
 Dentro do arquivo ***transactions_list.dart*** será o ***Componente StatelessWidget*** `TransactionsList()`  e a seguir o código do arquivo.
 
-#### [^ Sumário ^](#sumario)
 <a name='codigo-transaction_list'></a>
+
+#### [^ Sumário ^](#sumario)
 
 ```
 transaction_list.dart
@@ -595,8 +596,9 @@ Depois deverá chamar o ***Componente TransactionList()*** recebendo por parâme
 Agora será criado o ***Componente TransactionForm()***.
 Dentro da pasta ***Components***, será criado o arquivo ***transaction_form.dart*** e dentro do arquivo, será criado o ***Componente StatelessWidget*** `TransactionForm()` que conterá o conteúdo do ***Card*** que contém o ***formulário*** de Nova Transação que futuramente será transformado em um ***Modal***.
 
-#### [^ Sumário ^](#sumario)
 <a name='codigo-transaction_form'></a>
+
+#### [^ Sumário ^](#sumario)
 
 ```
 transaction_form.dart
@@ -662,8 +664,9 @@ Seguindo o processo de ***refatoração***, será criado mais um ***Componente**
 
 Deverá ser importado o arquivo ***transaction_user.dart.*** `import 'components/transaction_user.dart';`, ***transaction_list.dart*** `import 'components/transaction_list.dart';`, ***transaction_form.dart*** `import 'components/transaction_form.dart';` e ***transaction.dart*** `import '../models/transaction.dart';`.
 
- #### [^ Sumário ^](#sumario)
 <a name='codigo-transaction_user'></a>
+
+#### [^ Sumário ^](#sumario)
 
 ```
 transaction_user.dart
@@ -712,8 +715,9 @@ Depois deverá chamar o ***Componente StatefulWidget*** `TransactionUser()` no m
 
 Agora, após todo esse processo de refatoração, o arquivo ***main.dart*** ficou muito mais enxuto e com isso melhor legível e ***mais fácil de dar manutenção***.
 
-#### [^ Sumário ^](#sumario)
 <a name='codigo-main-refatorado'></a>
+
+#### [^ Sumário ^](#sumario)
 
 ```
 main.dart
