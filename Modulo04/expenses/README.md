@@ -12,9 +12,11 @@
   * [Aplicando Estilo ao Container - Aula 97](#aplicando-estilo-ao-container)
   * [Código Atualizado - Aula 97](#codigo-atualizado-aula-97)
   * [Aplicando Estilo ao Texto - Aula 98](#aplicando-estilo-ao-texto)
-  * [Desafio: Estilo no Título e na Data - Aula 99](#desafio-estilo-no-titulo-e-na-data)
-  * [Diferenças entre Container e Column/Row - Aula 101](#container-vs-column)
-  * [Interpolação de Strings - Aula 102](#interpolacao-de-strings)
+  * [Desafio: Estilo no Título e na Data - Aula 98](#desafio-estilo-no-titulo-e-na-data)
+  * [Diferenças entre Container e Column/Row - Aula 99](#container-vs-column)
+  * [Interpolação de Strings - Aula 100](#interpolacao-de-strings)
+  * [ Instalando o Pacote Externo INTL - Aula 102](#instalando-pacote-externo-intl)
+  * [](#)
 * [](#)
 
 # MÓDULO 4
@@ -369,3 +371,33 @@ Isso pode ser feito de duas maneiras:
 2. Usando a ***Interpolação de String*** `child: Text('R\$ ${tr.value.toStringAsFixed(2)}'),` usando caractere especial ***$*** seguido de um ***par de chaves*** com a variável dentro.
 
     >***Dica:*** Se o valor da variável não tivesse ponto "**.**" como no exemplo, não seria preciso usar as chaves.
+
+## Instalando o Pacote Externo INTL <a name='instalando-pacote-externo-intl'></a>
+Para ajustar o ***valor da Data*** que está sendo exibido de forma equivocada, é preciso instalar um pacote via ***pubspec.yaml.***
+
+Para saber que pacote usar para configurar a Data, é só pesquisar na internet, mas, o pacote que estará sendo instalado é o ***INTL*** que significa ***Internacionalização***.
+
+O procedimento para instalar o pacote é relativamente fácil, sendo preciso ficar atendo somente à ***tabulação*** para não instalar o pacote no lugar errado, o mesmo deve ser instalado em `dependencies:` e deve ser tabulado uma vez, para ser relativo às ***dependências*** e não a outro pacote.
+
+```
+pubspec.yaml
+...
+dependencies:
+  flutter:
+    sdk: flutter
+ 
+  intl: ^0.17.0
+...
+```
+
+Agora para usar o ***INTL***, será preciso importa-lo para dentro do arquivo ***main.dart***. ***Ex.:*** `import 'package:intl/intl.dart';`.
+
+Depois para poder formatar corretamente a ***Data***, devemos substituir o `tr.date.toString(),`  por `DateFormat('dd-MM-y').format(tr.date),`  para que possamos configurar a ***máscara da Data***, existem outros tipos de configuração olhe na documentação para mais informações.
+
+```
+main.dart
+...
+  Text(
+     DateFormat('dd-MM-y').format(tr.date),
+...
+```
