@@ -17,6 +17,7 @@
   * [Interpolação de Strings - Aula 100](#interpolacao-de-strings)
   * [ Instalando o Pacote Externo INTL - Aula 102](#instalando-pacote-externo-intl)
 * [CRIANDO A TELA DE FORMULÁRIO - Aula 103](#criando-a-tela-de-formulario)
+  * [Trabalhando com Variáveis no TextField - Aula 104](#trabalhando-com-variaveis-no-textfield)
 * [](#)
 
 # MÓDULO 4
@@ -403,6 +404,7 @@ main.dart
 ```
 
 ## Criando a Tela de Formulário <a name='criando-a-tela-de-formulario'></a>
+#### [^ Sumário ^](#)
 A princípio a ***Tela de Formulário*** será criada em um ***Card***, mas posteriormente será transformada em um ***Modal***.
 
 ```
@@ -444,5 +446,45 @@ Card(
     ),
     ),
 )
+...
+```
+
+## Trabalhando com Variáveis no TextField <a name='trabalhando-com-variaveis-no-textfield'></a>
+#### [^ Sumário ^](#)
+A principio será usado variáveis em um Componente StatelessWidget o que não é recomendado (alteração de Estado), mas, mais a frente será corrigido colocando em um ***Componente StatefulWidget***.
+
+É preciso ter cuidado, pois, mesmo criando uma variável do Tipo ***final***, `final titleController = TextEditingController();`.
+
+Por mais que se tenha marcado essa variável como sendo ***final***, ainda assim, será preciso alterar o ***Estado Interno*** desta variável e não é bom, mesmo tendo um atributo ***final***.
+
+Ainda assim, que dentro desta ***Classe*** `TextEditingController()` os ***Estados Internos*** estejam se alterando, ainda assim, é indicado se colocar dentro de um ***Componente StatefulWidget***.
+
+Desta forma, está *"aderente"* ao ***Componente StatelessWidget*** porque os dois atributos foram marcados como ***final*** mas isso não é suficiente, pois, o ***Estado Interno*** estará se modificando conforme é digitado algo no ***TextField***, por enquanto irá continuar funcionando, mas, mais a frente irá quebrar mas será corrigido.
+
+```
+main.dart
+...
+class MyHomePage extends StatelessWidget {
+  final titleController = TextEditingController();
+  final valueController = TextEditingController();
+...
+```
+No ***TextField Título*** será adicionado o atributo `controller: titleController,` e no ***TextField Valor***, será adicionado o atributo `controller: valueController,`
+
+```
+main.dart
+...
+TextField(
+    controller: titleController,
+    decoration: const InputDecoration(
+    labelText: 'Título',
+    ),
+),
+TextField(
+    controller: valueController,
+    decoration: const InputDecoration(
+    labelText: 'Valor (R\$)',
+    ),
+),
 ...
 ```
