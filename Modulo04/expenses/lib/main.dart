@@ -1,6 +1,5 @@
-import './models/transaction.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'components/transaction_user.dart';
 
 main() {
   runApp(ExpensesApp());
@@ -10,32 +9,15 @@ main() {
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  final titleController = TextEditingController();
-  final valueController = TextEditingController();
-
   // ignore: use_key_in_widget_constructors
-  MyHomePage();
-  final _transactions = [
-    Transaction(
-      id: 'T1',
-      title: 'Novo Tênis de Corrida',
-      value: 310.76,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 'T2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now(),
-    ),
-  ];
+  const MyHomePage();
 
   @override
   Widget build(BuildContext context) {
@@ -57,94 +39,7 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            Column(
-              children: _transactions.map((tr) {
-                return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                          color: Colors.purple,
-                          width: 2,
-                        )),
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          'R\$ ${tr.value.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.purple,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(tr.title,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.black,
-                              )),
-                          Text(
-                            DateFormat('dd-MM-y').format(tr.date),
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
-            Card(
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: titleController,
-                      decoration: const InputDecoration(
-                        labelText: 'Título',
-                      ),
-                    ),
-                    TextField(
-                      controller: valueController,
-                      decoration: const InputDecoration(
-                        labelText: 'Valor (R\$)',
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: TextButton(
-                            style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.purple),
-                            ),
-                            onPressed: () {
-                              print(titleController.text);
-                              print('R\$ ${valueController.text}');
-                            },
-                            child: const Text('Nova Transação'),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            )
+            TransactionUser(),
           ],
         ));
   }
