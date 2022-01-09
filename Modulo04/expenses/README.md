@@ -16,7 +16,7 @@
   * [Diferenças entre Container e Column/Row - Aula 99](#container-vs-column)
   * [Interpolação de Strings - Aula 100](#interpolacao-de-strings)
   * [ Instalando o Pacote Externo INTL - Aula 102](#instalando-pacote-externo-intl)
-  * [](#)
+* [CRIANDO A TELA DE FORMULÁRIO - Aula 103](#criando-a-tela-de-formulario)
 * [](#)
 
 # MÓDULO 4
@@ -399,5 +399,50 @@ main.dart
 ...
   Text(
      DateFormat('dd-MM-y').format(tr.date),
+...
+```
+
+## Criando a Tela de Formulário <a name='criando-a-tela-de-formulario'></a>
+A princípio a ***Tela de Formulário*** será criada em um ***Card***, mas posteriormente será transformada em um ***Modal***.
+
+```
+main.dart
+...
+Card(
+    elevation: 5,
+    child: Padding(
+    padding: const EdgeInsets.all(10),
+    child: Column(
+        children: [
+        const TextField(
+            decoration: InputDecoration(
+            labelText: 'Título',
+            ),
+        ),
+        const TextField(
+            decoration: InputDecoration(
+            labelText: 'Valor (R\$)',
+            ),
+        ),
+        Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+            Padding(
+                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                child: TextButton(
+                style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        Colors.purple),
+                ),
+                onPressed: () {},
+                child: const Text('Nova Transação'),
+                ),
+            ),
+            ],
+        )
+        ],
+    ),
+    ),
+)
 ...
 ```
