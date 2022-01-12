@@ -23,7 +23,7 @@
   * [Código TransactionForm() - Aula 105](#codigo-transaction_form)
   * [Código TransactionUser() - Aula 105](#codigo-transaction_user)
   * [Código Main Refatorado - Aula 105](#codigo-main-refatorado)
-  * [](#)
+* [INTEGRANDO COMPONENTES DO FOMULÁRIO COM A LISTA - Aula 106](#integrando-componentes-do-formulario-com-a-lista)
   * [](#)
   * [](#)
 * [](#)
@@ -769,3 +769,95 @@ class MyHomePage extends StatelessWidget {
   }
 }
 ```
+
+## Integrando Componentes do Formulário com a Lista <a name='integrando-componentes-do-formulario-com-a-lista'></a>
+#### [^ Sumário ^](#sumario)
+O objetivo é inserir uma ***Nova Transação*** a partir do ***Formulário*** e fazer com que apareça na ***Lista de Transações***.
+
+E que fará o intermédio da relação entre o ***Formulário*** e a ***Lista***, é justamente o ***Componente StatefulWidget TransactionUser()***.
+
+Neste Componente dá para perceber claramente, o conceito de ***Comunicação Direta*** e ***Comunicação Indireta***.
+
+***Comunicação Direta***: é quando se tem um ***Componente Pai*** passando ***Dados*** para o ***Componente Filho*** para que ele possa ser renderizado.
+
+***Exemplo***: o Componente StatelessWidget `TransactionList(_transactions)` depende da ***Lista de Transações*** `_transactions`, se for passado uma ***Lista Vazia*** `TransactionList([])`, automaticamente o ***TransactionList()*** não mostrará mais nenhuma Transação porque foi passado uma Lista Vazia.
+
+O Dono das informações das Transações, é o ***Componente StatefulWidget TransactionUser()***, então, claramente quem tem as informações é o `TransactionUser()` e ele está passando via ***parâmetro/construtor*** para outro ***Componente StatelessWidget Filho*** para que possa ser renderizado e isso se caracteriza uma ***Comunicação Direta***.
+
+Dentro do ***Método Build Pai*** *"Componente StatefulWidget TransactionUser()"* há uma referencia explícita ao ***Elemento Filho*** *"TransactionList(_transactions)"*  já que se tem uma ***Árvore e Componentes***, o ***Pai*** faz uma referencia para o ***Filho***.
+
+Agora, quando se quer que o *Filho* se comunicando com o *Pai*, ou seja, a partir do ***TransactionForm()***, precisa-se saber quando uma **Nova Transação** é cadastrada, e também precisa ser recebido de ***TransactionForm()*** o ***Título*** e o ***Valor***, ou seja, esses ***Dados*** pertencem no momento a ***TransactionForm()***, e quando o usuário clicar em **Nova Transação**, automaticamente é para se ter uma chamada ao **Componente Pai** *"Componente StatefulWidget TransactionUser()"* que precisa ser notificado quando o Usuário cadastrar uma **Nova Transação**, para assim adicionar na Lista os ***Dados*** desta nova transação e o ***Componente Filho*** *"TransactionList()"* ser Atualizado.
+
+Agora será definido uma nova ***Função*** que se chamará: ***_addTransaction()*** e que receberá dois parâmetros: (***String title, double value***) ou seja, o valor já irá vir transformado em double embora o valor passado no Formulário seja do Tipo String. ***Ex.:*** `_addTransaction(String title, double value){};`.
+
+Dentro das chaves, será criado uma ***Nova Transação***: `final newTransaction` que irá receber um ***Objeto do Tipo Transaction()***. ***Ex.:*** `final newTransaction = Transaction();`
+
+E dentro dos parênteses, serão adicionados os atributos e os parâmetros para a criação desta ***Nova Transação***, e os parâmetros são:
+
+>Lembrando que primeiro vem o atributo da ***Função*** seguido de dois pontos ex.: `title:` e logo após, o parâmetro nomeado `title`.
+
+* id: Random().nextDouble().toString, (cria uma String randômica com valor double)
+* title: title,
+* value: value,
+* date: DateTime.now(),
+
+```
+transaction_user.dart
+
+...
+  // Adiciona uma Nova Transação
+  _addTransaction(String title, double value) {
+    final newTransaction = Transaction(
+      id: Random()
+          .nextDouble()
+          .toString(), // cria um ID único randômico com valor double e transforma em String.
+      title: title,
+      value: value,
+      date: DateTime.now(),
+    );
+ 
+      setState((){
+          _transactions.add(newTransaction);
+      });
+  }
+...
+```
+
+O próximo passo é, dentro de um ***setState(() {});*** será alterado o ***Estado da Lista*** `_transactions` ***adicionar*** `.add()` a ***Nova Transação*** criada acima `(newTransaction);`.
+
+***Exemplo:***
+
+```
+   setState((){
+     _transactions.add(newTransaction);
+   });
+```
+
+Alterando o Estado, automaticamente por estar dentro de um ***Componente StatefulWidget***, quando o ***Estado muda***, a ***Árvore de Componentes*** também será atualizada.
+
+Quando se tem um ***Componente StatelessWidget***, a única coisa que pode alterar a visualização, é passar um novo ***Dado/Parâmetro*** para o ***Construtor*** daquele ***Componente StatelessWidget***, ou seja, externamente o ***Dado mudou***, então, se passa o ***Novo Dado*** e o Componente se atualiza.
+
+Que é o caso do ***Componente TransactionList TransactionList()***, quando essa ***Lista de Transações*** alterar, automaticamente o ***Método Build*** vai rodar e será passado uma ***Nova Lista de Transações*** `_transactions` para o `TransactionList()`, então, de forma externa o ***TransactionList()*** será atualizado porque algo externo foi alterado.
+
+```
+transaction_user.dart
+ 
+...
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TransactionList(_transactions),
+        TransactionForm(),
+      ],
+    );
+  }
+}
+...
+```
+
+Quando se tem um ***Componente StatefulWidget***, pode se alterar de duas formas:
+
+* ***Externamente:*** quando houve alteração de um parâmetro recebido via ***Construtor*** de um Componente Stateful.
+
+* ***Estado Alterado:*** quando o ***Estado do Componente*** alterou e então o Componente é ***renderizado/atualizado***, e se pode visualizar a alteração na aplicação.
