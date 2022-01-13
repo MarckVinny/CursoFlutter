@@ -24,8 +24,10 @@
   * [Código TransactionUser() - Aula 105](#codigo-transaction_user)
   * [Código Main Refatorado - Aula 105](#codigo-main-refatorado)
 * [INTEGRANDO COMPONENTES DO FOMULÁRIO COM A LISTA - Aula 106](#integrando-componentes-do-formulario-com-a-lista)
-  * [](#)
-  * [](#)
+  * [***Comunicação Indireta*** onSubmit _addTransaction onPressed - Aula 107](#comunicacao-indireta-onpressed-onsubmit-addtransaction)
+    * [Código onSubmit - Aula 107](#codigo-onsubmit)
+    * [Código _addTransaction - Aula 107](#codigo-adtransaction)
+    * [Código onPressed - Aula 107](#codigo)
 * [](#)
 
 # MÓDULO 4
@@ -861,3 +863,90 @@ Quando se tem um ***Componente StatefulWidget***, pode se alterar de duas formas
 * ***Externamente:*** quando houve alteração de um parâmetro recebido via ***Construtor*** de um Componente Stateful.
 
 * ***Estado Alterado:*** quando o ***Estado do Componente*** alterou e então o Componente é ***renderizado/atualizado***, e se pode visualizar a alteração na aplicação.
+
+## Comunicação Indireta onPressed onSubmit _addTransaction <a name='comunicacao-indireta-onpressed-onsubmit-addtransaction'></a>
+#### [^ Sumário ^](#sumario)
+
+Agora será estabelecida a ***Comunicação Indireta***, porque, o *TransactionForm()* precisa conversar com o ***Pai*** que é o ***TransactionUser()*** e para isso, é esperado receber como parâmetro uma ***Função*** `Function() final` que vai retornar `void` e receberá dois parâmetros `String, double` que receberá o nome de `onSubmit`, já que está dentro de um ***Formulário*** e o mesmo será submetido, ou seja, na hora de submeter será chamado essa ***Função*** passando cada um dos campos do ***Formulário***.
+
+***Exemplo:*** `final void Function(String, double) onSubmit;`
+
+Então, espera-se receber como parâmetro essa ***Função onSubmit*** no ***Construtor*** do **TransactionForm**.
+
+***Exemplo:*** `TransactionForm(this.onSubmit);`
+<a name='codigo-onsubmit'></a>
+
+#### [^ Sumário ^](#sumario)
+```
+transaction_form.dart
+ 
+...
+    final void Function(String, double) onSubmit;
+ 
+    TransactionForm(this.onSubmit);
+...
+```
+
+E dentro do `TransactionUser()` existe a ***Função*** `_addTransaction()` que é exatamente a mesma ***Função*** que será recebida lá dentro de `TransactionForm()`.
+
+Dentro do ***Método Build***, na construção do `TransactionForm()`, o ***Método Adicionar Transação*** `_addTransaction`, é possível passar essa ***Função*** como parâmetro.
+
+***Exemplo:*** `TransactionForm(_addTransaction);`.
+
+<a name='codigo-addtransaction'></a>
+
+#### [^ Sumário ^](#sumario)
+```
+transaction_user.dart
+
+...
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Comunicação Direta -> através de Dados
+        TransactionList(_transactions),
+        // Comunicação Indireta -> através de uma Função que espera os Dados vindos do Componete Filho
+        TransactionForm(_addTransaction),
+      ],
+    );
+  }
+}
+...
+```
+E lá dentro do ***Método TransactionForm()*** será preciso definir, o momento exato que esse Método precisa ser chamado.
+
+A principio, isso acontecerá quando o ***Botão*** `TextButton()` for ***clicado*** `onPressed: () {},`
+
+Primeiro será preciso armazenar em uma variável do ***Tipo final*** o texto do ***Título*** `final title = titleController.text;` e em uma variável do ***Tipo final*** o texto do ***Valor***  `final value = double.tryParse(valueController.text) ?? 0.0;` que significa que tentará converter o texto em um ***valor double*** `double.tryParse(valueController.text)` e caso não consiga `??`, colocará o ***valor padrão*** `0.0`.
+
+O próximo passo é chamar o ***onSubmit*** que foi recebido por parâmetro, passando o ***Título*** `title` e o ***Valor*** `value`. ***Ex.:*** `onSubmit(title, value);`
+
+Então o que aconteceu foi que, o ***Componente Pai*** passou uma ***Função*** a `onSubmit()` para o ***Componente Filho*** através do ***Construtor***.
+
+No ***transaction_user.dart***, no ***Construtor*** do `TransactionForm()` foi passado a ***Função*** `_addTransaction` que ele espera receber como parâmetro, e dentro do ***transaction_form.dart*** dentro do ***Componente TransactionForm*** através de seu ***Construtor***, recebe a ***Função onSubmit***. ***Exemplo:*** `TransactionForm(this.onSubmit);`
+
+E dentro ***Componente*** se sabe qual o momento exato que o usuário quer ***submeter*** o ***Formulário***, que será dentro do `TextButton()` no `onPressed:` onde os ***Dados*** do ***Título*** e ***Valor***, foram adicionados em ***variáveis*** e depois são passados por parâmetro para o `onSubmit()`.
+
+<a name='codigo-onpressed'></a>
+
+#### [^ Sumário ^](#sumario)
+```
+transaction_form.dart
+ 
+...
+onPressed: () {
+    final title = titleController.text;
+    final value = double.tryParse(valueController.text) ?? 0.0;
+    onSubmit(title, value);
+},
+...
+```
+
+A dinâmica na comunicação entre os ***Componentes***, a ***Aplicação em Flutter***, Angular, Vue, React, etc. é uma ***Grande Árvore de Componentes***, então, uma das grandes questões quanto a isso, é como esses ***Componentes*** vão se comunicar e como os ***Dados*** serão passados de um ***Componente*** para outro.
+
+Como se consegue receber ***Dados*** de um ***Componente Filho?*** é exatamente aqui que entra as duas comunicações mais básicas entre ***Componentes***:
+
+***Comunicação Direta ->*** que é o ***Componente Pai*** passando ***Dados*** para o ***Componente Filho***.
+
+***Comunicação Indireta ->*** que é o ***Componente Pai*** passando uma ***Função*** para o ***Componente Filho***, que no momento certo o ***Filho*** chama essa ***Função*** passando ***Dados*** para o ***Componente Pai***.
