@@ -5,6 +5,7 @@ import 'transaction_list.dart';
 import 'transaction_form.dart';
 import '../models/transaction.dart';
 
+// ignore: use_key_in_widget_constructors
 class TransactionUser extends StatefulWidget {
   @override
   _TransactionUserState createState() => _TransactionUserState();
@@ -29,14 +30,14 @@ class _TransactionUserState extends State<TransactionUser> {
   // Adiciona uma Nova Transação
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
-      id: Random()
-          .nextDouble()
-          .toString(), // cria um ID único randômico com valor double e transforma em String.
+      // cria um ID único randômico com valor double e transforma em String.
+      id: Random().nextDouble().toString(),
       title: title,
       value: value,
       date: DateTime.now(),
     );
 
+    // Controla o Estado da Tela
     setState(() {
       _transactions.add(newTransaction);
     });
@@ -46,8 +47,10 @@ class _TransactionUserState extends State<TransactionUser> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Comunicação Direta -> através de Dados
         TransactionList(_transactions),
-        TransactionForm(),
+        // Comunicação Indireta -> através de uma Função que espera os Dados vindos do Componete Filho
+        TransactionForm(_addTransaction),
       ],
     );
   }
