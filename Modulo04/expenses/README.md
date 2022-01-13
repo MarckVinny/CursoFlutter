@@ -26,8 +26,8 @@
 * [INTEGRANDO COMPONENTES DO FOMULÁRIO COM A LISTA - Aula 106](#integrando-componentes-do-formulario-com-a-lista)
   * [***Comunicação Indireta*** onSubmit _addTransaction onPressed - Aula 107](#comunicacao-indireta-onpressed-onsubmit-addtransaction)
     * [Código onSubmit - Aula 107](#codigo-onsubmit)
-    * [Código _addTransaction - Aula 107](#codigo-adtransaction)
-    * [Código onPressed - Aula 107](#codigo)
+    * [Código _addTransaction - Aula 107](#codigo-addtransaction)
+    * [Código onPressed - Aula 107](#codigo-onpressed)
 * [](#)
 
 # MÓDULO 4
