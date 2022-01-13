@@ -4,6 +4,11 @@ class TransactionForm extends StatelessWidget {
   final titleController = TextEditingController();
   final valueController = TextEditingController();
 
+  final void Function(String, double) onSubmit;
+
+  // ignore: use_key_in_widget_constructors
+  TransactionForm(this.onSubmit);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -35,8 +40,12 @@ class TransactionForm extends StatelessWidget {
                           MaterialStateProperty.all<Color>(Colors.purple),
                     ),
                     onPressed: () {
-                      print(titleController.text);
-                      print('R\$ ${valueController.text}');
+                      final title = titleController.text;
+                      // double.tryParse tenta converter o valor digitado em um
+                      // valor double, ?? caso contrario, coloca o valor padrão 0.0
+                      final value =
+                          double.tryParse(valueController.text) ?? 0.0;
+                      onSubmit(title, value);
                     },
                     child: const Text('Nova Transação'),
                   ),
