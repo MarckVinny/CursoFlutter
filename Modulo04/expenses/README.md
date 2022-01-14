@@ -28,6 +28,10 @@
     * [Código onSubmit - Aula 107](#codigo-onsubmit)
     * [Código _addTransaction - Aula 107](#codigo-addtransaction)
     * [Código onPressed - Aula 107](#codigo-onpressed)
+  * [Habilitando Rolagem da Tela - SCROLLVIEW - Aula 108](#habilitando-rolagem-da-tela)
+    * [Código Componente Principal - Aula 108](#codigo-componente-principais)
+    * [Código Outros Componentes - Aula 108](#codigo-outros-componente)
+* [](#)
 * [](#)
 
 # MÓDULO 4
@@ -874,6 +878,7 @@ Agora será estabelecida a ***Comunicação Indireta***, porque, o *TransactionF
 Então, espera-se receber como parâmetro essa ***Função onSubmit*** no ***Construtor*** do **TransactionForm**.
 
 ***Exemplo:*** `TransactionForm(this.onSubmit);`
+
 <a name='codigo-onsubmit'></a>
 
 #### [^ Sumário ^](#sumario)
@@ -950,3 +955,73 @@ Como se consegue receber ***Dados*** de um ***Componente Filho?*** é exatamente
 ***Comunicação Direta ->*** que é o ***Componente Pai*** passando ***Dados*** para o ***Componente Filho***.
 
 ***Comunicação Indireta ->*** que é o ***Componente Pai*** passando uma ***Função*** para o ***Componente Filho***, que no momento certo o ***Filho*** chama essa ***Função*** passando ***Dados*** para o ***Componente Pai***.
+
+## Habilitando Rolagem da Tela - SCROLLVIEW <a name='habilitando-rolagem-da-tela'></a>
+
+#### [^ Sumário ^](#sumario)
+
+Para habilitar a rolagem da Tela, usa-se o ***Componente SingleChildScrollView*** e para que o mesmo funcione corretamente, o ***Componente Pai*** precisa ter um tamanho definido.
+
+E para poder habilitar esse componente, deve-se envolver o ***Componente Pai*** usando o ***CTRL+PONTO*** e selecionando a opção ***Wrap with widget*** e depois digitando `SingleChildScrollView` no lugar da opção padrão `Widget`.
+
+Usando o ***SingleChildScrollView()*** no `body:` do APP torna todo o ***Corpo do APP rolável***.
+
+<a name='codigo-componente-principal'></a>
+
+#### [^ Sumário ^](#sumario)
+
+```
+main.dart
+ 
+...
+body: SingleChildScrollView(
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+        // ignore: sized_box_for_whitespace, avoid_unnecessary_containers
+        Container(
+        // Usando "crossAxisAlignment: CrossAxisAlignment.stretch," na Column()
+        // não é necessário o uso de "width: double.infinity,"
+        //width: double.infinity,
+        child: const Card(
+            child: Text('Gráfico'),
+            color: Colors.blue,
+            elevation: 5,
+        ),
+        ),
+        TransactionUser(),
+    ],
+    ),
+));
+...
+```
+
+Também é possível usar em outros componentes da Aplicação, mas é preciso envolve-lo com um `Container` e atribuir uma ***altura*** `height:` para o `Container`, para que o `SingleChildScrollView` funcione corretamente.
+
+Mas para isso, o ***Componente Pai*** `body:` no caso, também precisa estar com a ***Rolagem da Tela habilitada***.
+
+<a name='codigo-outros-componente'></a>
+
+#### [^ Sumário ^](#sumario)
+
+```
+transaction_list.dart
+ 
+...
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 400,
+      child: SingleChildScrollView(
+        child: Column(
+          children: transactions.map((tr) {
+            return Card(
+              child: Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+...
+```
