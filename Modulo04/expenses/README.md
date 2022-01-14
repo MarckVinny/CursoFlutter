@@ -31,6 +31,8 @@
   * [Habilitando Rolagem da Tela - SCROLLVIEW - Aula 108](#habilitando-rolagem-da-tela)
     * [Código Componente Principal - Aula 108](#codigo-componente-principais)
     * [Código Outros Componentes - Aula 108](#codigo-outros-componente)
+  * [Usando o Componente ListView - Aula 109](#usando-o-componente-listview)
+    * [Código ListView.builder - Aula 109](#codigo-listviewbuilder)
 * [](#)
 * [](#)
 
@@ -1025,3 +1027,91 @@ transaction_list.dart
                     ),
 ...
 ```
+
+## Usando o Componente ListView <a name='usando-o-componente-listview'></a>
+
+#### [^ Sumário ^](#sumario)
+
+O ***ListView*** é um ***Componente*** específico para se criar uma Lista de Elementos, pois, neste ***Componente*** ele já engloba o SingleChildScrollView juntamente com o Column.
+
+O diferencial e a vantagem de se usar o ***Componente ListView*** além dele ser específico para ***Lista***, é a facilidade de se configurar Listas muitos grande.
+
+Pois, o ***ListView*** possibilita que somente parte da ***Lista*** seja renderizada, economizando assim o uso de memória do ***APP***.
+
+E assim como no `SingleChildScrollView` o `ListView` também precisa ser ***envolvido*** por um ***Container*** `Wrap with container` e ter sua ***altura*** `height:` definida para que funcione corretamente.
+
+A forma correta de se trabalhar com ***ListView***, é usar a ***notação ponto*** `.builder` e a partir do ***builder*** ele não irá mais esperar um `children:` mas sim dois atributos muito importantes:
+
+* `itemCount: transactions.length,` quantidade de itens *(tamanho da quantidade de transações)*.
+
+* `itemBuilder: (ctx, index) {...};` que recebe uma ***Função*** e o primeiro parâmetro é um ***contexto*** `ctx` que não é o ***context*** do ***BuildContext*** e o segundo é o ***índice*** `index` que é o elemento a ser renderizado na chamada da ***Função***.
+
+* Dentro das chaves `{...}`, será colocado todo o conteúdo do `return` do `Método Widget build(BuildContext context)` e como a variável `tr` não estará mais disponível a mesma deverá ser criada  dentro desta ***Função*** `final tr = transactions[index],`  pega o índice da Lista.
+
+* Essa ***Função*** será chamada a partir do momento que for precisando da ***informação***, ou seja, os ***elementos visíveis na Tela*** através da configuração da ***altura*** `height:` do `Container`. Todos os Elementos fora da Tela, ou seja, não visíveis não serão renderizados, economizando assim a memória do dispositivo.
+
+<a name='codigo-listviewbuilder'></a>
+
+#### [^ Sumário ^](#sumario)
+
+```
+transaction_list.dar
+ 
+...
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 400,
+      child: ListView.builder(
+        itemCount: transactions.length,
+        itemBuilder: (ctx, index) {
+          final tr = transactions[index];
+ 
+          return Card(
+            child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    color: Colors.purple,
+                    width: 2,
+                  )),
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    'R\$ ${tr.value.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.purple,
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(tr.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.black,
+                        )),
+                    Text(
+                      DateFormat('dd-MM-y').format(tr.date),
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+  ```
