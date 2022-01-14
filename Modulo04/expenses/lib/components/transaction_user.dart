@@ -25,6 +25,42 @@ class _TransactionUserState extends State<TransactionUser> {
       value: 211.30,
       date: DateTime.now(),
     ),
+    Transaction(
+      id: 'T3',
+      title: 'Conta #01',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T4',
+      title: 'Conta #02',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T5',
+      title: 'Conta #03',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T6',
+      title: 'Conta #04',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T7',
+      title: 'Conta #05',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T8',
+      title: 'Conta #06',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
   ];
 
   // Adiciona uma Nova Transação
@@ -47,10 +83,10 @@ class _TransactionUserState extends State<TransactionUser> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Comunicação Direta -> através de Dados
-        TransactionList(_transactions),
         // Comunicação Indireta -> através de uma Função que espera os Dados vindos do Componete Filho
         TransactionForm(_addTransaction),
+        // Comunicação Direta -> através de Dados
+        TransactionList(_transactions),
       ],
     );
   }
