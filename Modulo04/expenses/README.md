@@ -1,4 +1,4 @@
-# SUMÁRIO <a name='sumario'></a>
+#SUMÁRIO<a name='sumario'></a>
 * [PROJETO DESPESAS PESSOAIS](#projeto-despesas-pessoais)
 * [CRIANDO VERSÃO INICIAL DO APP - AULA 89](#aula-89)
   * [Criação do Projeto no Flutter](#criacao-do-projeto-flutter)
@@ -63,7 +63,7 @@
 ### CRIANDO VERSÃO INICIAL DO APP - AULA 89 <a name="aula-89"></a>
 
 ## Criação do Projeto no Flutter <a name="criacao-do-projeto-flutter">
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 No terminal digitar o comando a seguir para criar o projeto: flutter create expenses
 
 > ***Dica:*** outra opção é adicionar a organização: ***flutter create --org br.com.nomeDaEmpresa expenses***
@@ -145,7 +145,7 @@ E para Debugar a Aplicação pode se usar o atalho ***CTRL+F5***.
 > Durante todo esse Módulo, toda a codificação será feita em um grande arquivo ***main*** e consequentemente uma ***Grande Árvore de Componentes***, mas ao final, o código será ***refatorado***.
 
 ## COMBINANDO WIDGETS <a name="combinando-widgets"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 No `body:` será substituído o ***Componente Center()*** pelo ***Componente Column()***, o *Column()* diferente do *Center()* recebe um ***Conjunto de Elementos*** `children: <Widget>` que é uma ***Lista***.
 
@@ -167,7 +167,7 @@ O outro Elemento também será um ***Card()*** e também será definido um `chil
 > crossAxisAlignment: CrossAxisAlignment.stretch,: Estica o Container na largura da tela, não sendo necessário o uso da propriedade `width: double.infinity,` no `Container()`
 
 #### Código da Aula: <a name="codigo-aula-90"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 ```
 main.dart
@@ -194,7 +194,7 @@ main.dart
 ```
 
 ## CRIANDO CLASSE DE  MODELO <a name="criando-classe-modelo"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 Será criado uma ***Classe*** que irá representar os dados de uma transação, a ***Classe Transaction***.
 
 Dento de ***lib***, será criado uma ***pasta*** chamada ***models*** e dentro será criado o arquivo ***transaction.dart*** que será nossa ***Classe***.
@@ -247,7 +247,7 @@ class MyHomePage extends StatelessWidget {
 ```
 
 ## MAPEAR DADOS PARA WIDGETS <a name="mapear-dados-para-widgets"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 ### Objetivo:
 
 Exibir as transações criadas anteriormente em ***Listas*** visíveis na ***Interface Gráfica***, isso será feito através de um ***Map*** `.map()` em cima da ***Lista*** e depois convertendo em ***Elementos Visuais*** com o `.toList()`.
@@ -271,7 +271,7 @@ Column(
 Neste exemplo será apresentado uma ***Lista*** contendo somente o ***Título*** de cada ***transação***.
 
 ## PERSONALIZANDO ITEM DA LISTA <a name="personalizando-item-da-lista"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 ### ITEM CARD <a name="item-card"></a>
 
 Cada ***Item da Lista*** será um ***Card*** e dentro desde *Card* estarão os ***Elementos da Transação*** e a distribuição se dará da seguinte maneira:
@@ -282,7 +282,7 @@ Cada ***Item da Lista*** será um ***Card*** e dentro desde *Card* estarão os *
 * O ***Elemento Column()*** conterá o Título e a Data.
 
 ### CÓDIGO ATUALIZADO <a name="codigo-atualizado-item-card"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 ```
 Column(
   children: _transactions.map((tr) {
@@ -306,7 +306,7 @@ Column(
 ```
 
 ## APLICANDO ESTILO AO CONTAINER <a name="aplicando-estilo-ao-container"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 Para aplicar estilo aos componentes do Flutter, usa-se as propriedades e atributos dos Widgets.
 
 Agora iremos aplicar alguns estilos ao ***Container*** que contém o ***valor***:
@@ -318,7 +318,7 @@ Para criar uma ***borda ao redor do Container*** vamos usar o *Atributo* `decora
 Para criar uma ***Margem Interna*** usa-se o `padding: EdgeInsets.all(10),` com isso se coloca um espaço de 10 em todos os lados.
 
 ### Código Atualizado <a name="codigo-atualizado-aula-97"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 ```
 Container(
@@ -337,7 +337,7 @@ Container(
 ```
 
 ## Aplicando Estilo ao Texto <a name="aplicando-estilo-ao-texto"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 Para dar estilo ao texto usa-se o `style:`  juntamente com o `TextStyle(),`  e dentro dos parênteses usa-se os parâmetros a seguir para configurar o ***Estilo do Texto***:
 
 * No ***Peso da Fonte*** `fontWeight:` pode escolher entre diversos tipos tais como: bold (negrito), normal, etc. `fontWeight: FontWeight.bold,`.
@@ -352,7 +352,7 @@ style: const TextStyle(
 ```
 
 ## Desafio: Estilo no Título e na Data <a name="desafio-estilo-no-titulo-e-na-data"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 O desafio é colocar o Título e a Data alinhada à esquerda.
 
 Colocar o Título em negrito e com a fonte 16 e a Data colocar em cinza.
@@ -384,11 +384,11 @@ Column(
 ```
 
 ## DIFERENÇAS ENTRE CONTAINER E COLUMN/ROW <a name="container-vs-column"></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 ![img](container_column_row.jpg)
 
 ## Interpolação de Strings <a name="interpolacao-de-strings">
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 Usando a Interpolação de Strings, será associado ao Valor o símbolo da moeda R$.
 
@@ -401,7 +401,7 @@ Isso pode ser feito de duas maneiras:
     >***Dica:*** Se o valor da variável não tivesse ponto "**.**" como no exemplo, não seria preciso usar as chaves.
 
 ## Instalando o Pacote Externo INTL <a name='instalando-pacote-externo-intl'></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 Para ajustar o ***valor da Data*** que está sendo exibido de forma equivocada, é preciso instalar um pacote via ***pubspec.yaml.***
 
 Para saber que pacote usar para configurar a Data, é só pesquisar na internet, mas, o pacote que estará sendo instalado é o ***INTL*** que significa ***Internacionalização***.
@@ -432,7 +432,7 @@ main.dart
 ```
 
 ## Criando a Tela de Formulário <a name='criando-a-tela-de-formulario'></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 A princípio a ***Tela de Formulário*** será criada em um ***Card***, mas posteriormente será transformada em um ***Modal***.
 
 ```
@@ -478,7 +478,7 @@ Card(
 ```
 
 ## Trabalhando com Variáveis no TextField <a name='trabalhando-com-variaveis-no-textfield'></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 A principio será usado variáveis em um Componente StatelessWidget o que não é recomendado (alteração de Estado), mas, mais a frente será corrigido colocando em um ***Componente StatefulWidget***.
 
 É preciso ter cuidado, pois, mesmo criando uma variável do Tipo ***final***, `final titleController = TextEditingController();`.
@@ -518,7 +518,7 @@ TextField(
 ```
 
 ## Refatoração - Dividindo o APP em Widgets <a name='refatoracao-dividindo-o-app-em-widgets'></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 O primeiro passo da ***Refatoração***, é criar a pasta ***Components*** dentro da pasta ***Lib***, depois disso será criado o arquivo ou componente ***transactions_list.dart*** que conterá parte do código do arquivo ***main.dart*** que será todo o conteúdo da ***lista de despesas***.
 
@@ -526,7 +526,7 @@ Dentro do arquivo ***transactions_list.dart*** será o ***Componente StatelessWi
 
 <a name='codigo-transaction_list'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 ```
 transaction_list.dart
@@ -604,7 +604,7 @@ Dentro da pasta ***Components***, será criado o arquivo ***transaction_form.dar
 
 <a name='codigo-transaction_form'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 ```
 transaction_form.dart
@@ -672,7 +672,7 @@ Deverá ser importado o arquivo ***transaction_user.dart.*** `import 'components
 
 <a name='codigo-transaction_user'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 ```
 transaction_user.dart
@@ -723,7 +723,7 @@ Agora, após todo esse processo de refatoração, o arquivo ***main.dart*** fico
 
 <a name='codigo-main-refatorado'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 ```
 main.dart
@@ -777,7 +777,7 @@ class MyHomePage extends StatelessWidget {
 ```
 
 ## Integrando Componentes do Formulário com a Lista <a name='integrando-componentes-do-formulario-com-a-lista'></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 O objetivo é inserir uma ***Nova Transação*** a partir do ***Formulário*** e fazer com que apareça na ***Lista de Transações***.
 
 E que fará o intermédio da relação entre o ***Formulário*** e a ***Lista***, é justamente o ***Componente StatefulWidget TransactionUser()***.
@@ -869,7 +869,7 @@ Quando se tem um ***Componente StatefulWidget***, pode se alterar de duas formas
 * ***Estado Alterado:*** quando o ***Estado do Componente*** alterou e então o Componente é ***renderizado/atualizado***, e se pode visualizar a alteração na aplicação.
 
 ## Comunicação Indireta onPressed onSubmit _addTransaction <a name='comunicacao-indireta-onpressed-onsubmit-addtransaction'></a>
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 Agora será estabelecida a ***Comunicação Indireta***, porque, o *TransactionForm()* precisa conversar com o ***Pai*** que é o ***TransactionUser()*** e para isso, é esperado receber como parâmetro uma ***Função*** `Function() final` que vai retornar `void` e receberá dois parâmetros `String, double` que receberá o nome de `onSubmit`, já que está dentro de um ***Formulário*** e o mesmo será submetido, ou seja, na hora de submeter será chamado essa ***Função*** passando cada um dos campos do ***Formulário***.
 
@@ -881,7 +881,7 @@ Então, espera-se receber como parâmetro essa ***Função onSubmit*** no ***Con
 
 <a name='codigo-onsubmit'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 ```
 transaction_form.dart
  
@@ -900,7 +900,7 @@ Dentro do ***Método Build***, na construção do `TransactionForm()`, o ***Mét
 
 <a name='codigo-addtransaction'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 ```
 transaction_user.dart
 
@@ -935,7 +935,7 @@ E dentro ***Componente*** se sabe qual o momento exato que o usuário quer ***su
 
 <a name='codigo-onpressed'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 ```
 transaction_form.dart
  
@@ -958,7 +958,7 @@ Como se consegue receber ***Dados*** de um ***Componente Filho?*** é exatamente
 
 ## Habilitando Rolagem da Tela - SCROLLVIEW <a name='habilitando-rolagem-da-tela'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 Para habilitar a rolagem da Tela, usa-se o ***Componente SingleChildScrollView*** e para que o mesmo funcione corretamente, o ***Componente Pai*** precisa ter um tamanho definido.
 
@@ -968,7 +968,7 @@ Usando o ***SingleChildScrollView()*** no `body:` do APP torna todo o ***Corpo d
 
 <a name='codigo-componente-principal'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 ```
 main.dart
@@ -1002,7 +1002,7 @@ Mas para isso, o ***Componente Pai*** `body:` no caso, também precisa estar com
 
 <a name='codigo-outros-componente'></a>
 
-#### [^ Sumário ^](#sumario)
+#### [^Sumário^](#sumario)
 
 ```
 transaction_list.dart
