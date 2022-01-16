@@ -36,7 +36,7 @@
   * [Configurando Teclado Numérico - Aula 110](#configurando-teclado-numerico)
     * [Função de validação do onSubmit - Aula 110](#funcao-de-validacao-do-onsubmit)
       * [Código _submitForm() - Aula 110](#codigo-submitform)
-  * [Adicionando Botão de Ícone na APP Bar - Aula 111](#)
+  * [Adicionando Botão de Ícone na APP Bar - Aula 111](#adicionando-botao-de-icone-appbar)
     * [Código Botãoo Ícone App Bar - Aula 111](#codigo-botao-icone-appbar)
   * [Adicionando um Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
     * [Código Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
@@ -1141,6 +1141,7 @@ Para se configurar um teclado numérico é muito simples e existem duas opções
 > ***Dica:*** A última opção funciona tanto no ***IOS*** quanto no ***Android***, mas se for criar um ***APP*** sem suporte a ***IOS***, use a primeira opção.
 
 ## Função de validação do onSubmit <a name='funcao-de-validacao-do-onsubmit'></a>
+
 #### [^Sumário^](#sumario)
 
 Criar a ***Função*** `_submitForm()`, refatorando a ***Função*** que está no `onPressed:` e a colocando dentro da nova ***Função***.
