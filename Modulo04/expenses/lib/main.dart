@@ -22,33 +22,39 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Despesas Pessoais'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.add),
-            )
+      appBar: AppBar(
+        title: const Text('Despesas Pessoais'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.add),
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // ignore: sized_box_for_whitespace, avoid_unnecessary_containers
+            Container(
+              // Usando "crossAxisAlignment: CrossAxisAlignment.stretch," na Column()
+              // não é necessário o uso de "width: double.infinity,"
+              //width: double.infinity,
+              child: const Card(
+                child: Text('Gráfico'),
+                color: Colors.blue,
+                elevation: 5,
+              ),
+            ),
+            TransactionUser(),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ignore: sized_box_for_whitespace, avoid_unnecessary_containers
-              Container(
-                // Usando "crossAxisAlignment: CrossAxisAlignment.stretch," na Column()
-                // não é necessário o uso de "width: double.infinity,"
-                //width: double.infinity,
-                child: const Card(
-                  child: Text('Gráfico'),
-                  color: Colors.blue,
-                  elevation: 5,
-                ),
-              ),
-              TransactionUser(),
-            ],
-          ),
-        ));
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }
