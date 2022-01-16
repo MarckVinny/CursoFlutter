@@ -36,6 +36,12 @@
   * [Configurando Teclado Numérico - Aula 110](#configurando-teclado-numerico)
     * [Função de validação do onSubmit - Aula 110](#funcao-de-validacao-do-onsubmit)
       * [Código _submitForm() - Aula 110](#codigo-submitform)
+  * [Adicionando Botão de Ícone na APP Bar - Aula 111](#)
+    * [Código Botãoo Ícone App Bar - Aula 111](#codigo-botao-icone-appbar)
+  * [Adicionando um Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
+    * [Código Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 
@@ -1171,10 +1177,63 @@ transaction_form.dart
 ...
 ```
 
-Agora será associado aos dois `TextField()` o atributo `onSubmitted:` este evento recebe uma ***Função***, que recebe uma ***String*** `onSubmitted: (_) => _submiForm()`, que fará com que chame o `onSubmit` em três pontos diferentes:
+Agora será associado aos dois `TextField()` o atributo `onSubmitted:` este evento recebe uma ***Função***, que recebe uma ***String*** `onSubmitted: (_) => _submitForm()`, que fará com que chame o `onSubmit` em três pontos diferentes:
 
 * Se estiver digitando o ***Título*** ou ***Valor*** clicar no enter para finalizar, irá fechar o teclado e tentar ***submeter*** o formulário;
 
 * Se os ***Dados*** estiverem válidos, irá realmente ***submeter*** o formulário enviando os ***Dados*** para o Componente Pai ***transaction_user.dart***;
 
 * Caso os ***Dados*** não forem válidos, simplesmente fecha o teclado com um `return` encerrando a ***Função***.
+
+## Adicionando Botão de Ícone na APP Bar <a name='adicionando-botao-de-icone-appbar'></a>
+
+#### [^Sumário^](#sumario)
+
+Para adicionar um ***Botão na APP Bar***, utiliza-se o ***atributo*** `actions: []` que adiciona uma ***Lista de Widgets***. dentro dos colchetes adicione o ***Componente*** `IconButton()` adiciona um ***Botão de ícone***, dentro dos parênteses adicione o ***atributo*** `icon: Icon(Icons.add)` que adiciona o símbolo `+` e por fim, adiciona o ***atributo*** `onPressed: () {},` com uma ***Função Anônima Vazia***.
+
+<a name='codigo-botao-icone-appbar'></a>
+
+#### [^Sumário^](#sumario)
+
+***Exemplo:***
+
+```
+main.dart
+ 
+...
+        appBar: AppBar(
+          title: const Text('Despesas Pessoais'),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.add),
+            )
+          ],
+        ),
+...
+```
+
+## Adicionando um Botão Flutuante <a name='adicionando-botao-flutuante'></a>
+
+#### [^Sumário^](#sumario)
+
+Para adicionar um ***Botão Flutuante***, utiliza-se o ***atributo*** `floatingActonButton:` dentro do ***Componente*** `Scaffold()` e logo após de onde termina a configuração do `body:`, adicione o ***Componente*** `FloatingActionButton()` dentro dos parênteses adicione o ***atributo*** `child: Icon(Icons.add)` que adiciona o símbolo `+` e por fim, adiciona o ***atributo*** `onPressed: () {},` com uma ***Função Anônima Vazia***.
+
+Para poder posicionar o ***Botão Flutuante*** usa-se o ***atributo*** `floatingActionButtonLocation:` com o ***Componente*** `FloatingActionButtonLocation` com a ***notação ponto*** `.centerFloat` o botão fica centralizado, mas, usando ***CTRL + PONTO*** abrirá um menu com mais opções.
+
+<a name='codigo-botao-flutuante'></a>
+
+#### [^Sumário^](#sumario)
+
+```
+main.dart
+ 
+...
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+...
+```
