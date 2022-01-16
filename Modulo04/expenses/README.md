@@ -33,6 +33,9 @@
     * [Código Outros Componentes - Aula 108](#codigo-outros-componente)
   * [Usando o Componente ListView - Aula 109](#usando-o-componente-listview)
     * [Código ListView.builder - Aula 109](#codigo-listviewbuilder)
+  * [Configurando Teclado Numérico - Aula 110](#configurando-teclado-numerico)
+    * [Função de validação do onSubmit - Aula 110](#funcao-de-validacao-do-onsubmit)
+      * [Código _submitForm() - Aula 110](#codigo-submitform)
 * [](#)
 * [](#)
 
@@ -1115,3 +1118,63 @@ transaction_list.dar
     );
   }
   ```
+
+  ## Configurando Teclado Numérico <a name='configurando-teclado-numerico'></a>
+  #### [^Sumário^](#sumario)
+
+Para se configurar um teclado numérico é muito simples e existem duas opções:
+
+* ***No Android:*** dentro de um ***Componente TextField()*** usa-se o ***atributo*** `keyboard:` com o ***Componente*** `TextInputType.number` habilitando todas as funções do teclado numérico inclusive o ***separador decimal***.
+
+* ***Exemplo:*** `TextField(keyboard: TextInputType.number)`.
+
+* ***No IOS:*** dentro de um ***Componente*** `TextField()` usa-se o ***atributo*** `keyboard:` com o ***Componente*** `TextInputType.numberWithOptions(decimal: true)`, precisa usar `numberWithOptions` e só aí setar para aceitar o ***separador decimal*** `(decimal: true)`
+
+* ***Exemplo:*** `TextField(keyboard: TextInputType.numberWithOptions(decimal: true)`.
+
+> ***Dica:*** A última opção funciona tanto no ***IOS*** quanto no ***Android***, mas se for criar um ***APP*** sem suporte a ***IOS***, use a primeira opção.
+
+## Função de validação do onSubmit <a name='funcao-de-validacao-do-onsubmit'></a>
+#### [^Sumário^](#sumario)
+
+Criar a ***Função*** `_submitForm()`, refatorando a ***Função*** que está no `onPressed:` e a colocando dentro da nova ***Função***.
+
+E para evitar que o `onSubmit()` seja chamado se houver algum ***Dado Inválido*** no ***Título*** ou no ***Valor***, será usando a seguinte regra: ***Se*** `if` o campo do ***Título estiver Vazio*** `title.isEmpty` ***ou*** `||` se o ***Valor*** `value` for ***menor ou igual a zero*** `<= 0`  será chamado o `return`  e ele sairá da ***Função*** sem chamar o `onSubmit`.
+
+***Exemplo:***
+```
+if(title.isEmpty || value <=0) {
+  return;
+}
+```
+<a name='codigo-submitform'></a>
+
+#### [^Sumário^](#sumario)
+
+```
+transaction_form.dart
+ 
+...
+  _submitForm() {
+    final title = titleController.text;
+    // double.tryParse tenta converter o valor digitado em um
+    // valor double, ?? caso contrario, coloca o valor padrão 0.0
+    final value =
+        double.tryParse(valueController.text) ?? 0.0;
+ 
+    if(title.isEmpty || value <=0) {
+      return;
+    }
+ 
+    onSubmit(title, value);
+  }
+...
+```
+
+Agora será associado aos dois `TextField()` o atributo `onSubmitted:` este evento recebe uma ***Função***, que recebe uma ***String*** `onSubmitted: (_) => _submiForm()`, que fará com que chame o `onSubmit` em três pontos diferentes:
+
+* Se estiver digitando o ***Título*** ou ***Valor*** clicar no enter para finalizar, irá fechar o teclado e tentar ***submeter*** o formulário;
+
+* Se os ***Dados*** estiverem válidos, irá realmente ***submeter*** o formulário enviando os ***Dados*** para o Componente Pai ***transaction_user.dart***;
+
+* Caso os ***Dados*** não forem válidos, simplesmente fecha o teclado com um `return` encerrando a ***Função***.
