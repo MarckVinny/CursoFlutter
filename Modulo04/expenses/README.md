@@ -1356,3 +1356,24 @@ floatingActionButton: FloatingActionButton(
 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 ```
 * Converter o ***TransactionForm*** em ***StatefulWidget***.
+
+```
+transaction_fom.dart
+
+...
+class TransactionForm extends StatefulWidget {
+  final void Function(String, double) onSubmit;
+
+  // ignore: use_key_in_widget_constructors
+  const TransactionForm(this.onSubmit);
+
+  @override
+  State<TransactionForm> createState() => _TransactionFormState();
+}
+
+class _TransactionFormState extends State<TransactionForm> {
+  final titleController = TextEditingController();
+
+  final valueController = TextEditingController();
+...
+```
