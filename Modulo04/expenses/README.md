@@ -41,7 +41,7 @@
   * [Adicionando um Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
     * [Código Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
   * [Refatorando e Criando o Modal - Aula 112](#refatorando-e-criando-o-modal)
-* [](#)
+  * [Usando uma Função dentro do State - Aula 114](#usando-uma-funcao-dentro-do-state)
 * [](#)
 * [](#)
 
@@ -1375,5 +1375,49 @@ class _TransactionFormState extends State<TransactionForm> {
   final titleController = TextEditingController();
 
   final valueController = TextEditingController();
+...
+```
+
+## Usando uma Função dentro do State <a name='usando-uma-funcao-dentro-do-state'></a>
+
+#### [^Sumário^](#sumario)
+
+Para poder usar uma ***Função*** dentro do ***State***, existe uma ***propriedade/atributo*** que é recebido por herança chamado ***widget*** e esse atributo aponta para uma instância da ***Classe*** `TransactionForm` que ***estende*** `extends StatefulWidgets` e ele tem esse ***atributo***  `final void Function(String, double) onSubmit;` de tal forma, que se tem o acesso a esse ***atributo*** da seguinte maneira: `widget.onSubmit(title, value);` e acessa a ***Função*** que foi recebida como parâmetro.
+
+Então a parte do ***Build*** foi transferido para o Estado State, já que o ***Build*** vai montar a ***Árvore de Componentes*** e ela é dependente do Estado, pois, quando o Estado muda o ***Build*** precisa ser rodado novamente para atualizar os componentes visuais.
+
+Por isso, não existe problema algum em se definir diversos parâmetros para a definição do ***Componente***, mas o fato é, que se consegue acessar cada um dos parâmetros dentro do **Estado** a partir desta variável.
+
+```
+transaction_form.dart
+ 
+...
+class TransactionForm extends StatefulWidget {
+  final void Function(String, double) onSubmit;
+ 
+  // ignore: use_key_in_widget_constructors
+  const TransactionForm(this.onSubmit);
+ 
+  @override
+  State<TransactionForm> createState() => _TransactionFormState();
+}
+ 
+class _TransactionFormState extends State<TransactionForm> {
+  final titleController = TextEditingController();
+ 
+  final valueController = TextEditingController();
+
+ _submitForm() {
+    final title = titleController.text;
+    // double.tryParse tenta converter o valor digitado em um
+    // valor double, ?? caso contrario, coloca o valor padrão 0.0
+    final value = double.tryParse(valueController.text) ?? 0.0;
+ 
+    if (title.isEmpty || value <= 0) {
+      return;
+    }
+ 
+    widget.onSubmit(title, value);
+  }
 ...
 ```
