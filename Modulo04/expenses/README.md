@@ -42,6 +42,9 @@
     * [Código Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
   * [Refatorando e Criando o Modal - Aula 112](#refatorando-e-criando-o-modal)
   * [Usando uma Função dentro do State - Aula 114](#usando-uma-funcao-dentro-do-state)
+  * [Fechando o Formulário Modal - Aula 115](#fechando-formulario-modal)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 
@@ -1421,3 +1424,17 @@ class _TransactionFormState extends State<TransactionForm> {
   }
 ...
 ```
+
+## Fechando o Formulário Modal <a name='fechando-formulario-modal'></a>
+
+#### [^Sumário^](#sumario)
+
+O melhor local para se fechar o ***Modal*** no momento, é dentro da ***Função/Componente*** `_addTransaction()`  pois logo após atualizar o Estado o Modal pode e deve ser fechado.
+
+Será usando o ***Componente*** `Navigator`, que é um ***StatefulWidget*** e possui um ***Método Estático*** chamado `.of(context)` que recebe um ***context*** como parâmetro.
+
+Esse é um padrão muito utilizado quando se tem ***Widgets herdados*** `inheritedWidgets`, este ***Widget*** tem a capacidade de passar uma informação de um Componente do ***Inicio*** da ***Árvore de Componentes*** para um Componente que está no ***Final*** sem ter que passar por cada um dos ***Construtores*** de cada um Componentes, até chegar no Final.
+
+O ***Método*** `.pop()`, que fará com que se selecione um ***Elemento*** em uma ***Pilha de Telas*** e a feche.
+
+***Exemplo:*** `Navigator.of(context).pop();`
