@@ -40,7 +40,7 @@
     * [Código Botãoo Ícone App Bar - Aula 111](#codigo-botao-icone-appbar)
   * [Adicionando um Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
     * [Código Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
-* [](#)
+  * [Refatorando e Criando o Modal - Aula 112](#refatorando-e-criando-o-modal)
 * [](#)
 * [](#)
 * [](#)
@@ -1237,4 +1237,121 @@ main.dart
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
 ...
+```
+
+## Refatorando e Criando o Modal <a name='refatorando-e-criando-o-modal'></a>
+
+#### [^Sumário^](#sumario)
+
+O arquivo ***transaction_user.dart*** será refatorado para a ***criação do Modal*** com o Formulário de adição de transação em ***main.dart***.
+
+Então, o primeiro passo para a refatoração é:
+
+* Transformar o ***MyHomePage*** em um ***Componente StatefulWidget***, selecionando ***StatelessWidget*** e depois digitando ***CTRL+PONTO*** e escolhendo `convert to StatefulWidget`.
+
+* Dentro do ***Componente MyHomePage***, será criado uma ***Função*** que irá controlar o Comportamento do Modal. `_openTransactionFormModal(BuildContext context) {...} `.
+
+Existe uma ***Função*** chamada `showModalBottonSheet()` que recebe dois parâmetros:
+
+* `context: context,` que no caso é o `BuildContext` presente no ***MyHomePage***.
+
+* `builder:` ele recebe uma ***Função*** que também recebe o `BuildContext`, sendo que esse `context` é um parâmetro que será passado para essa ***Função*** *"builder:"* e não é o mesmo contexto que está sendo passado para o `showModalBottonSheet(context: context)`.
+
+* Neste `builder:` será retornado `return` um ***TransactionForm***  `TransactionForm(_addTransaction)`.
+
+```
+main.dart
+
+...
+_openTransactionFormModal(BuildContext context) {
+  showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return TransactionForm(_addTransaction);
+      });
+}
+...
+```
+
+* Adicionar os imports:
+
+```
+main.dart
+
+import 'dart:math';
+import 'components/transaction_list.dart';
+import 'components/transaction_form.dart';
+import 'models/transaction.dart';
+...
+```
+
+* Adicionar a Lista de Transações;
+
+```
+main.dart
+
+...
+  final _transactions = [
+    Transaction(
+      id: 'T1',
+      title: 'Novo Tênis de Corrida',
+      value: 310.76,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Conta de Luz',
+      value: 211.30,
+      date: DateTime.now(),
+    ),
+  ];
+...
+```
+
+
+* Adicionar a ***Função*** `_addTransaction()`
+
+```
+main.dart
+
+...
+  // Adiciona uma Nova Transação
+  _addTransaction(String title, double value) {
+    final newTransaction = Transaction(
+      // cria um ID único randômico com valor double e transforma em String.
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: DateTime.now(),
+    );
+ 
+    // Controla o Estado da Tela
+    setState(() {
+      _transactions.add(newTransaction);
+    });
+  }
+...
+```
+
+* Trocar ***TransactionUser***, por ***TransactionList(_transactions)***.
+
+* E para abrir o ***Modal***, no `onPressed:` chamar a ***Função*** `()` e ***invocar*** `=>` `_openTransactionFormModal` passando o `(context)` que está sendo recebido dentro do ***Método Build***.
+
+
+* Essa Função `onPressed: () => _openTransactionFormModal(context),` será usada tanto no ***actionButton*** quanto no ***floatingActionButton***.
+
+```
+actions: [
+    IconButton(
+    onPressed: () => _openTransactionFormModal(context),
+    icon: const Icon(Icons.add),
+    )
+],
+```
+```
+floatingActionButton: FloatingActionButton(
+    child: const Icon(Icons.add),
+    onPressed: () => _openTransactionFormModal(context),
+),
+floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 ```
