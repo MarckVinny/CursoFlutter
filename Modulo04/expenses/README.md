@@ -40,10 +40,10 @@
     * [Código Botãoo Ícone App Bar - Aula 111](#codigo-botao-icone-appbar)
   * [Adicionando um Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
     * [Código Botão Flutuante - Aula 111](#adicionando-botao-flutuante)
-  * [Refatorando e Criando o Modal - Aula 112](#refatorando-e-criando-o-modal)
+* [Refatorando e Criando o Modal - Aula 112](#refatorando-e-criando-o-modal)
   * [Usando uma Função dentro do State - Aula 114](#usando-uma-funcao-dentro-do-state)
   * [Fechando o Formulário Modal - Aula 115](#fechando-formulario-modal)
-* [](#)
+* [Criando um Tema na Aplicação - Aula 116](#criando-um-tema-na-aplicacao)
 * [](#)
 * [](#)
 * [](#)
@@ -1438,3 +1438,56 @@ Esse é um padrão muito utilizado quando se tem ***Widgets herdados*** `inherit
 O ***Método*** `.pop()`, que fará com que se selecione um ***Elemento*** em uma ***Pilha de Telas*** e a feche.
 
 ***Exemplo:*** `Navigator.of(context).pop();`
+
+## Criando um Tema na Aplicação <a name='criando-um-tema-na-aplicacao'></a>
+
+#### [^Sumário^](#sumario)
+
+Para se configurar um ***Tema na Aplicação***,  entro do `MaterialApp()`, usa-se o ***atributo/propriedade*** `theme:` passando o ***Componente*** `ThemeData()` que são os ***Dados do Tema***, e dentro, podem ser colocados alguns ***atributo/propriedade***:
+
+* `primaryColor:` recebe uma única cor Color como parâmetro;
+
+* `primarySwatch:`  recebe um ***conjunto de cores*** `MaterialColor` como parâmetro. A diferença de se usar o ***MaterialColor*** é que ele disponibiliza uma ***Lista de Tons Cores*** *(claras e escuras)* de uma mesma ***Cor inicial***;
+
+* `accentColor:` recebe uma ***cor*** `Color` ***Cor de Destaque*** como parâmetro, e se for usado o primarySwatch como cor primária, a Cor de Destaque também terá a sua disposição uma ***Lista de Tons de Cores***;
+
+```
+main.dart
+ 
+...
+class ExpensesApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: const MyHomePage(),
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.purple,
+      ).copyWith(
+        secondary: Colors.purpleAccent[100],
+      )),
+    );
+  }
+}
+...
+```
+
+> ## ***Dica:*** No DART 2.15, o `accentColor:` está depreciado e a opção que deve ser usado em seu lugar é a `secondary:`, mas para a mesma funcionar é preciso outras propriedades.
+> 
+> Usando o `primaryColor:`
+> 
+>       theme: ThemeData(
+>           primaryColor: Colors.purple,
+>           colorScheme: ColorScheme.fromSwatch().copyWith(
+>             secondary: Colors.purpleAccent,
+>           )),
+> Usando o `primarySwatch:`
+> 
+>       theme: ThemeData(
+>           colorScheme: ColorScheme.fromSwatch(
+>         primarySwatch: Colors.purple).copyWith(
+>         secondary: Colors.purpleAccent[100],
+>       )),
+
+
+Para usar a cor do ***Tema no Aplicativo***, usa-se o ***atributo/propriedade*** `color:` seguido com ***Componente*** `Theme.of(context)` usando o mesmo ***Método Estático*** usando no ***Navigator*** passando o `context` seguido da propriedade `.colorScheme.primary`, assim, se consegue pegar a ***Cor*** configurada anteriormente no `theme: ThemeData()`.  `color: Theme.of(context).colorScheme.primary,`
