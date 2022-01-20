@@ -12,8 +12,14 @@ main() {
 class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
+    return MaterialApp(
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.purple,
+      ).copyWith(
+        secondary: Colors.purpleAccent[100],
+      )),
+      home: const MyHomePage(),
     );
   }
 }
@@ -30,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final _transactions = [
     Transaction(
       id: 'T1',
-      title: 'Novo Tênis de Corrida',
+      title: 'Tênis de Corrida',
       value: 310.76,
       date: DateTime.now(),
     ),
