@@ -44,14 +44,13 @@
   * [Usando uma Função dentro do State - Aula 114](#usando-uma-funcao-dentro-do-state)
   * [Fechando o Formulário Modal - Aula 115](#fechando-formulario-modal)
 * [Criando um Tema na Aplicação - Aula 116](#criando-um-tema-na-aplicacao)
-  * [Instalando e Definindo Fontes na Aplicação - Aula 118](#instalando-e-definindo-fontes-na-aplicacao)
-    * [Código Tema appBar - Aula 118](#codigo-theme-appbar)
+  * [Instalando e Definindo Fontes na Aplicação - Aula 118](#instalando-e-definindo-fontes-na-aplicacao) 
+    * [Código Pubspec.yaml - Aula 118](#codigo-pubspec)
+  * [Definir as Fontes Padrão do appBar no Tema - Aula 118](#definir-as-fontes-padrao-do-appbar-no-tema)
+    * [Código Tema appBar - Aula 118](#codigo-theme-titulo-appbar)
   * [Definir as Fontes e Estilos do Título no Tema - Aula 118](#definir-fontes-estilos-titulo-theme)
     * [Código Tema Títulos - Aula 118](#codigo-theme-titulos)
     * [Código Chamada do Título - Aula 118](#codigo-chamada-titulo)
-* [](#)
-* [](#)
-* [](#)
 * [](#)
 
 # MÓDULO 4
@@ -1498,7 +1497,7 @@ class ExpensesApp extends StatelessWidget {
 
 Para usar a cor do ***Tema no Aplicativo***, usa-se o ***atributo/propriedade*** `color:` seguido com ***Componente*** `Theme.of(context)` usando o mesmo ***Método Estático*** usando no ***Navigator*** passando o `context` seguido da propriedade `.colorScheme.primary`, assim, se consegue pegar a ***Cor*** configurada anteriormente no `theme: ThemeData()`.  `color: Theme.of(context).colorScheme.primary,`
 
-## Instalando e Definindo Fontes na Aplicação <a name='instalando-e-definindo-fontes-na-aplicacao></a>
+## Instalando e Definindo Fontes na Aplicação <a name='instalando-e-definindo-fontes-na-aplicacao'></a>
 
 #### [^Sumário^](#sumario)
 
@@ -1510,6 +1509,9 @@ No final do arquivo ***pubspec.yaml*** tem uma amostra, basta descomentar o cód
 
 > ### ***Dica:*** Se o VSCode, Flutter ou o Dart não atualizar o pubspec automaticamente, rode o comando flutter pub get no terminal.
 
+<a name='codigo-pubspec'></a>
+
+#### [^Sumário^](#sumario)
 ```
 pubspec.yaml
  
@@ -1528,7 +1530,9 @@ pubspec.yaml
 ...
 ```
 
-## Definir as Fontes Padrão do appBar no Tema
+## Definir as Fontes Padrão do appBar no Tema <a name='definir-as-fontes-padrao-do-appbar-no-tema'></a>
+
+#### [^Sumário^](#sumario)
 
 Para se definir a Fonte Padrão no Tema do Título no appBar, usa-se:
 
