@@ -1497,7 +1497,7 @@ class ExpensesApp extends StatelessWidget {
 
 Para usar a cor do ***Tema no Aplicativo***, usa-se o ***atributo/propriedade*** `color:` seguido com ***Componente*** `Theme.of(context)` usando o mesmo ***Método Estático*** usando no ***Navigator*** passando o `context` seguido da propriedade `.colorScheme.primary`, assim, se consegue pegar a ***Cor*** configurada anteriormente no `theme: ThemeData()`.  `color: Theme.of(context).colorScheme.primary,`
 
-## Instalando e Definindo Fontes na Aplicação <a name='instalando-e-definindo-fontes-na-aplicacao></a>
+## Instalando e Definindo Fontes na Aplicação <a name='instalando-e-definindo-fontes-na-aplicacao'></a>
 
 #### [^Sumário^](#sumario)
 
