@@ -44,6 +44,12 @@
   * [Usando uma Função dentro do State - Aula 114](#usando-uma-funcao-dentro-do-state)
   * [Fechando o Formulário Modal - Aula 115](#fechando-formulario-modal)
 * [Criando um Tema na Aplicação - Aula 116](#criando-um-tema-na-aplicacao)
+  * [Instalando e Definindo Fontes na Aplicação - Aula 118](#instalando-e-definindo-fontes-na-aplicacao)
+    * [Código Tema appBar - Aula 118](#codigo-theme-appbar)
+  * [Definir as Fontes e Estilos do Título no Tema - Aula 118](#definir-fontes-estilos-titulo-theme)
+    * [Código Tema Títulos - Aula 118](#codigo-theme-titulos)
+    * [Código Chamada do Título - Aula 118](#codigo-chamada-titulo)
+* [](#)
 * [](#)
 * [](#)
 * [](#)
@@ -1491,3 +1497,142 @@ class ExpensesApp extends StatelessWidget {
 
 
 Para usar a cor do ***Tema no Aplicativo***, usa-se o ***atributo/propriedade*** `color:` seguido com ***Componente*** `Theme.of(context)` usando o mesmo ***Método Estático*** usando no ***Navigator*** passando o `context` seguido da propriedade `.colorScheme.primary`, assim, se consegue pegar a ***Cor*** configurada anteriormente no `theme: ThemeData()`.  `color: Theme.of(context).colorScheme.primary,`
+
+## Instalando e Definindo Fontes na Aplicação <a name='instalando-e-definindo-fontes-na-aplicacao></a>
+
+#### [^Sumário^](#sumario)
+
+Na raiz da Aplicação deverá ser criado a ***Pasta de Recursos*** `/assets` e dentro dela a pasta de `/fonts`.
+
+Copie as fontes escolhidas para dentro da pasta fonts, mas, espere que ainda não terminou, para que as fontes sejam reconhecidas pela ***Aplicação***, será preciso ***referenciar as fontes*** no arquivo ***pubspec.yaml*** prestando muita atenção a tabulação e aos nomes corretos respeitando maiúsculas e minúsculas.
+
+No final do arquivo ***pubspec.yaml*** tem uma amostra, basta descomentar o código e fazer as alterações.
+
+> ### ***Dica:*** Se o VSCode, Flutter ou o Dart não atualizar o pubspec automaticamente, rode o comando flutter pub get no terminal.
+
+```
+pubspec.yaml
+ 
+...
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700
+    - family: Quicksand
+      fonts:
+        - asset: assets/fonts/Quicksand-Regular.ttf
+        - asset: assets/fonts/Quicksand-Bold.ttf
+          weight: 700
+...
+```
+
+## Definir as Fontes Padrão do appBar no Tema
+
+Para se definir a Fonte Padrão no Tema do Título no appBar, usa-se:
+
+* `appBarTheme:` é o atributo de Tema do `appBar;
+
+* `AppBarTheme()` é o Tema onde engloba os atributos e propriedades do Componente;
+
+* `textTheme:` é o atributo onde se faz as alterações no ***Tema do Texto do appBar***;
+
+* `ThemeData.light()` é o ***Construtor Nomeado*** do ***Tema Claro "Padrão" do Flutter***, isso facilita porque se for preciso mexer em um ponto especifico do ***Tema associado ao Texto***, usa-se o Tema Padrão do Flutter `ThemeData.light()` pega o Texto do Tema `.textTheme` e a dele tem um Método `.copyWith()` , ou seja, irá gerar uma cópia de um atributo específico. Digitando ***CTRL+ESPAÇO*** irá aparecer todos os atributos que são possíveis de se fazer alterações;
+
+* `title:` ou `headline6:` é o atributo que irá alterar as definições do ***Título***;
+
+* `TextStyle()` é o ***Componente*** onde se encontram os atributos a serem definidos para o ***Título***;
+
+* `fontFamily:` é o atributo que altera o `Tipo da Fonte`;
+
+* `'OpenSans'` é o Nome da Fonte, que já foi adicionada e ***referenciada***;
+
+* `fontSize:` é o atributo que define o ***Tamanho da Fonte***;
+
+* `fontWeight:` é o ***atributo*** que define o ***Peso da Fonte***;
+
+* `FontWeight` é o ***Componente*** que define o ***Peso da Fonte***;
+
+* `.w700 .bold` é propriamente o ***Peso da Fonte***.
+
+Com esses atributos, propriedades e Componentes se define o Tema do Título do appBar, a seguir segue o código:
+
+> ### ***Dica:*** No DART 2.15, o `textTheme:` está depreciado e a opção que deve ser migrado para `toolbarTextStyle:` e o `title:` foi substituído por `headline6:`
+
+<a name='codigo-theme-titulo-appbar'></a>
+
+#### [^Sumário^](#sumario)
+```
+main.dart   // Tema do Título do appBar
+ 
+...
+        appBarTheme: AppBarTheme(
+            toolbarTextStyle: ThemeData.light()
+                .textTheme
+                .copyWith(
+                    headline6: const TextStyle(
+                  fontFamily: 'OpenSans',
+                ))
+                .bodyText2,
+            titleTextStyle: ThemeData.light()
+                .textTheme
+                .copyWith(
+                    headline6: const TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold))
+                .headline6),
+...
+```
+
+## Definir as Fontes e Estilos do Título no Tema <a name='definir-fontes-estilos-titulo-theme'></a>
+
+#### [^Sumário^](#sumario)
+
+Agora será definido a fonte e os estilos dos ***Títulos*** fora do **appBar** no Tema.
+
+Basicamente é a mesma definição feita no ***Título do appBar***, com a diferença que não é envolvido pelo ***Widget AppBarTheme()***.
+
+<a name='codigo-theme-titulos'></a>
+
+#### [^Sumário^](#sumario)
+
+```
+main.dart
+ 
+...
+textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            )),
+...
+```
+
+E para chamar o Tema no código usa-se somente uma única linha: `style: Theme.of(context).textTheme.headline6),`  no ***transaction_form.dart***.
+
+<a name='codigo-chamada-titulo'></a>
+
+#### [^Sumário^](#sumario)
+
+
+```
+transaction_form.dart
+ 
+...
+Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+    Text(tr.title,
+        style: Theme.of(context).textTheme.headline6), // definido no Tema
+    Text(
+        DateFormat('dd-MM-y').format(tr.date),
+        style: TextStyle(
+        color: Colors.grey[600],
+        ),
+    ),
+    ],
+)
+...
+```
