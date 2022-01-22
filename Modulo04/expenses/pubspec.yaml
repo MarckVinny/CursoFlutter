@@ -1,5 +1,5 @@
 name: expenses
-description: A new Flutter project.
+description: Despesas Pessoais - Projeto Módulo 4 do Curso de Flutter.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  intl: ^0.17.0
 
 
   # The following adds the Cupertino Icons font to your application.
