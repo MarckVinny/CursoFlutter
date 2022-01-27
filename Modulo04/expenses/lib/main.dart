@@ -36,7 +36,7 @@ class ExpensesApp extends StatelessWidget {
                 .copyWith(
                     headline6: const TextStyle(
                         fontFamily: 'OpenSans',
-                        fontSize: 2,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold))
                 .headline6),
       ),
