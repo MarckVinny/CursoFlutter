@@ -51,6 +51,10 @@
   * [Definir as Fontes e Estilos do Título no Tema - Aula 118](#definir-fontes-estilos-titulo-theme)
     * [Código Tema Títulos - Aula 118](#codigo-theme-titulos)
     * [Código Chamada do Título - Aula 118](#codigo-chamada-titulo)
+* [Adicionando e Registrando Imagens no APP - Aula 119](#adicionando-registrando-imagens-app)
+  * [Código Alterado - Aula 119](#codigo-alterado-119)
+* [](#)
+* [](#)
 * [](#)
 
 # MÓDULO 4
@@ -1638,5 +1642,68 @@ Column(
     ),
     ],
 )
+...
+```
+
+## Adicionando e Registrando Imagens no APP <a name='adicionando-registrando-imagens-app'></a>
+
+#### [^Sumário^](#sumario)
+
+Esta imagem será apresentada no lugar da Lista toda vez que não houver nenhuma transação para ser mostrada.
+
+Primeiro devemos comentar a parte do código onde estão os ***Dados mokados da Lista*** dentro de ***main.dart*** em `_MyHomePageState`.
+
+Após comentar o trecho de código que contem as Transactions, deve-se acrescentar a Tipagem da variável. `final List<Transaction> _transaction = [];`
+
+Próximo passo, criar a pasta ***/images*** dentro da pasta ***/assets***, onde serão salvos os assets de imagem do projeto, assim como foi feito com as fontes anteriormente.
+
+Passo seguinte, dentro de ***pubspec.yaml*** deve-se registrara imagem a ser usada.
+
+Para não ocorrer erro de digitação com o caminho da imagem, clicando com o botão direito do mouse encima do arquivo desejado, clique na opção do menu: `copiar caminho relativo` e colar no local correto dentro de ***pubspec.yaml***.
+
+```
+pubspec.yaml
+ 
+...
+  assets:
+    - assets/images/waiting.png
+...
+```
+Então dentro de transaction_list.dart e dentro do build do mesmo, na child: do Container(), será criado uma Operação Ternária que fará o seguinte:
+
+* Se `transaction.isEmpty ?` -> se ***transaction for vazio***, então mostre o conteúdo de `Column()`, onde se encontra o ***Título*** com a mensagem *Nenhuma Transação Cadastrada!* e a ***imagem*** anteriormente adicionada e registrada no projeto, dentro de ***/assets/images***.
+
+* `:` ***caso contrario***, mostre a ***Lista*** `ListView.builder();`
+
+<a name='codigo-alterado-119'></a>
+
+#### [^Sumário^](#sumario)
+```
+transaction_list.dart
+ 
+...
+      child: transactions.isEmpty
+          ? Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Nenhuma Transação Cadastrada!',
+                    style: Theme.of(context).textTheme.headline6,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  height: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                )
+              ],
+            )
 ...
 ```
