@@ -51,6 +51,9 @@
   * [Definir as Fontes e Estilos do Título no Tema - Aula 118](#definir-fontes-estilos-titulo-theme)
     * [Código Tema Títulos - Aula 118](#codigo-theme-titulos)
     * [Código Chamada do Título - Aula 118](#codigo-chamada-titulo)
+  * [Adicionando e Registrando Imagens no APP - Aula 119](#adicionando-registrando-imagens-app)
+    * [Código Alterado - Aula 119](#codigo-alterado-119)
+* [](#)
 * [](#)
 
 # MÓDULO 4
