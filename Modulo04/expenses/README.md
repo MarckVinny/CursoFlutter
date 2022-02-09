@@ -53,6 +53,9 @@
     * [Código Chamada do Título - Aula 118](#codigo-chamada-titulo)
   * [Adicionando e Registrando Imagens no APP - Aula 119](#adicionando-registrando-imagens-app)
     * [Código Alterado - Aula 119](#codigo-alterado-119)
+  * [Planejando o Widget Chart - Aula 120](#planejando-widget-chart)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 
@@ -1706,3 +1709,10 @@ transaction_list.dart
             )
 ...
 ```
+
+## Planejando o Widget Chart <a name='planejando-widget-chart'></a>
+
+#### [^Sumário^](#sumario)
+
+![img](projeto-widget-chart.png)
+
