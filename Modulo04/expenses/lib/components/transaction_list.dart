@@ -14,6 +14,7 @@ class TransactionList extends StatelessWidget {
       height: 400,
       child: transactions.isEmpty
           ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
