@@ -10,12 +10,33 @@ class Chart extends StatelessWidget {
 
   List<Map<String, Object>> get groupedTransaction {
     return List.generate(7, (index) {
+      //todo: Pega os dias da semana
       final weekDay = DateTime.now().subtract(
         Duration(days: index),
       );
+
+      double totalSum = 0.0;
+
+      //todo: calula a soma das transações do dia da semana
+      for (var i = 0; i < recentTransaction.length; i++) {
+        //* compara se é o mesmo dia do mês é o mesmo que os últimos 7 dias
+        bool sameDay = recentTransaction[i].date.day == weekDay.day;
+        //* é o mesmo mês?
+        bool sameMonth = recentTransaction[i].date.month == weekDay.month;
+        //* é o mesmo ano?
+        bool sameYear = recentTransaction[i].date.year == weekDay.year;
+
+        //* se o resultado for verdadeiro
+        if (sameDay && sameMonth && sameYear) {
+          //todo: acrescenta o valor à variável totalSum
+          totalSum += recentTransaction[i].value;
+        }
+      }
+
       return {
+        //todo: define a Letra do dia da Semana
         'day': DateFormat.E().format(weekDay)[0],
-        'value': 9.99,
+        'value': totalSum,
       };
     });
   }
