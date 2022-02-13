@@ -14,7 +14,7 @@ class Chart extends StatelessWidget {
         Duration(days: index),
       );
       return {
-        'day': 'T',
+        'day': DateFormat.E().format(weekDay)[0],
         'value': 9.99,
       };
     });
