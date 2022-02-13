@@ -2,9 +2,10 @@ import '../models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class Chart extends StatelessWidget {
-  const Chart({Key? key, this.recentTransaction}) : super(key: key);
-
   final List<Transaction> recentTransaction;
+
+  // ignore: use_key_in_widget_constructors, prefer_const_constructors_in_immutables
+  Chart(this.recentTransaction);
 
   List<Map<String, Object>> get groupedTransaction {
     return List.generate(7, (index) {
