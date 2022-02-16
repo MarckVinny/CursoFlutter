@@ -33,6 +33,9 @@ class Chart extends StatelessWidget {
         }
       }
 
+      print(DateFormat.E().format(weekDay)[0]);
+      print(totalSum);
+
       return {
         //todo: define a Letra do dia da Semana
         'day': DateFormat.E().format(weekDay)[0],
@@ -44,7 +47,7 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /** 
-       ** !  elevation: 6, -> cria um efeito de sombra no Card;
+       ** elevation: 6, -> cria um efeito de sombra no Card;
        ** margin: EdgesInserts.all(20), -> cria uma margem para que os componentes 
        ** não fiquem grudados;
        ** child: Row(), -> cria uma linha onde serão colocados os Componentes;
