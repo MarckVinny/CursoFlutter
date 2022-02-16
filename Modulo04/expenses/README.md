@@ -54,6 +54,11 @@
   * [Adicionando e Registrando Imagens no APP - Aula 120](#adicionando-registrando-imagens-app)
     * [Código Alterado - Aula 120](#codigo-alterado-120)
   * [Planejando o Widget Chart - Aula 121](#planejando-widget-chart)
+  * [Criando o Componente Chart - Aula 122](#criando-componente-chart)
+    * [Configurando o Componente Card - Aula 122](#configurando-componente-chart)
+    * [Função Getter - Aula 122](#funcao-getter)
+    * [Atribuindo Valores Dinamicamente ao Chart - Aula 122](#atribuindo-valores-dinamicamente-chart)
+    * [Criando a Soma dos Valores das Transações - Aula 122](#criando-soma-valores-transacoes)
 * [](#)
 * [](#)
 * [](#)
@@ -1716,3 +1721,227 @@ transaction_list.dart
 
 ![img](projeto-widget-chart.png)
 
+## Criando o Componente Chart <a name='criando-componente-chart'></a>
+
+#### [^Sumário^](#sumario)
+
+***Chart***, será o Componente que conterá as porcentagens dos valores gastos na última semana.
+
+Ele será composto por um Card, que envolverá os demais Componentes e a ordem da composição do Componente Chart será a seguinte:
+
+* Primeiro será criado Componente Card;
+* Dentro de Card, terá um Componente Row;
+* Dentro da Row, terá um Componente Column;
+* Dentro de Column, terá um Componente List;
+* Dentro de List, terá um Componente Container que será configurado para mostrar as transações feitas nos últimos 7 dias.
+
+***Agora será criado o Componente Chart:***
+
+Dentro da pasta ***/componentes***, será criado o arquivo ***chart.dart*** e dentro deste arquivo será criado o ***Componente Chart*** com todos os seus parâmetros.
+
+Agora dentro do arquivo ***chart.dart***, digite **stl** e logo aparecerá um menu com a opção: `Flutter stateless widget`, escolha esta opção para começar a criar o ***Componente Statelesswidget***, o cursor estará piscando, então agora digite o nome do Componente que em nosso caso é `Chart`.
+
+Para que o VSCode reconheça os comandos sem dar erros, precisamos importar o ***material.dart*** com o comando a seguir e na primeira linha.
+
+```
+import 'package:flutter/material.dart';
+```
+
+Pronto, o Componente Chart acabou de ser criado, mas isso é só o inicio, a seguir segue o código do que acabou de ser feito.
+
+```
+chart.dart
+ 
+import 'package:flutter/material.dart';
+ 
+class Chart extends StatelessWidget {
+  const Chart({ Key? key }) : super(key: key);
+ 
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
+    );
+  }
+}
+```
+
+## Configurando o Componente Card <a name='configurando-componente-chart'></a>
+
+#### [^Sumário^](#sumario)
+
+No passo anterior, foi criado a base do ***Componente Chart***, e com o auto complete do ***Dart*** foi criado o esqueleto do Componente, agora precisamos criar novas funcionalidades para o Componente.
+
+E para isso iremos renomear o ***Componente*** `Container` que se encontra dentro do ***Widget*** `build` logo após return para o novo ***Componente*** `Card`.
+
+Dentro de ***Card*** iremos definir algumas propriedades:
+
+* `elevation: 6,` -> cria um efeito de sombra no Card;
+* `margin: EdgesInserts.all(20),` -> cria uma margem para que os componentes não fiquem grudados;
+* `child: Row(),` -> cria uma linha onde serão colocados os Componentes;
+* `children: [],` -> cria uma Lista onde serão colocados os Componentes propriamente dito;
+
+
+```
+chart.dart
+ 
+...
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 6,
+      margin: const EdgeInsets.all(20),
+      child: Row(
+        children: const [],
+      ),
+    );
+  }
+```
+
+## Função Getter <a name='funcao-getter'></a>
+
+#### [^Sumário^](#sumario)
+
+Esta Função irá controlar o Componente que irá pintar a barra que mostrará o percentual das transações feitas naquele dia específico.
+
+Esta Função vai retornar `return` uma Lista `List<Map<String, Object>>` e dentro deste `List` será retornado um `Map` que a ***chave*** será uma `String` e o ***valor*** será um `Object`, isso, porque o ***valor*** será variado: hora será uma `String` e hora será um ***valor numérico***.
+
+Essa Função é um `get` e o nome desta Função é `groupedTransaction {};`
+
+>***Dica:*** `List.generate(length, generator)` -> dentro de `List` através da ***notação ponto*** existe o *Método* `generate`, que gera uma ***Lista*** e a primeira coisa que irá passar é o ***tamanho da Lista***, que será determinado pelo parâmetro `length` e o `generator` será a Função que irá criar o ***índice da Lista***.
+
+Dentro de `groupedTransaction`, será retornado `return` uma Lista `List.generate` o primeiro parâmetro é o ***tamanho da Lista*** `(7,` e o segundo parâmetro é a ***Função*** que recebe como parâmetro o ***índice*** `(index) {})` e esta Lista precisa retornar `return` algo do ***Tipo*** `Map<String, Object>` uma `chave` do ***Tipo String*** e um `valor` do ***Tipo Object***.
+
+Então, dentro da ***Função generate***, será retornado `return` um ***Map*** `{`a ***chave*** vai ser o `'day':` e o ***valor da chave*** vai ser a primeira letra do dia da semana `'T',` o valor será `'value':` que será o ***valor numérico*** gasto naquele dia `9.99};` Por esse motivo que esse ***Map*** tem o valor do ***Tipo Object***, pois o primeiro valor é o ***Tipo String*** `'T'` e o segundo é do ***Tipo Numérico*** `9.99`.
+
+Criando parâmetro para pegar a soma de todas as transações realizadas em determinado dia da semana.
+
+`final` por ser um ***Componente Stateless*** que será uma ***Lista*** `List` de ***transações*** `<Transaction>` e será preciso importar o ***transaction.dart*** `import '../models/transaction.dart';` e o nome desta Lista será `recentTransaction;` e por ser um ***valor final*** precisa ser colocado no ***Construtor do Componente*** `this.recentTransaction` para que possa passar as ***Transações Recentes*** para o ***Componente Chart*** e usar essas transações pra calcular o ***valor total*** e identificar que Transação caiu em que dia da semana, já que em ***transaction.dart*** tem a ***data da transação*** através do atributo `date` e será essencial para o agrupamento dentro do ***Componente Chart***.
+
+```
+chart.dart
+ 
+...
+  final List<Transaction> recentTransaction;
+ 
+  Chart(this.recentTransaction);
+...
+```
+
+## Atribuindo Valores Dinamicamente ao Chart <a name='atribuindo-valores-dinamicamente-chart'></a>
+
+#### [^Sumário^](#sumario)
+
+A lógica para se definir a letra para cada dia da semana será da seguinte forma:
+
+* O índice index será o elemento que irá variar;
+* O primeiro elemento é o índice 0 e o mesmo será o dia atual da semana;
+* Será pego o dia atual e será subtraído a quantidade de dias a partir do índice;
+* O próximo dia será, o dia atual - 1 que será o índice 1  e assim por diante até checar ao índice 6 completando 7 dias.
+
+Dentro da ***Função generate***, será criado uma variável `final` chamada `weekDay` que irá receber `=` o dia atual D`ateTime.now()` através da *notação ponto*, será passado o *Método* `.subtract();`
+
+Dentro do *Método* `.subtract();` será passado a ***duração*** através do ***Componente*** `Duration()` e dentro de Duration existem algumas propriedades que podem ser usadas e neste caso será usado o ***atributo*** `days:` que terá o valor do ***índice*** `index`.
+
+Com isso, ele irá pegar a ***duração*** *(o valor do índice)* e ***subtrair*** pelo ***dia atual*** *(DateTime.now())*.
+
+Agora, para fazer o ***weekDay*** pegar a letra do dia da semana, será preciso importar a ***Internacionalização*** com `import 'package:intl/intl.dart';`
+
+Importação feita, vamos a formatação da letra do dia da semana:
+
+* Será usado o `DataFormat.E()` que representa a ***SIGLA*** do dia da semana;
+* Com a *notação ponto*, será chamado o *Método* `.format()` e passar como parâmetro um `DateTime`, que no nosso caso é o `weekDay` que já foi subtraído a partir do índice `index` que gerou um valor de ***weekDay*** do dia atual ou para trás.
+* E para pegar a primeira letra desta ***SIGLA***, será desta forma `[0]` pegando a primeira letra.
+* Concluindo, para pegar a letra do dia da semana usa-se: `'day': DateFormat.E().format(weekDay)[0],`
+
+```
+chart.dart
+ 
+...
+  List<Map<String, Object>> get groupedTransaction {
+    return List.generate(7, (index) {
+      //todo: Pega o dia atual e subtrai da quantidade de dias da semana
+      final weekDay = DateTime.now().subtract(
+        Duration(days: index),
+      );
+      return {
+        //todo: define a Letra do dia da Semana
+        'day': DateFormat.E().format(weekDay)[0],
+        'value': 9.99,
+      };
+    });
+...
+```
+
+## Criando a Soma dos Valores das Transações <a name='criando-soma-valores-transacoes'></a>
+
+#### [^Sumário^](#sumario)
+
+Agora vamos criar a ***soma dos valores*** das transações do dia da semana e colocar em `'value':`.
+
+Será criado uma variável do ***Tipo double*** de nome `totalSum` e que recebe `=` o valor `0.0`;
+
+```
+chart.dart
+
+...
+  double totalSum = 0.0;
+...
+```
+
+Primeiro será preciso saber se a ***Transação Recente*** `recentTransaction` que vai pegar através do ***índice*** `i`, tem o mesmo ***dia dessa semana*** `weekDay` e se estiver no mesmo dia, significa que pode colocar essa transação ***para dentro*** desse dia `i++`.
+
+```
+chart.dart
+ 
+...
+for(var i = 0; i < recentTransaction.length; i++){
+ 
+}  
+...
+```
+
+Agora vamos pegar a ***Transação mais Recente*** `recentTransaction` usando o ***índice*** [i] e dentro da Transação Recente tem o `.date` e dentro do date, tem a possibilidade de se pegar o ***dia do mês*** `.day` e será possível ***comparar*** `&&` se são os ***últimos 7 dias da semana*** `weekDay.day` e tudo isso estará dentro de uma ***variável booleana*** `bool` chamada `sameDay` que significa ***mesmo dia***, ou seja, é o *mesmo dia?*
+
+```
+chart.dart
+ 
+...
+  // é o mesmo dia?
+  bool sameDay = recentTransaction[i].date.day == weekDay.day
+  // é a mesmo mês?
+  bool sameMonth = recentTransaction[i].date.month == weekDay.month
+  // é o mesmo ano?
+  bool sameYear = recentTransaction[i].date.year == weekDay.yaer
+...
+```
+
+***Então:***
+
+Se for, o ***mesmo dia*** `sameDay`, do ***mesmo mês*** `sameMonth`, e do ***mesmo ano*** `sameYear`, pode pegar o ***Valor da Transação*** `recentTransaction[i].value` e ***acrescentar*** `+=` na variável `totalSum` ***soma total***.
+
+```
+chart.dart
+ 
+...
+  // se o resultado for verdadeiro
+  if(sameDay && sameMonth && sameYear) {
+    // acrescenta o valor à variável totalSum
+    totalSum += recentTransaction[i].value;
+  }
+...
+```
+
+E por fim, o valor da variável ***soma total*** `totalSum`é atribuído ao valor `'value'`.
+
+```
+chart.dart
+ 
+...
+      return {
+        //todo: define a Letra do dia da Semana
+        'day': DateFormat.E().format(weekDay)[0],
+        'value': totalSum,
+      };
+...
+```
