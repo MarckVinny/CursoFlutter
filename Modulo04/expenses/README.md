@@ -59,6 +59,9 @@
     * [Função Getter - Aula 122](#funcao-getter)
     * [Atribuindo Valores Dinamicamente ao Chart - Aula 122](#atribuindo-valores-dinamicamente-chart)
     * [Criando a Soma dos Valores das Transações - Aula 122](#criando-soma-valores-transacoes)
+  * [Mocando Transações para teste -Aula 123](#mocando-transacoes-teste)
+    * [Criando um Filtro para as Transações Recentes - Aula 123](#criando-filtro-transacoes-recentes)
+      * [Critério para o Filtro de Transações da Semana: - Aula 123](#criterios-filtro-transacao-semana)
 * [](#)
 * [](#)
 * [](#)
@@ -1943,5 +1946,88 @@ chart.dart
         'day': DateFormat.E().format(weekDay)[0],
         'value': totalSum,
       };
+...
+```
+
+## Mocando Transações para teste <a name='mocando-transacoes-teste'></a>
+*"Transações Fictícias"*
+
+#### [^Sumário^](#sumario)
+
+
+A seguir estará sendo criado algumas ***transações fictícias*** para poder testar a funcionalidade de somar os valores referentes a cada dia da ***última semana.***
+
+Como já foi explicado anteriormente, o atributo `date: DateTime.now().subtract(const Duration(days: 3)),` organiza a Transação do dia atual menos a duração de dias, para saber se a Transação pertence ou não aos ***últimos 7 dias da semana.***
+
+```
+main.dart
+ 
+...
+  final List<Transaction> _transactions = [
+    //* Mocando Transações
+    Transaction(
+      id: 'T0',
+      title: 'Conta Antiga',
+      value: 400.00,
+      date: DateTime.now().subtract(const Duration(days: 30)),
+    ),
+    Transaction(
+      id: 'T1',
+      title: 'Tênis de Corrida',
+      value: 310.76,
+      date: DateTime.now().subtract(const Duration(days: 3)),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Conta de Luz',
+      value: 211.30,
+      date: DateTime.now().subtract(const Duration(days: 4)),
+    ),
+  ];
+...
+```
+## Criando um Filtro para as Transações Recentes <a name='criando-filtro-transacoes-recentes'></a>
+
+#### [^Sumário^](#sumario)
+
+Será criando um ***Getter*** `get` de uma ***Lista de Transações*** `List<Transaction>` e que receberá um ***nome privado*** de `_recentTransactions {...}` e dentro, será retornado `return` a ***Lista de Transações*** `_transactions`.
+
+Dentro de `_transactions` através da *notação ponto*, existe um *Método* chamado `.where(...)` que é uma forma de filtrar, e passamos para essa ***Função ".where()"*** uma Função callback que o papel dela é receber como parâmetro o ***Elemento a transação*** `(tr) {...}` e ele irá retornar `return` verdadeiro `true` ou falso `false`.
+
+Se for retornado false, significa que a Lista Final será uma ***Lista vazia*** e se retornar true, significa que todos os Elementos serão verdadeiros e estarão contidos na ***Lista Final***.
+
+De tal forma, que a Lista gerada por essa ***Função .where()***, será uma ***sub-lista*** da Lista original.
+
+### Critério para o Filtro de Transações da Semana: <a name='criterios-filtro-transacao-semana'></a>
+
+#### [^Sumário^](#sumario)
+
+>***Lógica:*** se a ***data da transação*** for depois de uma ***data subtraída 7 dias atrás***, ou seja ***depois***, é mais nova e significa que isso é ***verdadeiro***, se for antes, significa que isso é ***falso***.
+
+Se a ***data da transação*** `tr.date` ***for depois*** `.isAfter(` ***dia atual*** `DateTime.now()` ***irá subtrair*** `.subtract(` ***pela quantidade de dias*** `Duration(days: 7)));`
+
+Agora dentro do Método `build`, iremos substituir onde se encontra o `Container` que era responsável por mostrar o ***Card do Gráfico***, pelo Componente `Chart` recebendo por parâmetro a Função que acabamos de criar `_recentTransactions` que Filtra as Transações Recentes.
+
+Não esquecendo é claro de importar o ***Componente Chart:*** 
+
+```
+import 'components/chart.dart';
+```
+
+```
+main.dart
+ 
+...
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            //* Filtra as Transações Recentes
+            Chart(_recentTransactions),
+            //* Comunicação Direta -> através de Dados
+            TransactionList(_transactions),
+          ],
+        ),
+      ),
 ...
 ```
