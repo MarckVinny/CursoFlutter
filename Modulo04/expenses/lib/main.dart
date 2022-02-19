@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'components/transaction_list.dart';
 import 'components/transaction_form.dart';
+import 'components/chart.dart';
 import 'models/transaction.dart';
 
 main() {
@@ -55,6 +56,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
+    //* Mocando Transações
     Transaction(
       id: 'T0',
       title: 'Conta Antiga',
@@ -74,6 +76,15 @@ class _MyHomePageState extends State<MyHomePage> {
       date: DateTime.now().subtract(const Duration(days: 4)),
     ),
   ];
+
+  //* Filtrando as Transações Recentes
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        const Duration(days: 7),
+      ));
+    }).toList();
+  }
 
   // Adiciona uma Nova Transação
   _addTransaction(String title, double value) {
@@ -118,18 +129,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ignore: sized_box_for_whitespace, avoid_unnecessary_containers
-            Container(
-              // Usando "crossAxisAlignment: CrossAxisAlignment.stretch," na Column()
-              // não é necessário o uso de "width: double.infinity,"
-              //width: double.infinity,
-              child: const Card(
-                child: Text('Gráfico'),
-                color: Colors.blue,
-                elevation: 5,
-              ),
-            ),
-            // Comunicação Direta -> através de Dados
+            //* Filtra as Transações Recentes
+            Chart(_recentTransactions),
+            //* Comunicação Direta -> através de Dados
             TransactionList(_transactions),
           ],
         ),
