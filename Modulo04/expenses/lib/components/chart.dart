@@ -33,7 +33,7 @@ class Chart extends StatelessWidget {
         }
       }
 
-      print(DateFormat.E().format(weekDay)[0]);
+      print(DateFormat.E("pt_BR").format(weekDay)[0]);
       print(totalSum);
 
       return {

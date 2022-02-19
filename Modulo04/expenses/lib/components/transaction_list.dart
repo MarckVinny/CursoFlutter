@@ -70,7 +70,7 @@ class TransactionList extends StatelessWidget {
                           Text(tr.title,
                               style: Theme.of(context).textTheme.headline6),
                           Text(
-                            DateFormat('dd-MM-y').format(tr.date),
+                            DateFormat('dd-MM-y', "pt_BR").format(tr.date),
                             style: TextStyle(
                               color: Colors.grey[600],
                             ),
