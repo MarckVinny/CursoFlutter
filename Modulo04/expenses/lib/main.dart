@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:math';
 import 'components/transaction_list.dart';
 import 'components/transaction_form.dart';
+import 'components/chart.dart';
 import 'models/transaction.dart';
 
 main() {
@@ -13,6 +15,13 @@ class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //* Traduzindo a internacionalização INTL
+      // ignore: prefer_const_literals_to_create_immutables
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: const [Locale('pt', 'BR')],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.purple,
@@ -55,19 +64,35 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    /* Transaction(
+    //* Mocando Transações
+    Transaction(
+      id: 'T0',
+      title: 'Conta Antiga',
+      value: 400.00,
+      date: DateTime.now().subtract(const Duration(days: 30)),
+    ),
+    Transaction(
       id: 'T1',
       title: 'Tênis de Corrida',
       value: 310.76,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Transaction(
       id: 'T2',
       title: 'Conta de Luz',
       value: 211.30,
-      date: DateTime.now(),
-    ), */
+      date: DateTime.now().subtract(const Duration(days: 4)),
+    ),
   ];
+
+  //* Filtrando as Transações Recentes
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        const Duration(days: 7),
+      ));
+    }).toList();
+  }
 
   // Adiciona uma Nova Transação
   _addTransaction(String title, double value) {
@@ -112,18 +137,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ignore: sized_box_for_whitespace, avoid_unnecessary_containers
-            Container(
-              // Usando "crossAxisAlignment: CrossAxisAlignment.stretch," na Column()
-              // não é necessário o uso de "width: double.infinity,"
-              //width: double.infinity,
-              child: const Card(
-                child: Text('Gráfico'),
-                color: Colors.blue,
-                elevation: 5,
-              ),
-            ),
-            // Comunicação Direta -> através de Dados
+            //* Filtra as Transações Recentes
+            Chart(_recentTransactions),
+            //* Comunicação Direta -> através de Dados
             TransactionList(_transactions),
           ],
         ),
