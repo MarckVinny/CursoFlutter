@@ -33,12 +33,9 @@ class Chart extends StatelessWidget {
         }
       }
 
-      print(DateFormat.E("pt_BR").format(weekDay)[0]);
-      print(totalSum);
-
       return {
         //todo: define a Letra do dia da Semana
-        'day': DateFormat.E().format(weekDay)[0],
+        'day': DateFormat.E('pt_BR').format(weekDay)[0],
         'value': totalSum,
       };
     });
@@ -56,12 +53,14 @@ class Chart extends StatelessWidget {
        ** child: Row(), -> cria uma linha onde serão colocados os Componentes;
        ** children: [], -> cria uma Lista onde serão colocados os Componentes 
        ** propriamente dito;
-       **/
+    **/
     return Card(
       elevation: 6,
       margin: const EdgeInsets.all(20),
       child: Row(
-        children: const [],
+        children: groupedTransaction.map((tr) {
+          return Text('${tr['day']}: ${tr['value']}');
+        }).toList(),
       ),
     );
   }

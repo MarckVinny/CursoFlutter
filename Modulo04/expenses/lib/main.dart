@@ -15,6 +15,9 @@ class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //* retira o banner de debug
+      debugShowCheckedModeBanner: false,
+
       //* Traduzindo a internacionalização INTL
       // ignore: prefer_const_literals_to_create_immutables
       localizationsDelegates: [
@@ -22,6 +25,7 @@ class ExpensesApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: const [Locale('pt', 'BR')],
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.purple,
