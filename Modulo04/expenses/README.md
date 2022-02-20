@@ -59,10 +59,10 @@
     * [Função Getter - Aula 122](#funcao-getter)
     * [Atribuindo Valores Dinamicamente ao Chart - Aula 122](#atribuindo-valores-dinamicamente-chart)
     * [Criando a Soma dos Valores das Transações - Aula 122](#criando-soma-valores-transacoes)
-  * [Mocando Transações para teste -Aula 123](#mocando-transacoes-teste)
+    * [Mocando Transações para teste -Aula 123](#mocando-transacoes-teste)
     * [Criando um Filtro para as Transações Recentes - Aula 123](#criando-filtro-transacoes-recentes)
-      * [Critério para o Filtro de Transações da Semana: - Aula 123](#criterios-filtro-transacao-semana)
-* [](#)
+    * [Critério para o Filtro de Transações da Semana: - Aula 123](#criterios-filtro-transacao-semana)
+    * [Mostrando o Resultado das Transações - Aula 124](#mostrando-resultado-transacoes)
 * [](#)
 * [](#)
 * [](#)
@@ -2029,5 +2029,41 @@ main.dart
           ],
         ),
       ),
+...
+```
+
+## Mostrando o Resultado das Transações <a name='mostrando-resultado-transacoes'></a>
+
+#### [^Sumário^](#sumario)
+
+A seguir será apresentado de forma simples, a soma dos valores das transações de cada dia da semana na tela, mas por enquanto sem nenhuma formatação.
+
+No componente ***chart.dart*** serão retirados os ***prints***, pois, não são mais necessários.
+
+Após isso, dentro de `build`, nos ***Filhos*** `children:` do componente `Chart`  iremos pegar o resultado do *Método* `groupedTransaction`  será uma ***Lista*** `List` e esta lista tem o *Método* `Map` e para garantir que será retornado uma Lista, acrescentamos o `.toList()` no final.
+
+```
+children: groupedTransaction.map().toList(),
+```
+
+No *Método* `Map` serão mapeados os Elementos e recebe por parâmetro a ***Transação Agrupada*** `(tr)` que retornará `return` um ***widget***, já que o `children:` recebe uma ***Lista de Componentes*** então, será passado um ***valor textual*** `Text(` para acessar a ***chave do map*** será usado `'${tr['day']}:` e para o ***valor do map*** será usado `${tr['value']}');`.  Neste caso, todos os valores serão colocados dento do ***Componente Card*** e já que `children:` está dentro do ***Componente Row***, os valores serão mostrados na tela lado a lado em uma linha.
+
+```
+  return Text('${tr['day']}: ${tr['value']}');
+```
+
+```
+chart.dart    Componente Card
+ 
+...
+    return Card(
+      elevation: 6,
+      margin: const EdgeInsets.all(20),
+      child: Row(
+        children: groupedTransaction.map((tr) {
+          return Text('${tr['day']}: ${tr['value']}');
+        }).toList(),
+      ),
+    );
 ...
 ```
