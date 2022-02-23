@@ -63,7 +63,7 @@
     * [Criando um Filtro para as Transações Recentes - Aula 123](#criando-filtro-transacoes-recentes)
     * [Critério para o Filtro de Transações da Semana: - Aula 123](#criterios-filtro-transacao-semana)
     * [Mostrando o Resultado das Transações - Aula 124](#mostrando-resultado-transacoes)
-* [](#)
+    * [Criação do Componente Chart Bar - Aula 125](#criacao-componente-chart-bar)
 * [](#)
 * [](#)
 
@@ -2065,5 +2065,80 @@ chart.dart    Componente Card
         }).toList(),
       ),
     );
+...
+```
+## Criação do Componente Chart Bar <a name='criacao-componente-chart-bar'></a>
+
+#### [^Sumário^](#sumario)
+
+Na pasta ***/components*** será criado o arquivo ***chart_bar.dart*** e dentro dele digitando `stl` será auto completado o esqueleto da classe de nosso ***Componente ChartBar***.
+
+Na construção do Componente iremos criar 3 atributos `final` por ser um ***Componente Statelesswidget***.
+
+```
+  final label;
+  final value;
+  final double percentage;
+```
+
+No ***Construtor*** do Componente, serão usados parâmetros nomeados, pois o entendimento fica melhor no código.
+
+Principalmente quando se tem dois valores de mesmo Tipo isso pode gerar confusão, pois, será que é o ***valor gasto*** ou o ***valor da percentage***.
+
+```
+  ChartBar({
+    required this.label,
+    required this.value,
+    required this.percentage,
+  });
+```
+
+Como visto anteriormente, que dentro do ***Componente*** `ChartBar` terá uma ***coluna*** `Column` que na parte de cima vai ficar o ***valor*** `value` no meio vai ficar a ***barra*** representando a `percentage` e a parte de baixo fica o `label` com o ***dia da semana***.
+
+Então dentro do `build` o `Container` será substituído pelo ***Componente Column***, dentro de `Column` terá um `children:` que receberá inicialmente um ***valor textual*** `Text(` para representar o ***símbolo do Real*** usa se `'R\$` e para interpolar o valor será usado `${value` e para fixar duas casas decimais usa-se `.toStringAsFixed(2)}'),`
+
+Entre os ***Componentes*** `Text()` e `Container()`, será usado um ***SizeBox*** com ***5*** de altura `SizeBox(height: 5)`,
+
+Inicialmente a formatação da barra de percentage terá um `Container(` que terá uma ***altura*** `height` de `60` e uma ***largura*** `width` de `10` e o ***Filho*** `children:` inicialmente terá um ***valor nulo*** `null`. Posteriormente será criado a lógica de como a barra será pintada com a percentage das transações do dia.
+
+```
+chart_bar.dart
+
+...
+    child: Column(
+      children: [
+        Text('R\$ ${value.toStringAsFixed(2)}'),
+        const SizedBox(height: 5),
+        Container(
+          height: 60,
+          width: 10,
+          child: null,
+        ),
+        const SizedBox(height: 5),
+        Text(label),
+      ],
+    ),
+...
+```
+
+Para usar o ***Componente ChartBar*** dentro do ***Componente Chart***, é preciso primeiramente ***importar*** o componente `import 'chart_bar.dart';`. E chamar o ***Componente*** `ChartBar` dentro de `build` substituindo o ***Componente*** `Text()`.
+
+Dentro do Componente ChartBar, serão colocados os atributos pegando seus valores dinamicamente:
+
+* `label:` receberá o dia da semana através de `tr['day'],`
+* `value:` receberá a soma da transação através de `tr['value'],`
+* `percentage:` a princípio receberá o valor `0`.
+
+```
+chart.dart
+
+...
+    children: groupedTransaction.map((tr) {
+      return ChartBar(
+        label: tr['day'],
+        value: tr['value'],
+        percentage: 0,
+      );
+    }).toList(),
 ...
 ```
