@@ -2291,3 +2291,63 @@ chart.dart
 ...
 ```
 
+## Finalizando o Componente ChartBar <a name='finalizando-componente-chartbar'></a>
+
+#### [^Sumário^](#sumario)
+
+Para finalizar o ***Componente ChartBar***, serão feitos alguns ajustes visuais corrigindo alguns problemas com alinhamentos, paddings, tamanho de fontes entre outros.
+
+No ***Componente Chart***, iremos alterar o alinhamento da `Row()` para que os Elementos sejam distribuídos com espaçamentos iguais, para isso será usado o atributo `mainAxisAlignment:` com o valor `MainAxisAlignment.spaceAround,`
+
+```
+chart.dart
+ 
+...
+      child: Row(
+        //todo: Alinha com espaçamentos iguais
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+...
+```
+
+Ainda dentro do ***Componente Chart***, iremos alterar a aparência do ***Componente*** `ChartBar()`, o mesmo será envolvido por um ***widget*** `Wrap with widget` que será renomeado para `Flexible()`  ele possui um atributo chamado `fit:`  que possui duas propriedades, a ***FlexFit.loose***, que é o valor padrão e a que será usada que é a `FlexFit.tight` com isso, cada elemento do ChartBar terá a mesma distância.
+
+```
+chart.dart
+...
+    return Flexible(
+    fit: FlexFit.tight,
+    child: ChartBar(
+        label: tr['day'],
+        value: tr['value'],
+        //todo: Calcula o Percentual da Semana
+        percentage: (tr['value'] as double) / _weekTotalValue,
+    ),
+    );
+...
+```
+
+Agora em ***chart_bar.dart***, para fazer com que a `Label` onde se encontra o valor das transações não fique grande demais e acabe prejudicando o visual quando tiver valores com números muito grades, iremos envolver o ***Componente*** `Text()` com um ***widget*** `Wrap with widget` e o renomear por `FittedBox()`, isso fará com que o texto se ajuste diminuindo o tamanho da fonte.
+
+```
+chart_bar.dart
+ 
+...
+     children: [
+       FittedBox(child: Text('R\$ ${value.toStringAsFixed(2)}')),
+...
+```
+
+Para finalizar, será adicionado um `Padding()` na `Row()` para que os Elementos não fiquem grudados nas bordas do `Card()`.
+
+O ***Componente*** `Row()` será envolvido por um ***Padding*** `Wrap with padding` e o valor do `Padding()` será `8.0`.
+
+```
+chart.dart
+ 
+...
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+...
+```
+
