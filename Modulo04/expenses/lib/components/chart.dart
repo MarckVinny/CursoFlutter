@@ -62,16 +62,23 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: groupedTransaction.map((tr) {
-          return ChartBar(
-            label: tr['day'],
-            value: tr['value'],
-            //todo: Calcula o Percentual da Semana
-            percentage: (tr['value'] as double) / _weekTotalValue,
-          );
-        }).toList(),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          //todo: Alinha com espaçamentos iguais
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransaction.map((tr) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                label: tr['day'],
+                value: tr['value'],
+                //todo: Calcula o Percentual da Semana
+                percentage: (tr['value'] as double) / _weekTotalValue,
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
