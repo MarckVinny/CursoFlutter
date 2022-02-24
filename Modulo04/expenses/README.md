@@ -64,6 +64,10 @@
     * [Critério para o Filtro de Transações da Semana: - Aula 123](#criterios-filtro-transacao-semana)
     * [Mostrando o Resultado das Transações - Aula 124](#mostrando-resultado-transacoes)
     * [Criação do Componente Chart Bar - Aula 125](#criacao-componente-chart-bar)
+    * [Criando a Barra de Percentagem - Aula 126](#criando-barra-percentage)
+* [](#)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 
@@ -2142,3 +2146,94 @@ chart.dart
     }).toList(),
 ...
 ```
+
+## Criando a Barra de Percentagem <a name='criando-barra-percentage'></a>
+
+#### [^Sumário^](#sumario)
+
+A Barra será criada dentro do ***Componente ChartBar*** em ***chart_bar.dart***.
+
+Agora dentro de `build(){...},` dentro de `Column()` e por final dentro de `Container()` no atributo `child:` será usado o ***Componente*** `Stack()` e a lógica será que um dos ***Filhos*** `children:` do Componente seja usado para desenhar a barra *(contorno e preenchimento)* e o outro ***Filho*** para pintar a percentage do valor gasto naquele dia específico.
+
+O ***Componente Stack()***, é usado para empilhar diversos Componentes ***um em cima do outro***.
+
+Agora dentro do ***Componente*** `Stack()` e no atributo `children:` será adicionado um `Container()` que irá definir a estrutura da ***Barra***.
+Dentro do `Container()` não terá um atributo ***Filho*** `child:`  mas sim um `decoration:` e para definir a borda será usado o ***Componente*** `BoxDecoration()` e dentro o atributo `border:` borda em todos os lados `Border.all()` e dentro serão definidos dois atributos o primeiro será a cor, `color: Colors.grey,` e o segundo será a largura `width:` da borda que terá o valor `1.0,`.
+
+Para definir a ***cor de preenchimento*** da ***barra*** usa-se o atributo `color:` e o valor da cor usa-se `Colors.grey.shade200,` que será um tom mais claro que o grey cinza normal.
+
+Para arredondar as pontas da ***barra***, usa-se o atributo `borderRadius:` com o valor `BorderRadius.circular(5),` como a largura da ***barra*** é ***10*** foi usado o valor ***5*** para que o arredondamento ficasse perfeito.
+
+```
+chart_bar.dart
+ 
+...
+    Container(
+    height: 60,
+    width: 10,
+    child: Stack(
+        children: [
+        Container(
+            decoration: BoxDecoration(
+            border: Border.all(
+                color: Colors.grey,
+                width: 1,
+            ),
+            color: Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(5),
+            ),
+        ),
+        ],
+    ),
+    ),
+...
+```
+
+O próximo Componente que será defino, será o que irá pintar a percentage de transações referentes ao dia da semana em questão.
+
+O ***Componente*** é o ***Sizedbox Fracionado*** `FracionallySizedBox()` o que regula o ***fator da altura*** da barra é o atributo `heightFactor:` e o que irá controlar a altura é o atributo que definimos anteriormente `percentage,`.
+
+O ***Componente SizedBox Fracionado*** também tem um `child:` e também terá o `BoxDecoration()` com os atributos de `cor:` com valor pego a partir do Tema `Theme.of(context).colorScheme.primary,`  que será a cor primária da aplicação.
+
+E para arredondar as pontas do ***Componente SizedBox Fracionado***, será usada a mesma definição feita no Componente anterior, `borderRadius: BorderRadius.circular(5),`.
+
+A definições estão feitas, mas se salvar e tentar visualizar as alterações na tela do dispositivo, não acontecerá nada, pois, a ***percentage*** está definida com valor ***0***, mas se colocar um valor diferente de zero, como por exemplo ***30%*** `percentage: 0.3,` será possível ver como será pintado a percentage na barra.
+
+
+```
+chart.dart
+ 
+...
+     child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: groupedTransaction.map((tr) {
+          return ChartBar(
+            label: tr['day'],
+            value: tr['value'],
+            percentage: 0.3,
+          );
+        }).toList(),
+...
+```
+
+Se perceber, da forma como está definido o ***Componente*** `Stack()`, verá que a ***barra de percentage*** está sendo pintada de cima para baixo, sendo que o usual, é ser pintada de baixo para cima.
+
+Para corrigir esse problema, basta adicionar o atributo `alignment: Alignment.bottomCenter,` que alinha na base e ao centro na vertical.
+
+
+```
+chart_bar.dart
+ 
+...
+    FractionallySizedBox(
+        heightFactor: percentage,
+        child: Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            borderRadius: BorderRadius.circular(5),
+        ),
+        ),
+    )
+...
+```
+
