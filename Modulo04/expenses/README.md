@@ -66,7 +66,7 @@
     * [Criação do Componente Chart Bar - Aula 125](#criacao-componente-chart-bar)
     * [Criando a Barra de Percentagem - Aula 126](#criando-barra-percentage)
     * [Criando o Cálculo do Percentual - Aula 127](#criacao-calculo-percentual)
-* [](#)
+    * [Finalizando o Componente ChartBar - Aula 128](#finalizando-componente-chartbar)
 * [](#)
 * [](#)
 * [](#)
