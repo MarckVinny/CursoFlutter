@@ -65,7 +65,7 @@
     * [Mostrando o Resultado das Transações - Aula 124](#mostrando-resultado-transacoes)
     * [Criação do Componente Chart Bar - Aula 125](#criacao-componente-chart-bar)
     * [Criando a Barra de Percentagem - Aula 126](#criando-barra-percentage)
-* [](#)
+    * [Criando o Cálculo do Percentual - Aula 127](#criacao-calculo-percentual)
 * [](#)
 * [](#)
 * [](#)
@@ -2234,6 +2234,60 @@ chart_bar.dart
         ),
         ),
     )
+...
+```
+
+## Criando o Cálculo do Percentual <a name='criacao-calculo-percentual'></a>
+
+#### [^Sumário^](#sumario)
+
+Será criado um ***Getter*** que irá calcular o ***Total das Transações da Semana***, para isso será criado um ***Getter*** `get` que ***retornará*** `return` um `double` e o nome da ***Classe*** que será restrito a esse ***Componente*** é `_weekTotalValue {...}`, pois, a partir do valor total da semana se consegue ter um ***percentual***, uma divisão entre o ***Total do Dia*** com o ***Total da Semana*** e assim ter um ***percentual*** entre ***0*** e no máximo ***1***.
+
+Se todas as transações da semana forem em um único dia, o ***percentual*** ficará somente naquele dia.
+
+Então, dentro de `_weekTotalValue {...}` será ***retornado*** `return` a Lista de Transações da semana `groupedTransactions` e será criado um *Método* `.fold()`, dentro será atribuído como ***Valor Inicial*** de `0.0`, já que se quer calcular o ***Valor Total da Semana*** e o segundo Elemento, será uma ***Função*** `(...){...}` que recebe dois parâmetros: que serão o ***Acumulador*** `acc` e o ***Elemento Atual*** `item` `(acc, item) {...}`.
+
+>O *Método* `.fold()` é parecido com o *Método* `.reduce()`, pois, possui um ***Acumulador*** e o ***Elemento Atual*** que vai fazendo uma operação sempre retornando um Elemento que será usado como ***acumulador*** na próxima iteração.
+
+Já que estamos percorrendo o `groupedTransactions`, o item é exatamente o ***Map*** que retorna o ***Dia da Semana*** `'day'` e o ***valor das transações*** daquele dia `'value'`.
+
+Então o ***item*** se chamará `tr` e o ***Acumulador acc*** se chamará `sum` ***soma*** `(sum, tr) {...}`, sempre será retornado `return` o ***valor das Transações Agrupadas*** `groupedTransactions` e no final terá o ***Valor Total da Semana*** `_weekTotalValue {...}`.
+
+Então, *"lembrando que na primeira vez que sum for chamado, ele terá o valor inicial 0.0"* dentro de ***(sum, tr) {...}*** será retornado `return` vai pegar o valor de `sum + (tr['value'] as double);`.
+
+Concluindo, o resultado deste `.fold()`  será a ***Soma Total da Semana***.
+
+```
+chart.dart
+ 
+...
+  double get _weekTotalValue {
+    return groupedTransaction.fold(0.0, (sum, tr) {
+      return sum + (tr['value'] as double);
+    });
+  }
+...
+```
+
+E a ***Função*** `_weekTotalValue` será chamada no atributo `percentage:` em ***chart.dart***.
+
+E para calcular a percentage se dará da seguinte maneira, o ***Valor do Dia*** `(tr['value'] as double)` ***dividido*** `/`  pela ***Soma Total da Semana*** `_weekTotalValue`.
+
+```
+chart.dart
+ 
+...
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: groupedTransaction.map((tr) {
+          return ChartBar(
+            label: tr['day'],
+            value: tr['value'],
+            //todo: Calcula o Percentual da Semana
+            percentage: (tr['value'] as double) / _weekTotalValue,
+          );
+        }).toList(),
+      ),
 ...
 ```
 
