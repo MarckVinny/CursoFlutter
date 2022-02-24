@@ -42,6 +42,7 @@ class Chart extends StatelessWidget {
     });
   }
 
+  //todo: Calcula o Valor Total da Semana
   double get _weekTotalValue {
     return groupedTransaction.fold(0.0, (sum, tr) {
       return sum + (tr['value'] as double);
@@ -50,9 +51,6 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //* Chamando a Função para ver as informações no console
-    groupedTransaction;
-
     /** 
        ** elevation: 6, -> cria um efeito de sombra no Card;
        ** margin: EdgesInserts.all(20), -> cria uma margem para que os componentes 
@@ -70,6 +68,7 @@ class Chart extends StatelessWidget {
           return ChartBar(
             label: tr['day'],
             value: tr['value'],
+            //todo: Calcula o Percentual da Semana
             percentage: (tr['value'] as double) / _weekTotalValue,
           );
         }).toList(),
