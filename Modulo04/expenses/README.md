@@ -67,6 +67,10 @@
     * [Criando a Barra de Percentagem - Aula 126](#criando-barra-percentage)
     * [Criando o Cálculo do Percentual - Aula 127](#criacao-calculo-percentual)
     * [Finalizando o Componente ChartBar - Aula 128](#finalizando-componente-chartbar)
+* [Aula Bônus Flexible e Expanded - Aula 129](#aula-bonus-flexible-expanded)
+* [](#)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 * [](#)
@@ -2351,3 +2355,63 @@ chart.dart
 ...
 ```
 
+## Aula Bônus Flexible e Expanded <a name='aula-bonus-flexible-expanded'></a>
+
+#### [^Sumário^](#sumario)
+
+Nesta aula o arquivo de exemplo é o ***main_flexible.dart***, neste arquivo se encontra 3 `Container()` definidos somente com ***altura*** `height: 100,` contendo um atributo `child: Text(),` com textos de tamanhos diferentes.
+Com isso cada `Container()` assume o a largura necessária para caber o texto.
+
+Pegando o `Container()` do meio e o evolvendo com um ***Widget*** `Wrap with widget` e o renomeando para `Flexible()`, com isso nos possibilitará trabalhar com duas propriedades: a `fit:` e a `flex:`.
+
+* `fit: FlexFit.loose,` *(loose significa solto)* esta é a propriedade padrão do `Flexible()`, é ela que vem habilitada se não for definido nenhum atributo. Esta propriedade faz a mesma coisa que o `Container()` ela ajusta a largura conforme o conteúdo. Ou se definir uma ***largura*** `width: 200,` para o ***Filho*** `child:` do Componente ele ocupará somente o que foi definido.
+
+* `fit: FlexFit.tight,` *(tight significa apertado)* o `Flexible()` irá expandir o Elemento para ocupar todos os espaços vazios da linha. Como neste primeiro exemplo só estamos definindo o `Flexible()` no ***Container do meio***, por ser o único Componente que irá concorrer pelos espaços extra, ele vai assumir todos os espaços vazios e os outros Componentes continuarão da mesma forma que antes, ocupando somente o espaço necessário.
+
+Agora envolvendo o ***terceiro*** `Container()` com um ***Widget*** `Wrap with widget` e o renomeando para `Flexible()` e adicionando o mesmo atributo `fit: FlexFit.tight,` será possível perceber que agora os dois Elementos estarão concorrendo pelos espaços vazios e tanto um quanto o outro, irão dividir entre si.
+
+Agora iremos falar do ***atributo/propriedade*** que terá mais prioridade para pegar os espaços vazios e expandir mais que o outro.
+
+* `flex: 1,` esse é o valor padrão quando não se define o ***flex:***. Mas, se um dos Elementos forem definidos com o valor de `flex: 1,` e o outro com o valor de `flex: 2,` o que recebeu o ***valor 2*** terá maior prioridade nos espaços vazios, pois, o ***espaço vazio total*** será ***dividido*** por ***3*** *(flex: 1 + flex: 2)* e um ficará com uma parte do espaço vazio e o outro ficará com duas partes do espaço vazio.
+
+* Se o ***Container() do meio*** for definido com o `flex: 4,` `fit: FlexFit.tight,` e o ***último Container()*** for definido com o `flex: 1,` `fit: FlexFi.loose,` o ***último Container()*** assumirá somente o espaço necessário para caber o conteúdo e sobrará espaços ao redor de todos os Containers, pois, o ***Flexible()*** respeita o `flex:` ele não irá tomar todo o espaço da tela.
+
+* O que acontece, que o ***Container() do meio*** foi definido para ocupar ***4/5 da tela*** *(4 de 5 partes)*, sendo que ***1/5*** ficou para o ***último Container()*** e como ele foi definido com `fit: FlexFit.loose,` ele não irá expandir, irá ocupar somente o espaço necessário e o espaço restante será distribuído ao redor, pois, foi definido na `Row()` o atributo `mainAxisAlignment: MainAxisAlignment.spaceAround,`
+
+Agora a diferença do `Flexible()` para o `Expanded()`, é que o ***Expanded*** é exatamente o ***Flexible*** setado com o atributo padrão `fit: FlexFit.tight,`.
+
+Então ao invés de usar o ***Flexible()*** usa-se o `Expanded()` ***sem precisar*** colocar o atributo `fit: FlexFit.tight,` com isso evita de se colocar mais um atributo no código.
+
+```
+main_flexible.dart
+
+...
+  body: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: <Widget>[
+      Container(
+        height: 100,
+        child: Text('Item 1 - pretty big!'),
+        color: Colors.red,
+      ),
+      Expanded(
+        flex: 4,
+        child: Container(
+          height: 100,
+          child: Text('Item 2'),
+          color: Colors.blue,
+        ),
+      ),
+      Flexible(
+        flex: 2,
+        fit: FlexFit.loose,
+        child: Container(
+          height: 100,
+          child: Text('Item 3'),
+          color: Colors.orange,
+        ),
+      ),
+    ],
+  ),
+...
+```
