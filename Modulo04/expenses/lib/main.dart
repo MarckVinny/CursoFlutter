@@ -87,6 +87,18 @@ class _MyHomePageState extends State<MyHomePage> {
       value: 211.30,
       date: DateTime.now().subtract(const Duration(days: 4)),
     ),
+    Transaction(
+      id: 'T3',
+      title: 'Conta de água',
+      value: 330.30,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T4',
+      title: 'Conta Cartão',
+      value: 1211.30,
+      date: DateTime.now(),
+    ),
   ];
 
   //* Filtrando as Transações Recentes
