@@ -67,8 +67,8 @@
     * [Criando a Barra de Percentagem - Aula 126](#criando-barra-percentage)
     * [Criando o Cálculo do Percentual - Aula 127](#criacao-calculo-percentual)
     * [Finalizando o Componente ChartBar - Aula 128](#finalizando-componente-chartbar)
-* [Aula Bônus Flexible e Expanded - Aula 129](#aula-bonus-flexible-expanded)
-* [](#)
+  * [Aula Bônus Flexible e Expanded - Aula 129](#aula-bonus-flexible-expanded)
+    * [Refatorando o ListView em ListTile - Aula 130](#refatorando-listview-listtile)
 * [](#)
 * [](#)
 * [](#)
@@ -2415,3 +2415,94 @@ main_flexible.dart
   ),
 ...
 ```
+
+## Refatorando o ListView em ListTile <a name='refatorando-listview-listtile'></a>
+
+#### [^Sumário^](#sumario)
+
+Dentro de ***transaction_list.dart*** em `ListView.builder(...)` iremos alterar as definições do `ListView()` a princípio todo o conteúdo do `Card()` será substituídos pelas seguintes definições:
+
+Digitando ***CTRL+ESPAÇO*** terá aceso a uma lista de atributos que podem ser usados no `ListTile()`.
+
+* `leading:` esse é o primeiro atributos a ser definido, ele fica no início do ***"tijolinho" da Lista***. 
+
+Neste componente iremos usar um Componente chamado `CircleAvatar()` que é um ***Avatar Circular***, onde iremos definir o valor da transação. Outro uso para o `leading:` é para se colocar um ***ícone*** `icon`.
+
+`radius: 30,` serve para definir o diâmetro o `CircleAvatar()` o tamanho mínimo padrão e `40`.
+
+`child:` neste atributo iremos definir a propriedade `Text('R\$${tr.value.toStringAsFixed(2)}')` que irá mostrar o ***valor da Transação***.
+
+
+`style:` este atributo define o estilo para o `Text()`.
+`const TextStyle(` esta propriedade define os valores do estilo do `Text()`.
+
+ `fontWeight: FontWeight.bold,),` este é p valor que define o ***Peso da Fonte***, neste caso negrito.
+
+Para que o `CircleAvatar()` tenha a cor primária do Thema que escolhemos, devemos usar o seguinte atributo `backgroundColor:`  com a propriedade `Theme.of(context).colorScheme.primary,`.
+
+Para que o valor da transação caiba dentro do Círculo, devemos envolver o `Text()` com um `Widget` ***Wrap with widget*** e renomear por `FittedBox()` e para que se tenha um espaço ao redor do ***Valor***, devemos também envolver o ***FittedBox*** com um `Padding()` ***Wrap with Padding***.
+
+* `title:` usado para definir o ***Título*** do `ListTile()`.
+
+`Text(tr.title,` é usado para definir o ***Título***.
+
+`style: Theme.of(context).textTheme.headline6),` nesta propriedade iremos definir o ***Estilo do Título***.
+
+* `subtitle:` este atributo é usado para definir o ***Subtítulo*** do `ListTile()`.
+
+`Text(DateFormat('d MMMM y', "pt_BR").format(tr.date),),` formata a data em português no ***subtítulo***.
+
+* `trailing:` este atributo é usado no final do `ListTile()`, pode ser usado para colocar um ***ícone*** `icon` ou um ***botão de função***.
+
+`const Icon(Icons.attach_money),` propriedade que adiciona um ***ícone de cifrão***.
+
+Finalizando a refatoração, vamos envolver o `ListTile()` com um `Widget` ***Wrap with widget*** e renomear por `Card()` para assim poder definir os atributos do `Card()`.
+
+* `elevation: 5,` este atributo define a elevação do `Card()` adicionando uma sombra por baixo.
+
+* `margin:` este atributo serve para definir as margens.
+
+`const EdgeInsets.symmetric(` esta propriedade define o espaço nas laterais horizontal e acima e abaixo vertical de tamanhos diferentes.
+
+`horizontal: 12, vertical: 3,),`
+
+```
+trasaction_list.dart
+
+...
+  return Card(
+    elevation: 6,
+    margin: const EdgeInsets.symmetric(
+      horizontal: 12,
+      vertical: 3,
+    ),
+    child: ListTile(
+      leading: CircleAvatar(
+        radius: 30,
+        foregroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FittedBox(
+            child: Text(
+              'R\$ ${tr.value.toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      title: Text(
+        tr.title,
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      subtitle: Text(
+        DateFormat('d MMMM y', "pt_BR").format(tr.date),
+      ),
+      trailing: const Icon(Icons.attach_money),
+    ),
+  );
+...
+```
+
