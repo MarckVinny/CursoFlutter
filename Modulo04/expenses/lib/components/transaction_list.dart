@@ -48,11 +48,14 @@ class TransactionList extends StatelessWidget {
                     vertical: 3,
                   ),
                   child: ListTile(
+                    //*todo: leading: usado para definir ícone ou Avatar no
+                    //*todo: inicio do ListTile()
                     leading: CircleAvatar(
                       radius: 30,
                       foregroundColor: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
+                        //*todo: FittedBox() usado para ajustar o conteúdo
                         child: FittedBox(
                           child: Text(
                             'R\$ ${tr.value.toStringAsFixed(2)}',
@@ -62,15 +65,20 @@ class TransactionList extends StatelessWidget {
                           ),
                         ),
                       ),
+                      //*todo: usa a cor primaria do Thema criado em main.dart
+                      //*todo: como preenchimento do CircleAvatar()
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
+                    //*todo: title: usado para definir o Título do ListTile()
                     title: Text(
                       tr.title,
                       style: Theme.of(context).textTheme.headline6,
                     ),
+                    //*todo: subtitle: usado para definir o Subtitulo do ListTile()
                     subtitle: Text(
                       DateFormat('d MMMM y', "pt_BR").format(tr.date),
                     ),
+                    //*todo: trailing: usado para definir ícone ou botão de ação no final do ListTile()
                     trailing: const Icon(Icons.attach_money),
                   ),
                 );
