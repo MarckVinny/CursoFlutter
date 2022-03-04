@@ -17,8 +17,15 @@ class ChartBar extends StatelessWidget {
       margin: EdgeInsets.all(3),
       child: Column(
         children: [
-          FittedBox(child: Text('R\$ ${value.toStringAsFixed(2)}')),
+          //*todo: Valor Transação
+          Container(
+            height: 20,
+            child: FittedBox(
+              child: Text('${value.toStringAsFixed(2)}'),
+            ),
+          ),
           const SizedBox(height: 5),
+          //*todo: Barra Cinza
           Container(
             height: 60,
             width: 10,
@@ -35,6 +42,7 @@ class ChartBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
+                //*todo: Barra Fracionada Percentage
                 FractionallySizedBox(
                   heightFactor: percentage,
                   child: Container(
@@ -48,7 +56,11 @@ class ChartBar extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          Text(label),
+          //*todo: Dia da Semana
+          Container(
+            height: 20,
+            child: Text(label),
+          ),
         ],
       ),
     );
