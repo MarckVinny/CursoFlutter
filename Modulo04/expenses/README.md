@@ -69,7 +69,7 @@
     * [Finalizando o Componente ChartBar - Aula 128](#finalizando-componente-chartbar)
   * [Aula Bônus Flexible e Expanded - Aula 129](#aula-bonus-flexible-expanded)
     * [Refatorando o ListView em ListTile - Aula 130](#refatorando-listview-listtile)
-* [](#)
+    * [Refatorando o Formulário de Transações - Aula 133](#refatorando-formulario-transacoes)
 * [](#)
 * [](#)
 * [](#)
@@ -2506,3 +2506,71 @@ trasaction_list.dart
 ...
 ```
 
+## Refatorando o Formulário de Transações <a name='refatorando-formulario-transacoes'></a>
+
+#### [^Sumário^](#sumario)
+
+Agora iremos modificar alguns Componentes do transaction_form.dart.
+
+Primeiramente será criado um ***label*** e um ***novo botão*** para selecionar uma data à transação.
+
+* ***label:*** irá armazenar a data selecionada, e se não estiver selecionada aparecerá um texto padrão informando que não tem nenhuma data selecionada.
+
+* ***botão:*** quando este botão for clicado, aparecerá um painel para fazer a seleção da data.
+
+Dentro de ***transaction_form.dart*** logo abaixo do `TextField()` referente ao ***Valor***, será adicionado mais uma ***Linha*** `Row()` e dentro serão criados os ***Filhos*** `children:` com os Componentes a seguir:
+
+* `const Text('Nenhuma data selecionada!'),` este será a nossa label:.
+
+* `TextButton(...),` este será o botão referente ao label e dentro será definido seus atributos.
+
+* `child: const Text('Selecionar Data'),` atributo com sua propriedade.
+
+* `style: TextStyle(fontWeight: FontWeight.bold),` define a fonte para negrito.
+
+* `onPressed: () { },` ativa o clique do botão com uma Função Vazia.
+
+Para dar altura ao label e ao `TextButton()` criados acima, iremos envolver a `Row()` com um `Container()` ***Wrap with Container*** definindo a ***altura*** `height: 50,` para ter uma distância satisfatória do Componente `TextField()`.
+
+```
+transaction_form.dart
+ 
+...
+    Container(
+        height: 50,
+        child: Row(
+        children: [
+            const Text('Nenhuma Data Selecionada!'),
+            TextButton(
+            onPressed: () {},
+            child: const Text(
+                'Selecionar Data',
+                style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            ),
+        ],
+        ),
+    ),
+...
+```
+
+Agora no Componente abaixo, o `TextButton()` será renomeado para `ElevatedButton()` e será retirado o atributo `style:` para que a cor do texto do botão fique branco.
+
+```
+transaction_form.dart
+ 
+...
+    Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+        Padding(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            child: ElevatedButton(
+            onPressed: _submitForm,
+            child: const Text('Nova Transação'),
+            ),
+        ),
+        ],
+    )
+...
+```
