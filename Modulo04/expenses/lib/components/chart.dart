@@ -36,10 +36,11 @@ class Chart extends StatelessWidget {
 
       return {
         //todo: define a Letra do dia da Semana
-        'day': DateFormat.E('pt_BR').format(weekDay)[0],
+        'day': DateFormat.E('pt_BR').format(weekDay),
         'value': totalSum,
       };
-    });
+      //*todo: .reversed.toList() reverte a ordem dos dias da semana
+    }).reversed.toList();
   }
 
   //todo: Calcula o Valor Total da Semana
