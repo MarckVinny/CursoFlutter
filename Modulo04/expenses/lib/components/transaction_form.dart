@@ -28,6 +28,16 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value);
   }
 
+  //*todo: Cria o Modal para Selecionar a Data
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -57,7 +67,8 @@ class _TransactionFormState extends State<TransactionForm> {
                 children: [
                   const Text('Nenhuma Data Selecionada!'),
                   TextButton(
-                    onPressed: () {},
+                    //*todo: chama a Função do Modal da Data por referência
+                    onPressed: _showDatePicker,
                     child: const Text(
                       'Selecionar Data',
                       style: TextStyle(fontWeight: FontWeight.bold),
