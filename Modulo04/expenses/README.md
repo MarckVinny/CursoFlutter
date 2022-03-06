@@ -70,7 +70,7 @@
 * [Aula Bônus Flexible e Expanded - Aula 129](#aula-bonus-flexible-expanded)
   * [Refatorando o ListView em ListTile - Aula 130](#refatorando-listview-listtile)
   * [Refatorando o Formulário de Transações - Aula 133](#refatorando-formulario-transacoes)
-* [](#)
+  * [Exibindo o DatePicker() Modal de Data - Aula 134](#exibindo-datepicker-modal-data)
 * [](#)
 * [](#)
 * [](#)
@@ -2572,5 +2572,210 @@ transaction_form.dart
         ),
         ],
     )
+...
+```
+
+## Exibindo o DatePicker() Modal de Data <a name='exibindo-datepicker-modal-data'></a>
+
+#### [^Sumário^](#sumario)
+
+Dentro de ***transaction_form.dart*** e dentro da ***Classe*** `_TransactionFormState` será criado uma ***Função Privada*** para chamar o `DatePicker()` que terá o nome `_showDatePicker(){...}` que é o mesmo nome da Função Interna do Flutter.
+
+* showDatePicker(...) é uma Função embutida no Flutter, ela recebe os parâmetros necessários para ***mostrar o DatePicker***.
+
+* `context:` é um parâmetro nomeado da Função `showDatePicker()`, `context`, é o parâmetro herdado de `_TransactionFormState` dentro do Componente `State`.
+
+* `initialDate:` data inicial `DateTime.now(),` data atual. Para se ter uma ***data pré-selecionada***.
+
+* `firstDate:` primeira data `DateTime(2019),` recebe como parâmetro obrigatório o ano de ***2019***, sendo assim, a data mais antiga que pode ser selecionada é ***01/01/2019***.
+
+* `lastDate:` última data `DateTime.now(),` só será permitido selecionar datas até o dia atual, não podendo selecionar datas futuras.
+
+Com isso, temos as definições iniciais para que o `DatePicker()` possa ser mostrado no ***APP***.
+
+Agora para que a Função `_showDatePicker()` que acabou de ser criada funcione corretamente, devemos chama-la por referência no `TextButton()` no atributo `onPressed:` substituindo a Função Anônima `() { }` por nossa Função recentemente criada `_showDatePicker(),`.
+
+```
+transaction_form.dart
+ 
+...
+  //*todo: Cria o Modal para Selecionar a Data
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    );
+  }
+...
+...
+botão Selecionar Data
+ 
+    const Text('Nenhuma Data Selecionada!'),
+    TextButton(
+    //*todo: chama a Função do Modal da Data por referência
+    onPressed: _showDatePicker,
+    child: const Text(
+        'Selecionar Data',
+        style: TextStyle(fontWeight: FontWeight.bold),
+    ),
+    ),
+...
+```
+
+Agora, como podemos pegar essa data e usar dentro da Aplicação?
+
+Para isso, será criado um atributo que não será `final` apesar de estar dentro do `State` que será do ***Tipo*** `DateTime` e será chamado de `_selectedDate;`
+
+```
+DateTime _selectedDate;
+```
+
+> ***Dica:*** usando o Tipo ***DateTime*** mais a frente na conclusão do código está dando erro na Aplicação, pois, o ***_selectedDate*** não pode ser NULO.
+A alternativa é fazer a declaração da variável ***por aferição*** usando `var` ao invés de `DateTime`.
+Então ficará assim `var _selectedDate;`
+
+A ***Função DatePicker()*** retorna return um ***Future<DateTime>***, ou seja, retorna algo no futuro, que ainda vai acontecer.
+
+Então, como se faz para obter uma informação de um Future?
+
+Existe uma ***Função chamada .then()*** e ela recebe uma Função que será chamada no futuro quando o usuário selecionar a Data. E é exatamente nesta Função que irá receber o ***pickedDate***, ou seja, a data que o usuário selecionou.
+
+Quando se clica no botão para chamar o ***Modal de Data*** `DatePicker()`, a Função `_showDatePicker` é chamada e executada completamente abrindo assim o Modal, e o mesmo fica aberto por tempo indeterminado *"no futuro"*, esperando uma ação do Usuário.
+
+No momento em que chamou e registrou um Função `.then((...) {...})`  com o parâmetro ***pickedDate*** essa Função será chamada no momento que o Usuário selecionar a Data e der ***OK*** ou mesmo quando o Usuário ***Cancelar***.
+
+A Função `.then((pickedDate) {...})`, espera uma data ser selecionada e aguarda um ***OK*** ou um **CANCEL** do Usuário para então ser chamada.
+
+Agora, no final da Função ***_showDatePicker(...)*** será continuado com a Função ***.then()*** que ficará da seguinte forma, `_showDatePicker(...).then((...){...})`.
+
+Dentro da Função `.then((pickedDate) {...})` será criado a lógica do botão Selecionar Data.
+
+* `if (pickedDate == null) {return;}` Se pickedDate for nulo retorne.
+
+* `_selectedDate = pickedDate;` Caso a data esteja selecionada, atribui o valor de pickedDate à _selectedDate.
+
+```
+transaction_form.dart
+ 
+...
+  //*todo: Cria o Modal para Selecionar a Data
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+      //*todo: Função que seleciona uma Data
+    ).then((pickedDate){
+        if(pickedDate == null){
+            return;
+        }
+ 
+        _selectedDate = pickedDate;
+    });
+...
+```
+
+Essa varável `_selectedDate` pode ser usada dentro do label, substituindo o texto `"Nenhuma Data Selecionada"` quando uma ***Data for selecionada***.
+
+A lógica ficará da seguinte forma:
+
+* Caso `_selectedDate` for igual a nulo `== null`
+
+* mostrar a frase `? 'Nenhuma Data Selecionada!',`
+
+* Caso Contrário `:` mostre a Data Selecionada `'Data Selecionada: ${DateFormat(dd/MM/y).format(_selectedDate)}'` Mas, para poder usar o ***DateFormat()*** será preciso importar a internacionalização, caso não tenha sido importada anteriormente. 
+
+```
+import 'package:intl/intl.dart';
+...
+```
+
+E para dar um toque a mais, vamos usar o Expanded() no Text() para que o botão alinhe no final da linha Row().
+
+```
+transaction_form.dart
+ 
+...
+    Container(
+        height: 50,
+        child: Row(
+        children: [
+            Expanded(
+            child: Text(
+                _selectedDate == null
+                    ? 'Nenhuma Data Selecionada!'
+                    : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
+            ),
+            ),
+...
+```
+
+Da for que se encontra, nada será alterado, pois, para que ocorra mudança no Estado `State` precisa-se usar a ***Função setState()*** passando a Função de retorno ***_selectedDate = pickedDate;***  dentro da ***Função _showDatePicker*** e logo após a ***Função .then((pickedDate) {...}*** que ficará da seguinte forma:
+
+```
+...
+    setState(() {
+      _selectedDate = pickedDate;
+    })
+...
+```
+
+```
+transaction_form.dar     alterações da aula de hoje.
+ 
+// IMPORT
+import 'package:intl/intl.dart';
+...
+...
+// VARIÁVEL
+  var _selectedDate;
+...
+...
+// SHOW DATE PICKER COMPLETO
+  //*todo: Cria o Modal para Selecionar a Data
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+      //*todo: Função que seleciona uma Data
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+ 
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
+...
+...
+// LABEL E BOTÃO SELECIONAR DATA
+    Container(
+        height: 50,
+        child: Row(
+        children: [
+            Expanded(
+            child: Text(
+                _selectedDate == null
+                    ? 'Nenhuma Data Selecionada!'
+                    : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
+            ),
+            ),
+            TextButton(
+            //*todo: chama a Função do Modal da Data por referência
+            onPressed: _showDatePicker,
+            child: const Text(
+                'Selecionar Data',
+                style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            ),
+        ],
+        ),
+    ),
 ...
 ```
