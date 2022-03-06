@@ -11,15 +11,14 @@ class TransactionForm extends StatefulWidget {
 }
 
 class _TransactionFormState extends State<TransactionForm> {
-  final titleController = TextEditingController();
-
-  final valueController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _valueController = TextEditingController();
 
   _submitForm() {
-    final title = titleController.text;
+    final title = _titleController.text;
     // double.tryParse tenta converter o valor digitado em um
     // valor double, ?? caso contrario, coloca o valor padrão 0.0
-    final value = double.tryParse(valueController.text) ?? 0.0;
+    final value = double.tryParse(_valueController.text) ?? 0.0;
 
     if (title.isEmpty || value <= 0) {
       return;
@@ -47,14 +46,14 @@ class _TransactionFormState extends State<TransactionForm> {
         child: Column(
           children: [
             TextField(
-              controller: titleController,
+              controller: _titleController,
               onSubmitted: (_) => _submitForm(),
               decoration: const InputDecoration(
                 labelText: 'Título',
               ),
             ),
             TextField(
-              controller: valueController,
+              controller: _valueController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _submitForm(),
               decoration: const InputDecoration(
