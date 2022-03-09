@@ -79,13 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Adiciona uma Nova Transação
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       // cria um ID único randômico com valor double e transforma em String.
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     // Controla o Estado da Tela
@@ -97,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  //todo: Função que chama o Componente TransactionForm()
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
