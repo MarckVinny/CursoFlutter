@@ -67,39 +67,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    //* Mocando Transações
-    Transaction(
-      id: 'T0',
-      title: 'Conta Antiga',
-      value: 400.00,
-      date: DateTime.now().subtract(const Duration(days: 30)),
-    ),
-    Transaction(
-      id: 'T1',
-      title: 'Tênis de Corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      id: 'T2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
-    Transaction(
-      id: 'T3',
-      title: 'Conta de água',
-      value: 330.30,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 'T4',
-      title: 'Conta Cartão',
-      value: 1211.30,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _transactions = [];
 
   //* Filtrando as Transações Recentes
   List<Transaction> get _recentTransactions {

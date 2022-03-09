@@ -75,7 +75,13 @@ class Chart extends StatelessWidget {
                 label: tr['day'],
                 value: tr['value'],
                 //todo: Calcula o Percentual da Semana
-                percentage: (tr['value'] as double) / _weekTotalValue,
+                //? lê-se:
+                //? caso o Valor Total da Semana for igual a ZERO
+                //? retorna ZERO
+                //? caso contrário faz a divisão
+                percentage: _weekTotalValue == 0
+                    ? 0
+                    : (tr['value'] as double) / _weekTotalValue,
               ),
             );
           }).toList(),
