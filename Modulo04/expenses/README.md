@@ -71,6 +71,9 @@
   * [Refatorando o ListView em ListTile - Aula 130](#refatorando-listview-listtile)
   * [Refatorando o Formulário de Transações - Aula 133](#refatorando-formulario-transacoes)
   * [Exibindo o DatePicker() Modal de Data - Aula 134](#exibindo-datepicker-modal-data)
+  * [Cadastrando uma Nova Transação com Data - Aula 135](#cadastrando-nova-transacao-data)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 * [](#)
@@ -2779,3 +2782,130 @@ import 'package:intl/intl.dart';
     ),
 ...
 ```
+
+## Cadastrando uma Nova Transação com Data <a name='cadastrando-nova-transacao-data'></a>
+
+#### [^Sumário^](#sumario)
+
+Para cadastrar a Transação com o novo Componente de Data criado anteriormente será preciso fazer alguns ajustes em nosso código.
+
+A primeira coisa a ser feita é limpar a ***Lista e Transações*** em ***main.dart*** mas fazendo isso irá ocorrer um ***erro***, pois o *Método* `_weekTotalValue()` em ***chart.dart*** irá fazer uma ***divisão por ZERO***.
+
+Se colocar uma ***Lista de Transação vazia***, o *Método* `_weekTotalValue()` que está calculando o ***Total de Transações da Semana*** e se esse valor estiver zerado, irá ter um erro na renderização dos Componentes.
+
+Para resolver esse erro, devemos entrar em ***chart.dart*** e alterar algumas linhas, no ***Componente*** `ChartBar()` no atributo `percentage:`, devemos impossibilitar a ***divisão por ZERO*** usando um ***Operador Ternário*** que ficará da seguinte forma:
+
+```
+chart.dart
+ 
+...
+    //todo: Calcula o Percentual da Semana
+    //? lê-se: 
+    //? caso o Valor Total da Semana for igual a ZERO
+    //? retorna ZERO
+    //? caso contrário faz a divisão
+    percentage: _weekTotalValue == 0
+        ? 0
+        : (tr['value'] as double) / _weekTotalValue,
+    ),
+...
+```
+
+> ***Dica:*** para poder visualizar os comentários personalizados, use a extensão do VSCode ***Better Comments*** do autor ***Aaron Bond***, ela é bastante interessante.
+
+O próximo passo é passar a ***Data*** para o Componente `TransactionForm()` e para isso precisamos fazer algumas alterações em ***transaction_form.dart***.
+
+Temos então a ***Data*** que é o `DateTime _selectedDate;` e o Componente `TransactionForm()` recebe uma ***Função onSubmit()*** `final void Function(String, double) onSubmit;` como parâmetro que está sendo chamada `widget.onSubmit(title, value);` passando o ***Título*** `title` e o ***Valor*** `value`.
+
+Agora também será preciso passar a ***Data***, então, essa ***Função*** além de receber uma ***String*** e um ***double***, também irá receber um ***DateTime*** ficando da seguinte forma:
+
+
+```
+transaction_form.dart
+ 
+...
+final void Function(String, double, DateTime) onSubmit;
+...
+```
+
+Significando então, que agora se pode passar o `_selectedDate` como terceiro parâmetro para a ***Função*** `onSubmit()` quando ela for chamada:
+
+```
+transaction_form.dart
+ 
+...
+widget.onSubmit(title, value, _selectedDate);
+...
+```
+
+E quem chama o ***Componente*** `TransactionForm()` é a ***Função*** `_openTransactionFormModal()` dentro de ***main.dart*** em ***MyHomePage*** passando outra Função por parâmetro chamada ***Adicionar Transação*** `_addTransaction()`.
+
+A ***Função _addTransaction()*** é a Função que vai receber por parâmetro o ***Título*** `title`, o ***Valor*** `value` e agora a ***Data*** `date`:
+
+```
+main.dart
+ 
+...
+  // Adiciona uma Nova Transação
+  _addTransaction(String title, double value, DateTime date) {
+    final newTransaction = Transaction(
+      // cria um ID único randômico com valor double e transforma em String.
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: date,
+    );
+...
+```
+
+Dessa forma, vamos conseguir passar uma ***Data*** a partir do ***Formulário de Transação*** para o Componente que controla o ***Estado*** `State` da Aplicação que tem a ***Lista de Transações Cadastradas***.
+
+Outra coisa que podemos fazer é que, ao invés de obrigar o Usuário entrar no ***DatePicker()*** para escolher uma ***Data***, é já deixa a ***Data Atual*** selecionada por padrão:
+
+
+```
+transaction_form.dart  
+ 
+...
+  DateTime _selectedDate = DateTime.now();
+...
+```
+
+### ***Código modificado na aula de hoje:***
+
+
+```
+transaction_form.dart
+ 
+...
+class TransactionForm extends StatefulWidget {
+  final void Function(String, double, DateTime) onSubmit;
+ 
+  // ignore: use_key_in_widget_constructors
+  const TransactionForm(this.onSubmit);
+ 
+  @override
+  State<TransactionForm> createState() => _TransactionFormState();
+}
+ 
+class _TransactionFormState extends State<TransactionForm> {
+  final _titleController = TextEditingController();
+  final _valueController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
+ 
+  _submitForm() {
+    final title = _titleController.text;
+    // double.tryParse tenta converter o valor digitado em um
+    // valor double, ?? caso contrario, coloca o valor padrão 0.0
+    final value = double.tryParse(_valueController.text) ?? 0.0;
+ 
+    if (title.isEmpty || value <= 0) {
+      return;
+    }
+ 
+    widget.onSubmit(title, value, _selectedDate);
+  }
+...
+```
+
+##
