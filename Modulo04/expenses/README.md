@@ -75,8 +75,7 @@
 * [Implementando a Função Excluir Transação - Aula 136](#implementando-funcao-excluir-transacao)
 * [Definindo a Função removeTransaction() - Aula 136](#definindo-funcao-removetransacao)
 * [Códigos com as Alterações - Aula 136](#codigos-com-alteracoes-136)
-* [](#)
-* [](#)
+
 
 # MÓDULO 4
 
@@ -3068,3 +3067,6 @@ transaction_list.dart
 ...
 ```
 
+# Finalizando o Módulo 4
+
+Finalizamos o Módulo com algumas pendencias, principalmente relacionado a responsividade do App, mas esse e outros tópicos serão abordados no próximo módulo.
