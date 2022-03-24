@@ -15,6 +15,9 @@ class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //* retira o banner de debug
+      debugShowCheckedModeBanner: false,
+
       //* Traduzindo a internacionalização INTL
       // ignore: prefer_const_literals_to_create_immutables
       localizationsDelegates: [
@@ -22,6 +25,7 @@ class ExpensesApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: const [Locale('pt', 'BR')],
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.purple,
@@ -63,27 +67,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    //* Mocando Transações
-    Transaction(
-      id: 'T0',
-      title: 'Conta Antiga',
-      value: 400.00,
-      date: DateTime.now().subtract(const Duration(days: 30)),
-    ),
-    Transaction(
-      id: 'T1',
-      title: 'Tênis de Corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      id: 'T2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
-  ];
+  final List<Transaction> _transactions = [];
 
   //* Filtrando as Transações Recentes
   List<Transaction> get _recentTransactions {
@@ -95,13 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Adiciona uma Nova Transação
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       // cria um ID único randômico com valor double e transforma em String.
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     // Controla o Estado da Tela
@@ -113,6 +97,14 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  //Remove um Elemento da Lista de Transações
+  _removeWhere(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+
+  //todo: Função que chama o Componente TransactionForm()
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -140,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //* Filtra as Transações Recentes
             Chart(_recentTransactions),
             //* Comunicação Direta -> através de Dados
-            TransactionList(_transactions),
+            TransactionList(_transactions, _removeWhere),
           ],
         ),
       ),

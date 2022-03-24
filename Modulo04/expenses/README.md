@@ -59,13 +59,23 @@
     * [Função Getter - Aula 122](#funcao-getter)
     * [Atribuindo Valores Dinamicamente ao Chart - Aula 122](#atribuindo-valores-dinamicamente-chart)
     * [Criando a Soma dos Valores das Transações - Aula 122](#criando-soma-valores-transacoes)
-  * [Mocando Transações para teste -Aula 123](#mocando-transacoes-teste)
+    * [Mocando Transações para teste -Aula 123](#mocando-transacoes-teste)
     * [Criando um Filtro para as Transações Recentes - Aula 123](#criando-filtro-transacoes-recentes)
-      * [Critério para o Filtro de Transações da Semana: - Aula 123](#criterios-filtro-transacao-semana)
-* [](#)
-* [](#)
-* [](#)
-* [](#)
+    * [Critério para o Filtro de Transações da Semana: - Aula 123](#criterios-filtro-transacao-semana)
+    * [Mostrando o Resultado das Transações - Aula 124](#mostrando-resultado-transacoes)
+    * [Criação do Componente Chart Bar - Aula 125](#criacao-componente-chart-bar)
+    * [Criando a Barra de Percentagem - Aula 126](#criando-barra-percentage)
+    * [Criando o Cálculo do Percentual - Aula 127](#criacao-calculo-percentual)
+    * [Finalizando o Componente ChartBar - Aula 128](#finalizando-componente-chartbar)
+* [Aula Bônus Flexible e Expanded - Aula 129](#aula-bonus-flexible-expanded)
+  * [Refatorando o ListView em ListTile - Aula 130](#refatorando-listview-listtile)
+  * [Refatorando o Formulário de Transações - Aula 133](#refatorando-formulario-transacoes)
+  * [Exibindo o DatePicker() Modal de Data - Aula 134](#exibindo-datepicker-modal-data)
+  * [Cadastrando uma Nova Transação com Data - Aula 135](#cadastrando-nova-transacao-data)
+* [Implementando a Função Excluir Transação - Aula 136](#implementando-funcao-excluir-transacao)
+* [Definindo a Função removeTransaction() - Aula 136](#definindo-funcao-removetransacao)
+* [Códigos com as Alterações - Aula 136](#codigos-com-alteracoes-136)
+
 
 # MÓDULO 4
 
@@ -2031,3 +2041,1032 @@ main.dart
       ),
 ...
 ```
+
+## Mostrando o Resultado das Transações <a name='mostrando-resultado-transacoes'></a>
+
+#### [^Sumário^](#sumario)
+
+A seguir será apresentado de forma simples, a soma dos valores das transações de cada dia da semana na tela, mas por enquanto sem nenhuma formatação.
+
+No componente ***chart.dart*** serão retirados os ***prints***, pois, não são mais necessários.
+
+Após isso, dentro de `build`, nos ***Filhos*** `children:` do componente `Chart`  iremos pegar o resultado do *Método* `groupedTransaction`  será uma ***Lista*** `List` e esta lista tem o *Método* `Map` e para garantir que será retornado uma Lista, acrescentamos o `.toList()` no final.
+
+```
+children: groupedTransaction.map().toList(),
+```
+
+No *Método* `Map` serão mapeados os Elementos e recebe por parâmetro a ***Transação Agrupada*** `(tr)` que retornará `return` um ***widget***, já que o `children:` recebe uma ***Lista de Componentes*** então, será passado um ***valor textual*** `Text(` para acessar a ***chave do map*** será usado `'${tr['day']}:` e para o ***valor do map*** será usado `${tr['value']}');`.  Neste caso, todos os valores serão colocados dento do ***Componente Card*** e já que `children:` está dentro do ***Componente Row***, os valores serão mostrados na tela lado a lado em uma linha.
+
+```
+  return Text('${tr['day']}: ${tr['value']}');
+```
+
+```
+chart.dart    Componente Card
+ 
+...
+    return Card(
+      elevation: 6,
+      margin: const EdgeInsets.all(20),
+      child: Row(
+        children: groupedTransaction.map((tr) {
+          return Text('${tr['day']}: ${tr['value']}');
+        }).toList(),
+      ),
+    );
+...
+```
+## Criação do Componente Chart Bar <a name='criacao-componente-chart-bar'></a>
+
+#### [^Sumário^](#sumario)
+
+Na pasta ***/components*** será criado o arquivo ***chart_bar.dart*** e dentro dele digitando `stl` será auto completado o esqueleto da classe de nosso ***Componente ChartBar***.
+
+Na construção do Componente iremos criar 3 atributos `final` por ser um ***Componente Statelesswidget***.
+
+```
+  final label;
+  final value;
+  final double percentage;
+```
+
+No ***Construtor*** do Componente, serão usados parâmetros nomeados, pois o entendimento fica melhor no código.
+
+Principalmente quando se tem dois valores de mesmo Tipo isso pode gerar confusão, pois, será que é o ***valor gasto*** ou o ***valor da percentage***.
+
+```
+  ChartBar({
+    required this.label,
+    required this.value,
+    required this.percentage,
+  });
+```
+
+Como visto anteriormente, que dentro do ***Componente*** `ChartBar` terá uma ***coluna*** `Column` que na parte de cima vai ficar o ***valor*** `value` no meio vai ficar a ***barra*** representando a `percentage` e a parte de baixo fica o `label` com o ***dia da semana***.
+
+Então dentro do `build` o `Container` será substituído pelo ***Componente Column***, dentro de `Column` terá um `children:` que receberá inicialmente um ***valor textual*** `Text(` para representar o ***símbolo do Real*** usa se `'R\$` e para interpolar o valor será usado `${value` e para fixar duas casas decimais usa-se `.toStringAsFixed(2)}'),`
+
+Entre os ***Componentes*** `Text()` e `Container()`, será usado um ***SizeBox*** com ***5*** de altura `SizeBox(height: 5)`,
+
+Inicialmente a formatação da barra de percentage terá um `Container(` que terá uma ***altura*** `height` de `60` e uma ***largura*** `width` de `10` e o ***Filho*** `children:` inicialmente terá um ***valor nulo*** `null`. Posteriormente será criado a lógica de como a barra será pintada com a percentage das transações do dia.
+
+```
+chart_bar.dart
+
+...
+    child: Column(
+      children: [
+        Text('R\$ ${value.toStringAsFixed(2)}'),
+        const SizedBox(height: 5),
+        Container(
+          height: 60,
+          width: 10,
+          child: null,
+        ),
+        const SizedBox(height: 5),
+        Text(label),
+      ],
+    ),
+...
+```
+
+Para usar o ***Componente ChartBar*** dentro do ***Componente Chart***, é preciso primeiramente ***importar*** o componente `import 'chart_bar.dart';`. E chamar o ***Componente*** `ChartBar` dentro de `build` substituindo o ***Componente*** `Text()`.
+
+Dentro do Componente ChartBar, serão colocados os atributos pegando seus valores dinamicamente:
+
+* `label:` receberá o dia da semana através de `tr['day'],`
+* `value:` receberá a soma da transação através de `tr['value'],`
+* `percentage:` a princípio receberá o valor `0`.
+
+```
+chart.dart
+
+...
+    children: groupedTransaction.map((tr) {
+      return ChartBar(
+        label: tr['day'],
+        value: tr['value'],
+        percentage: 0,
+      );
+    }).toList(),
+...
+```
+
+## Criando a Barra de Percentagem <a name='criando-barra-percentage'></a>
+
+#### [^Sumário^](#sumario)
+
+A Barra será criada dentro do ***Componente ChartBar*** em ***chart_bar.dart***.
+
+Agora dentro de `build(){...},` dentro de `Column()` e por final dentro de `Container()` no atributo `child:` será usado o ***Componente*** `Stack()` e a lógica será que um dos ***Filhos*** `children:` do Componente seja usado para desenhar a barra *(contorno e preenchimento)* e o outro ***Filho*** para pintar a percentage do valor gasto naquele dia específico.
+
+O ***Componente Stack()***, é usado para empilhar diversos Componentes ***um em cima do outro***.
+
+Agora dentro do ***Componente*** `Stack()` e no atributo `children:` será adicionado um `Container()` que irá definir a estrutura da ***Barra***.
+Dentro do `Container()` não terá um atributo ***Filho*** `child:`  mas sim um `decoration:` e para definir a borda será usado o ***Componente*** `BoxDecoration()` e dentro o atributo `border:` borda em todos os lados `Border.all()` e dentro serão definidos dois atributos o primeiro será a cor, `color: Colors.grey,` e o segundo será a largura `width:` da borda que terá o valor `1.0,`.
+
+Para definir a ***cor de preenchimento*** da ***barra*** usa-se o atributo `color:` e o valor da cor usa-se `Colors.grey.shade200,` que será um tom mais claro que o grey cinza normal.
+
+Para arredondar as pontas da ***barra***, usa-se o atributo `borderRadius:` com o valor `BorderRadius.circular(5),` como a largura da ***barra*** é ***10*** foi usado o valor ***5*** para que o arredondamento ficasse perfeito.
+
+```
+chart_bar.dart
+ 
+...
+    Container(
+    height: 60,
+    width: 10,
+    child: Stack(
+        children: [
+        Container(
+            decoration: BoxDecoration(
+            border: Border.all(
+                color: Colors.grey,
+                width: 1,
+            ),
+            color: Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(5),
+            ),
+        ),
+        ],
+    ),
+    ),
+...
+```
+
+O próximo Componente que será defino, será o que irá pintar a percentage de transações referentes ao dia da semana em questão.
+
+O ***Componente*** é o ***Sizedbox Fracionado*** `FracionallySizedBox()` o que regula o ***fator da altura*** da barra é o atributo `heightFactor:` e o que irá controlar a altura é o atributo que definimos anteriormente `percentage,`.
+
+O ***Componente SizedBox Fracionado*** também tem um `child:` e também terá o `BoxDecoration()` com os atributos de `cor:` com valor pego a partir do Tema `Theme.of(context).colorScheme.primary,`  que será a cor primária da aplicação.
+
+E para arredondar as pontas do ***Componente SizedBox Fracionado***, será usada a mesma definição feita no Componente anterior, `borderRadius: BorderRadius.circular(5),`.
+
+A definições estão feitas, mas se salvar e tentar visualizar as alterações na tela do dispositivo, não acontecerá nada, pois, a ***percentage*** está definida com valor ***0***, mas se colocar um valor diferente de zero, como por exemplo ***30%*** `percentage: 0.3,` será possível ver como será pintado a percentage na barra.
+
+
+```
+chart.dart
+ 
+...
+     child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: groupedTransaction.map((tr) {
+          return ChartBar(
+            label: tr['day'],
+            value: tr['value'],
+            percentage: 0.3,
+          );
+        }).toList(),
+...
+```
+
+Se perceber, da forma como está definido o ***Componente*** `Stack()`, verá que a ***barra de percentage*** está sendo pintada de cima para baixo, sendo que o usual, é ser pintada de baixo para cima.
+
+Para corrigir esse problema, basta adicionar o atributo `alignment: Alignment.bottomCenter,` que alinha na base e ao centro na vertical.
+
+
+```
+chart_bar.dart
+ 
+...
+    FractionallySizedBox(
+        heightFactor: percentage,
+        child: Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            borderRadius: BorderRadius.circular(5),
+        ),
+        ),
+    )
+...
+```
+
+## Criando o Cálculo do Percentual <a name='criacao-calculo-percentual'></a>
+
+#### [^Sumário^](#sumario)
+
+Será criado um ***Getter*** que irá calcular o ***Total das Transações da Semana***, para isso será criado um ***Getter*** `get` que ***retornará*** `return` um `double` e o nome da ***Classe*** que será restrito a esse ***Componente*** é `_weekTotalValue {...}`, pois, a partir do valor total da semana se consegue ter um ***percentual***, uma divisão entre o ***Total do Dia*** com o ***Total da Semana*** e assim ter um ***percentual*** entre ***0*** e no máximo ***1***.
+
+Se todas as transações da semana forem em um único dia, o ***percentual*** ficará somente naquele dia.
+
+Então, dentro de `_weekTotalValue {...}` será ***retornado*** `return` a Lista de Transações da semana `groupedTransactions` e será criado um *Método* `.fold()`, dentro será atribuído como ***Valor Inicial*** de `0.0`, já que se quer calcular o ***Valor Total da Semana*** e o segundo Elemento, será uma ***Função*** `(...){...}` que recebe dois parâmetros: que serão o ***Acumulador*** `acc` e o ***Elemento Atual*** `item` `(acc, item) {...}`.
+
+>O *Método* `.fold()` é parecido com o *Método* `.reduce()`, pois, possui um ***Acumulador*** e o ***Elemento Atual*** que vai fazendo uma operação sempre retornando um Elemento que será usado como ***acumulador*** na próxima iteração.
+
+Já que estamos percorrendo o `groupedTransactions`, o item é exatamente o ***Map*** que retorna o ***Dia da Semana*** `'day'` e o ***valor das transações*** daquele dia `'value'`.
+
+Então o ***item*** se chamará `tr` e o ***Acumulador acc*** se chamará `sum` ***soma*** `(sum, tr) {...}`, sempre será retornado `return` o ***valor das Transações Agrupadas*** `groupedTransactions` e no final terá o ***Valor Total da Semana*** `_weekTotalValue {...}`.
+
+Então, *"lembrando que na primeira vez que sum for chamado, ele terá o valor inicial 0.0"* dentro de ***(sum, tr) {...}*** será retornado `return` vai pegar o valor de `sum + (tr['value'] as double);`.
+
+Concluindo, o resultado deste `.fold()`  será a ***Soma Total da Semana***.
+
+```
+chart.dart
+ 
+...
+  double get _weekTotalValue {
+    return groupedTransaction.fold(0.0, (sum, tr) {
+      return sum + (tr['value'] as double);
+    });
+  }
+...
+```
+
+E a ***Função*** `_weekTotalValue` será chamada no atributo `percentage:` em ***chart.dart***.
+
+E para calcular a percentage se dará da seguinte maneira, o ***Valor do Dia*** `(tr['value'] as double)` ***dividido*** `/`  pela ***Soma Total da Semana*** `_weekTotalValue`.
+
+```
+chart.dart
+ 
+...
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: groupedTransaction.map((tr) {
+          return ChartBar(
+            label: tr['day'],
+            value: tr['value'],
+            //todo: Calcula o Percentual da Semana
+            percentage: (tr['value'] as double) / _weekTotalValue,
+          );
+        }).toList(),
+      ),
+...
+```
+
+## Finalizando o Componente ChartBar <a name='finalizando-componente-chartbar'></a>
+
+#### [^Sumário^](#sumario)
+
+Para finalizar o ***Componente ChartBar***, serão feitos alguns ajustes visuais corrigindo alguns problemas com alinhamentos, paddings, tamanho de fontes entre outros.
+
+No ***Componente Chart***, iremos alterar o alinhamento da `Row()` para que os Elementos sejam distribuídos com espaçamentos iguais, para isso será usado o atributo `mainAxisAlignment:` com o valor `MainAxisAlignment.spaceAround,`
+
+```
+chart.dart
+ 
+...
+      child: Row(
+        //todo: Alinha com espaçamentos iguais
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+...
+```
+
+Ainda dentro do ***Componente Chart***, iremos alterar a aparência do ***Componente*** `ChartBar()`, o mesmo será envolvido por um ***widget*** `Wrap with widget` que será renomeado para `Flexible()`  ele possui um atributo chamado `fit:`  que possui duas propriedades, a ***FlexFit.loose***, que é o valor padrão e a que será usada que é a `FlexFit.tight` com isso, cada elemento do ChartBar terá a mesma distância.
+
+```
+chart.dart
+...
+    return Flexible(
+    fit: FlexFit.tight,
+    child: ChartBar(
+        label: tr['day'],
+        value: tr['value'],
+        //todo: Calcula o Percentual da Semana
+        percentage: (tr['value'] as double) / _weekTotalValue,
+    ),
+    );
+...
+```
+
+Agora em ***chart_bar.dart***, para fazer com que a `Label` onde se encontra o valor das transações não fique grande demais e acabe prejudicando o visual quando tiver valores com números muito grades, iremos envolver o ***Componente*** `Text()` com um ***widget*** `Wrap with widget` e o renomear por `FittedBox()`, isso fará com que o texto se ajuste diminuindo o tamanho da fonte.
+
+```
+chart_bar.dart
+ 
+...
+     children: [
+       FittedBox(child: Text('R\$ ${value.toStringAsFixed(2)}')),
+...
+```
+
+Para finalizar, será adicionado um `Padding()` na `Row()` para que os Elementos não fiquem grudados nas bordas do `Card()`.
+
+O ***Componente*** `Row()` será envolvido por um ***Padding*** `Wrap with padding` e o valor do `Padding()` será `8.0`.
+
+```
+chart.dart
+ 
+...
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+...
+```
+
+## Aula Bônus Flexible e Expanded <a name='aula-bonus-flexible-expanded'></a>
+
+#### [^Sumário^](#sumario)
+
+Nesta aula o arquivo de exemplo é o ***main_flexible.dart***, neste arquivo se encontra 3 `Container()` definidos somente com ***altura*** `height: 100,` contendo um atributo `child: Text(),` com textos de tamanhos diferentes.
+Com isso cada `Container()` assume o a largura necessária para caber o texto.
+
+Pegando o `Container()` do meio e o evolvendo com um ***Widget*** `Wrap with widget` e o renomeando para `Flexible()`, com isso nos possibilitará trabalhar com duas propriedades: a `fit:` e a `flex:`.
+
+* `fit: FlexFit.loose,` *(loose significa solto)* esta é a propriedade padrão do `Flexible()`, é ela que vem habilitada se não for definido nenhum atributo. Esta propriedade faz a mesma coisa que o `Container()` ela ajusta a largura conforme o conteúdo. Ou se definir uma ***largura*** `width: 200,` para o ***Filho*** `child:` do Componente ele ocupará somente o que foi definido.
+
+* `fit: FlexFit.tight,` *(tight significa apertado)* o `Flexible()` irá expandir o Elemento para ocupar todos os espaços vazios da linha. Como neste primeiro exemplo só estamos definindo o `Flexible()` no ***Container do meio***, por ser o único Componente que irá concorrer pelos espaços extra, ele vai assumir todos os espaços vazios e os outros Componentes continuarão da mesma forma que antes, ocupando somente o espaço necessário.
+
+Agora envolvendo o ***terceiro*** `Container()` com um ***Widget*** `Wrap with widget` e o renomeando para `Flexible()` e adicionando o mesmo atributo `fit: FlexFit.tight,` será possível perceber que agora os dois Elementos estarão concorrendo pelos espaços vazios e tanto um quanto o outro, irão dividir entre si.
+
+Agora iremos falar do ***atributo/propriedade*** que terá mais prioridade para pegar os espaços vazios e expandir mais que o outro.
+
+* `flex: 1,` esse é o valor padrão quando não se define o ***flex:***. Mas, se um dos Elementos forem definidos com o valor de `flex: 1,` e o outro com o valor de `flex: 2,` o que recebeu o ***valor 2*** terá maior prioridade nos espaços vazios, pois, o ***espaço vazio total*** será ***dividido*** por ***3*** *(flex: 1 + flex: 2)* e um ficará com uma parte do espaço vazio e o outro ficará com duas partes do espaço vazio.
+
+* Se o ***Container() do meio*** for definido com o `flex: 4,` `fit: FlexFit.tight,` e o ***último Container()*** for definido com o `flex: 1,` `fit: FlexFi.loose,` o ***último Container()*** assumirá somente o espaço necessário para caber o conteúdo e sobrará espaços ao redor de todos os Containers, pois, o ***Flexible()*** respeita o `flex:` ele não irá tomar todo o espaço da tela.
+
+* O que acontece, que o ***Container() do meio*** foi definido para ocupar ***4/5 da tela*** *(4 de 5 partes)*, sendo que ***1/5*** ficou para o ***último Container()*** e como ele foi definido com `fit: FlexFit.loose,` ele não irá expandir, irá ocupar somente o espaço necessário e o espaço restante será distribuído ao redor, pois, foi definido na `Row()` o atributo `mainAxisAlignment: MainAxisAlignment.spaceAround,`
+
+Agora a diferença do `Flexible()` para o `Expanded()`, é que o ***Expanded*** é exatamente o ***Flexible*** setado com o atributo padrão `fit: FlexFit.tight,`.
+
+Então ao invés de usar o ***Flexible()*** usa-se o `Expanded()` ***sem precisar*** colocar o atributo `fit: FlexFit.tight,` com isso evita de se colocar mais um atributo no código.
+
+```
+main_flexible.dart
+
+...
+  body: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: <Widget>[
+      Container(
+        height: 100,
+        child: Text('Item 1 - pretty big!'),
+        color: Colors.red,
+      ),
+      Expanded(
+        flex: 4,
+        child: Container(
+          height: 100,
+          child: Text('Item 2'),
+          color: Colors.blue,
+        ),
+      ),
+      Flexible(
+        flex: 2,
+        fit: FlexFit.loose,
+        child: Container(
+          height: 100,
+          child: Text('Item 3'),
+          color: Colors.orange,
+        ),
+      ),
+    ],
+  ),
+...
+```
+
+## Refatorando o ListView em ListTile <a name='refatorando-listview-listtile'></a>
+
+#### [^Sumário^](#sumario)
+
+Dentro de ***transaction_list.dart*** em `ListView.builder(...)` iremos alterar as definições do `ListView()` a princípio todo o conteúdo do `Card()` será substituídos pelas seguintes definições:
+
+Digitando ***CTRL+ESPAÇO*** terá aceso a uma lista de atributos que podem ser usados no `ListTile()`.
+
+* `leading:` esse é o primeiro atributos a ser definido, ele fica no início do ***"tijolinho" da Lista***. 
+
+Neste componente iremos usar um Componente chamado `CircleAvatar()` que é um ***Avatar Circular***, onde iremos definir o valor da transação. Outro uso para o `leading:` é para se colocar um ***ícone*** `icon`.
+
+`radius: 30,` serve para definir o diâmetro o `CircleAvatar()` o tamanho mínimo padrão e `40`.
+
+`child:` neste atributo iremos definir a propriedade `Text('R\$${tr.value.toStringAsFixed(2)}')` que irá mostrar o ***valor da Transação***.
+
+
+`style:` este atributo define o estilo para o `Text()`.
+`const TextStyle(` esta propriedade define os valores do estilo do `Text()`.
+
+ `fontWeight: FontWeight.bold,),` este é p valor que define o ***Peso da Fonte***, neste caso negrito.
+
+Para que o `CircleAvatar()` tenha a cor primária do Thema que escolhemos, devemos usar o seguinte atributo `backgroundColor:`  com a propriedade `Theme.of(context).colorScheme.primary,`.
+
+Para que o valor da transação caiba dentro do Círculo, devemos envolver o `Text()` com um `Widget` ***Wrap with widget*** e renomear por `FittedBox()` e para que se tenha um espaço ao redor do ***Valor***, devemos também envolver o ***FittedBox*** com um `Padding()` ***Wrap with Padding***.
+
+* `title:` usado para definir o ***Título*** do `ListTile()`.
+
+`Text(tr.title,` é usado para definir o ***Título***.
+
+`style: Theme.of(context).textTheme.headline6),` nesta propriedade iremos definir o ***Estilo do Título***.
+
+* `subtitle:` este atributo é usado para definir o ***Subtítulo*** do `ListTile()`.
+
+`Text(DateFormat('d MMMM y', "pt_BR").format(tr.date),),` formata a data em português no ***subtítulo***.
+
+* `trailing:` este atributo é usado no final do `ListTile()`, pode ser usado para colocar um ***ícone*** `icon` ou um ***botão de função***.
+
+`const Icon(Icons.attach_money),` propriedade que adiciona um ***ícone de cifrão***.
+
+Finalizando a refatoração, vamos envolver o `ListTile()` com um `Widget` ***Wrap with widget*** e renomear por `Card()` para assim poder definir os atributos do `Card()`.
+
+* `elevation: 5,` este atributo define a elevação do `Card()` adicionando uma sombra por baixo.
+
+* `margin:` este atributo serve para definir as margens.
+
+`const EdgeInsets.symmetric(` esta propriedade define o espaço nas laterais horizontal e acima e abaixo vertical de tamanhos diferentes.
+
+`horizontal: 12, vertical: 3,),`
+
+```
+trasaction_list.dart
+
+...
+  return Card(
+    elevation: 6,
+    margin: const EdgeInsets.symmetric(
+      horizontal: 12,
+      vertical: 3,
+    ),
+    child: ListTile(
+      leading: CircleAvatar(
+        radius: 30,
+        foregroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FittedBox(
+            child: Text(
+              'R\$ ${tr.value.toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      title: Text(
+        tr.title,
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      subtitle: Text(
+        DateFormat('d MMMM y', "pt_BR").format(tr.date),
+      ),
+      trailing: const Icon(Icons.attach_money),
+    ),
+  );
+...
+```
+
+## Refatorando o Formulário de Transações <a name='refatorando-formulario-transacoes'></a>
+
+#### [^Sumário^](#sumario)
+
+Agora iremos modificar alguns Componentes do transaction_form.dart.
+
+Primeiramente será criado um ***label*** e um ***novo botão*** para selecionar uma data à transação.
+
+* ***label:*** irá armazenar a data selecionada, e se não estiver selecionada aparecerá um texto padrão informando que não tem nenhuma data selecionada.
+
+* ***botão:*** quando este botão for clicado, aparecerá um painel para fazer a seleção da data.
+
+Dentro de ***transaction_form.dart*** logo abaixo do `TextField()` referente ao ***Valor***, será adicionado mais uma ***Linha*** `Row()` e dentro serão criados os ***Filhos*** `children:` com os Componentes a seguir:
+
+* `const Text('Nenhuma data selecionada!'),` este será a nossa label:.
+
+* `TextButton(...),` este será o botão referente ao label e dentro será definido seus atributos.
+
+* `child: const Text('Selecionar Data'),` atributo com sua propriedade.
+
+* `style: TextStyle(fontWeight: FontWeight.bold),` define a fonte para negrito.
+
+* `onPressed: () { },` ativa o clique do botão com uma Função Vazia.
+
+Para dar altura ao label e ao `TextButton()` criados acima, iremos envolver a `Row()` com um `Container()` ***Wrap with Container*** definindo a ***altura*** `height: 50,` para ter uma distância satisfatória do Componente `TextField()`.
+
+```
+transaction_form.dart
+ 
+...
+    Container(
+        height: 50,
+        child: Row(
+        children: [
+            const Text('Nenhuma Data Selecionada!'),
+            TextButton(
+            onPressed: () {},
+            child: const Text(
+                'Selecionar Data',
+                style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            ),
+        ],
+        ),
+    ),
+...
+```
+
+Agora no Componente abaixo, o `TextButton()` será renomeado para `ElevatedButton()` e será retirado o atributo `style:` para que a cor do texto do botão fique branco.
+
+```
+transaction_form.dart
+ 
+...
+    Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+        Padding(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            child: ElevatedButton(
+            onPressed: _submitForm,
+            child: const Text('Nova Transação'),
+            ),
+        ),
+        ],
+    )
+...
+```
+
+## Exibindo o DatePicker() Modal de Data <a name='exibindo-datepicker-modal-data'></a>
+
+#### [^Sumário^](#sumario)
+
+Dentro de ***transaction_form.dart*** e dentro da ***Classe*** `_TransactionFormState` será criado uma ***Função Privada*** para chamar o `DatePicker()` que terá o nome `_showDatePicker(){...}` que é o mesmo nome da Função Interna do Flutter.
+
+* showDatePicker(...) é uma Função embutida no Flutter, ela recebe os parâmetros necessários para ***mostrar o DatePicker***.
+
+* `context:` é um parâmetro nomeado da Função `showDatePicker()`, `context`, é o parâmetro herdado de `_TransactionFormState` dentro do Componente `State`.
+
+* `initialDate:` data inicial `DateTime.now(),` data atual. Para se ter uma ***data pré-selecionada***.
+
+* `firstDate:` primeira data `DateTime(2019),` recebe como parâmetro obrigatório o ano de ***2019***, sendo assim, a data mais antiga que pode ser selecionada é ***01/01/2019***.
+
+* `lastDate:` última data `DateTime.now(),` só será permitido selecionar datas até o dia atual, não podendo selecionar datas futuras.
+
+Com isso, temos as definições iniciais para que o `DatePicker()` possa ser mostrado no ***APP***.
+
+Agora para que a Função `_showDatePicker()` que acabou de ser criada funcione corretamente, devemos chama-la por referência no `TextButton()` no atributo `onPressed:` substituindo a Função Anônima `() { }` por nossa Função recentemente criada `_showDatePicker(),`.
+
+```
+transaction_form.dart
+ 
+...
+  //*todo: Cria o Modal para Selecionar a Data
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    );
+  }
+...
+...
+botão Selecionar Data
+ 
+    const Text('Nenhuma Data Selecionada!'),
+    TextButton(
+    //*todo: chama a Função do Modal da Data por referência
+    onPressed: _showDatePicker,
+    child: const Text(
+        'Selecionar Data',
+        style: TextStyle(fontWeight: FontWeight.bold),
+    ),
+    ),
+...
+```
+
+Agora, como podemos pegar essa data e usar dentro da Aplicação?
+
+Para isso, será criado um atributo que não será `final` apesar de estar dentro do `State` que será do ***Tipo*** `DateTime` e será chamado de `_selectedDate;`
+
+```
+DateTime _selectedDate;
+```
+
+> ***Dica:*** usando o Tipo ***DateTime*** mais a frente na conclusão do código está dando erro na Aplicação, pois, o ***_selectedDate*** não pode ser NULO.
+A alternativa é fazer a declaração da variável ***por aferição*** usando `var` ao invés de `DateTime`.
+Então ficará assim `var _selectedDate;`
+
+A ***Função DatePicker()*** retorna return um ***Future<DateTime>***, ou seja, retorna algo no futuro, que ainda vai acontecer.
+
+Então, como se faz para obter uma informação de um Future?
+
+Existe uma ***Função chamada .then()*** e ela recebe uma Função que será chamada no futuro quando o usuário selecionar a Data. E é exatamente nesta Função que irá receber o ***pickedDate***, ou seja, a data que o usuário selecionou.
+
+Quando se clica no botão para chamar o ***Modal de Data*** `DatePicker()`, a Função `_showDatePicker` é chamada e executada completamente abrindo assim o Modal, e o mesmo fica aberto por tempo indeterminado *"no futuro"*, esperando uma ação do Usuário.
+
+No momento em que chamou e registrou um Função `.then((...) {...})`  com o parâmetro ***pickedDate*** essa Função será chamada no momento que o Usuário selecionar a Data e der ***OK*** ou mesmo quando o Usuário ***Cancelar***.
+
+A Função `.then((pickedDate) {...})`, espera uma data ser selecionada e aguarda um ***OK*** ou um **CANCEL** do Usuário para então ser chamada.
+
+Agora, no final da Função ***_showDatePicker(...)*** será continuado com a Função ***.then()*** que ficará da seguinte forma, `_showDatePicker(...).then((...){...})`.
+
+Dentro da Função `.then((pickedDate) {...})` será criado a lógica do botão Selecionar Data.
+
+* `if (pickedDate == null) {return;}` Se pickedDate for nulo retorne.
+
+* `_selectedDate = pickedDate;` Caso a data esteja selecionada, atribui o valor de pickedDate à _selectedDate.
+
+```
+transaction_form.dart
+ 
+...
+  //*todo: Cria o Modal para Selecionar a Data
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+      //*todo: Função que seleciona uma Data
+    ).then((pickedDate){
+        if(pickedDate == null){
+            return;
+        }
+ 
+        _selectedDate = pickedDate;
+    });
+...
+```
+
+Essa varável `_selectedDate` pode ser usada dentro do label, substituindo o texto `"Nenhuma Data Selecionada"` quando uma ***Data for selecionada***.
+
+A lógica ficará da seguinte forma:
+
+* Caso `_selectedDate` for igual a nulo `== null`
+
+* mostrar a frase `? 'Nenhuma Data Selecionada!',`
+
+* Caso Contrário `:` mostre a Data Selecionada `'Data Selecionada: ${DateFormat(dd/MM/y).format(_selectedDate)}'` Mas, para poder usar o ***DateFormat()*** será preciso importar a internacionalização, caso não tenha sido importada anteriormente. 
+
+```
+import 'package:intl/intl.dart';
+...
+```
+
+E para dar um toque a mais, vamos usar o Expanded() no Text() para que o botão alinhe no final da linha Row().
+
+```
+transaction_form.dart
+ 
+...
+    Container(
+        height: 50,
+        child: Row(
+        children: [
+            Expanded(
+            child: Text(
+                _selectedDate == null
+                    ? 'Nenhuma Data Selecionada!'
+                    : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
+            ),
+            ),
+...
+```
+
+Da for que se encontra, nada será alterado, pois, para que ocorra mudança no Estado `State` precisa-se usar a ***Função setState()*** passando a Função de retorno ***_selectedDate = pickedDate;***  dentro da ***Função _showDatePicker*** e logo após a ***Função .then((pickedDate) {...}*** que ficará da seguinte forma:
+
+```
+...
+    setState(() {
+      _selectedDate = pickedDate;
+    })
+...
+```
+
+```
+transaction_form.dar     alterações da aula de hoje.
+ 
+// IMPORT
+import 'package:intl/intl.dart';
+...
+...
+// VARIÁVEL
+  var _selectedDate;
+...
+...
+// SHOW DATE PICKER COMPLETO
+  //*todo: Cria o Modal para Selecionar a Data
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+      //*todo: Função que seleciona uma Data
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+ 
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
+...
+...
+// LABEL E BOTÃO SELECIONAR DATA
+    Container(
+        height: 50,
+        child: Row(
+        children: [
+            Expanded(
+            child: Text(
+                _selectedDate == null
+                    ? 'Nenhuma Data Selecionada!'
+                    : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
+            ),
+            ),
+            TextButton(
+            //*todo: chama a Função do Modal da Data por referência
+            onPressed: _showDatePicker,
+            child: const Text(
+                'Selecionar Data',
+                style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            ),
+        ],
+        ),
+    ),
+...
+```
+
+## Cadastrando uma Nova Transação com Data <a name='cadastrando-nova-transacao-data'></a>
+
+#### [^Sumário^](#sumario)
+
+Para cadastrar a Transação com o novo Componente de Data criado anteriormente será preciso fazer alguns ajustes em nosso código.
+
+A primeira coisa a ser feita é limpar a ***Lista e Transações*** em ***main.dart*** mas fazendo isso irá ocorrer um ***erro***, pois o *Método* `_weekTotalValue()` em ***chart.dart*** irá fazer uma ***divisão por ZERO***.
+
+Se colocar uma ***Lista de Transação vazia***, o *Método* `_weekTotalValue()` que está calculando o ***Total de Transações da Semana*** e se esse valor estiver zerado, irá ter um erro na renderização dos Componentes.
+
+Para resolver esse erro, devemos entrar em ***chart.dart*** e alterar algumas linhas, no ***Componente*** `ChartBar()` no atributo `percentage:`, devemos impossibilitar a ***divisão por ZERO*** usando um ***Operador Ternário*** que ficará da seguinte forma:
+
+```
+chart.dart
+ 
+...
+    //todo: Calcula o Percentual da Semana
+    //? lê-se: 
+    //? caso o Valor Total da Semana for igual a ZERO
+    //? retorna ZERO
+    //? caso contrário faz a divisão
+    percentage: _weekTotalValue == 0
+        ? 0
+        : (tr['value'] as double) / _weekTotalValue,
+    ),
+...
+```
+
+> ***Dica:*** para poder visualizar os comentários personalizados, use a extensão do VSCode ***Better Comments*** do autor ***Aaron Bond***, ela é bastante interessante.
+
+O próximo passo é passar a ***Data*** para o Componente `TransactionForm()` e para isso precisamos fazer algumas alterações em ***transaction_form.dart***.
+
+Temos então a ***Data*** que é o `DateTime _selectedDate;` e o Componente `TransactionForm()` recebe uma ***Função onSubmit()*** `final void Function(String, double) onSubmit;` como parâmetro que está sendo chamada `widget.onSubmit(title, value);` passando o ***Título*** `title` e o ***Valor*** `value`.
+
+Agora também será preciso passar a ***Data***, então, essa ***Função*** além de receber uma ***String*** e um ***double***, também irá receber um ***DateTime*** ficando da seguinte forma:
+
+
+```
+transaction_form.dart
+ 
+...
+final void Function(String, double, DateTime) onSubmit;
+...
+```
+
+Significando então, que agora se pode passar o `_selectedDate` como terceiro parâmetro para a ***Função*** `onSubmit()` quando ela for chamada:
+
+```
+transaction_form.dart
+ 
+...
+widget.onSubmit(title, value, _selectedDate);
+...
+```
+
+E quem chama o ***Componente*** `TransactionForm()` é a ***Função*** `_openTransactionFormModal()` dentro de ***main.dart*** em ***MyHomePage*** passando outra Função por parâmetro chamada ***Adicionar Transação*** `_addTransaction()`.
+
+A ***Função _addTransaction()*** é a Função que vai receber por parâmetro o ***Título*** `title`, o ***Valor*** `value` e agora a ***Data*** `date`:
+
+```
+main.dart
+ 
+...
+  // Adiciona uma Nova Transação
+  _addTransaction(String title, double value, DateTime date) {
+    final newTransaction = Transaction(
+      // cria um ID único randômico com valor double e transforma em String.
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: date,
+    );
+...
+```
+
+Dessa forma, vamos conseguir passar uma ***Data*** a partir do ***Formulário de Transação*** para o Componente que controla o ***Estado*** `State` da Aplicação que tem a ***Lista de Transações Cadastradas***.
+
+Outra coisa que podemos fazer é que, ao invés de obrigar o Usuário entrar no ***DatePicker()*** para escolher uma ***Data***, é já deixa a ***Data Atual*** selecionada por padrão:
+
+
+```
+transaction_form.dart  
+ 
+...
+  DateTime _selectedDate = DateTime.now();
+...
+```
+
+### ***Código modificado na aula de hoje:***
+
+
+```
+transaction_form.dart
+ 
+...
+class TransactionForm extends StatefulWidget {
+  final void Function(String, double, DateTime) onSubmit;
+ 
+  // ignore: use_key_in_widget_constructors
+  const TransactionForm(this.onSubmit);
+ 
+  @override
+  State<TransactionForm> createState() => _TransactionFormState();
+}
+ 
+class _TransactionFormState extends State<TransactionForm> {
+  final _titleController = TextEditingController();
+  final _valueController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
+ 
+  _submitForm() {
+    final title = _titleController.text;
+    // double.tryParse tenta converter o valor digitado em um
+    // valor double, ?? caso contrario, coloca o valor padrão 0.0
+    final value = double.tryParse(_valueController.text) ?? 0.0;
+ 
+    if (title.isEmpty || value <= 0) {
+      return;
+    }
+ 
+    widget.onSubmit(title, value, _selectedDate);
+  }
+...
+```
+
+## Implementando a Função Excluir Transação <a name='implementando-funcao-excluir-transacao'></a>
+
+#### [^Sumário^](#sumario)
+
+Neste exercício, iremos implementar a exclusão de uma transação, que é uma função muito importante em qualquer APP.
+
+Para fazer isso, devemos entrar no ***transaction_list.dart*** e devemos entrar no `Card()` -> `ListTile()` -> e logo após o `subtitle:`, adicionar o `trailing:` onde anteriormente definimos o ícone do cifrão.
+
+Mas agora, iremos substituí-lo por um botão que irá excluir a transação.
+
+No `trailing:`  iremos definir um `IconButton()` dentro, iremos definir a propriedade `icon:` iremos passar um objeto do Tipo `Icon()` e no Construtor iremos definir com `Icons.delete_forever_outlined` que é uma lixeira e este será o ícone que representará o botão.
+
+Para definir a cor do botão, será usado a propriedade `color:` e iremos definir a com `Theme.of(context).errorcolor,` com isso é definido a cor vermelha.
+
+No `onPressed:` será definido um Função Anônima Vazia `() {},` para poder ativar o botão, mas, posteriormente será substituída.
+
+```
+transaction_list.dart
+ 
+...
+    trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.delete_forever_outlined),
+        color: Theme.of(context).errorColor,
+    ),
+...
+```
+
+## Definindo a Função removeTransaction() <a name='definindo-funcao-removetransacao'></a>
+
+#### [^Sumário^](#sumario)
+
+Quem tem o Estado da Aplicação, é o ***Componente MyHomePage()*** em ***main.dart*** e dentro deste Componente encontramos:
+
+* A Lista de Transações: `final List<Transaction> _transactions = [];`
+
+* Cria o Formulário através do Modal que se abre: `TransactionForm(_addTransaction),`
+
+* Cria o List através do `TransactionList(_transactions),` ou seja, passamos a Lista de Transações para o ***Componente ListTile()***, mas agora teremos os eventos que eventualmente acontecerão dentro do Componente Lista que será a exclusão de cada Elemento.
+
+Anteriormente, foi definido um ***Componente Transaction()*** em ***transaction.dart*** e, além dele ter o Título `title:`, o Valor `value:` e a Data `date:`, ele também possui um `id:` que foi gerado automaticamente.
+
+Dento de ***main.dart***, existe uma Função chamada ***Adicionar Transação*** `_addTransaction()` e nela, foi criado através de `id: Random().nextDouble().toString(),` um valor ***String aleatório*** que será a identificação da Transação.
+
+Será exatamente em cima deste ***ID***, que será feito a implementação para excluir um Elemento da Lista de Transações.
+
+Então, para fazer isso, logo após a Função `_addTransaction(){...}` iremos definir nossa Função `_removeTransaction(){...}` "dentro dos parênteses" este Método vai receber uma `String id`.
+
+Dentro das chaves, será chamado o `setState((){...})` que seta o Estado para que possamos alterar a Lista de Transações
+
+```
+final List<Transaction> _transactions = [];
+```
+
+`_transactions` é um List, e um dos Métodos do List é o `.removeWhere((){...});` neste Método, será passado uma Função que servirá de filtro para remover um Elemento da Lista. Ela faz esse processo automaticamente.
+
+Então, `.removeWhere(` irá receber uma Transação `(tr)` e quando retornar `{return` true o Elemento será removido e para remover basta que o ***ID da Transação*** `tr.id` seja igual `==`  ao ID `id;})` que foi passado por parâmetro pelo Método _removeTransaction().
+
+>***Dica:*** da mesma forma que a ***Função Where()*** quando retorna true o Elemento é filtrado e quando retorna false aquele Elemento é desconsiderado na Lista Final.
+No caso do `removeWhere()` se retornar true o Elemento ***será removido*** e se retornar false o Elemento ***não será removido***.
+
+Foi chamado o `.removeWhere()` de dentro da Lista de Transações `_transactions` e para cada Elemento `(tr) {return tr.id == id;})` esta Função é chamada.
+
+E chamando esta Função, temos a expressão  `tr.id == id;` que dirá se o Elemento será ou não excluído.
+
+Então, toda vez que o ID passado `tr.id` for igual `==` ao ID da Transação `id;`, então a Transação será excluída, esperando que só exista uma Transação com aquele ID.
+
+Neste caso, como temos somente uma sentença de código e esta mesma sentença serve para ser retornada, podemos usar uma Arrow Function que ficará da seguinte forma:
+
+ ```
+ _transactions.removeWhere((tr) => tr.id == id);
+ ```
+
+
+```
+main.dart
+ 
+...
+  //Remove um Elemento da Lista de Transações
+  _removeWhere(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+...
+```
+
+Agora para que tudo isso funcione corretamente, precisamos passa a Função que acabamos de criar como parâmetro para a Lista, pois, é lá dentro que o Usuário irá clicar no botão para excluir o Elemento da Lista que será a Transação escolhida.
+
+Então, devemos passar essa Função dentro da Lista onde contém o Botão para excluir o Elemento.
+
+Esse processo é a ***Comunicação Indireta***, onde se passa um Função por parâmetro para o ***Componente Filho*** e o ***Componente Filho*** invoca essa Função quando acontecer algum Evento.
+
+Então, será passado para o Componente `TransactionList(_transactions, _removeWhere);` mas irá gerar um erro, pois, precisamos fazer uma alteração em ***transaction_list.dart*** para suportar no Construtor uma Função `final Function()` que retorna `void` e que recebe por parâmetro uma `String` e que se chamará `onRemove;`.
+
+
+```
+  final void Function(String) onRemove;
+```
+
+E devemos adicionada ao Construtor.
+
+```
+  const TransactionList(this.transactions, this.onRemove);
+```
+
+E para finalizar e para que o botão realmente funcione, iremos substituir a ***Função Anônima Vazia*** que definimos anteriormente no `onPressed:`, através de uma ***Arrow Function*** `() =>`, por nossa Função `onRemove()` que acabamos de criar e passaremos por parâmetro o ***ID*** `(tr.id)` da Transação que será excluída.
+
+Foi usada uma ***Arrow Function*** porquê, pela Função `onRemove()` precisar do parâmetro `tr.id` para que funcionasse, pois, se ela ***não precisasse*** receber parâmetro, poderia ter sido passada diretamente sem a ***Função Arrow***.
+
+```
+onPressed: () => onRemove(tr.id),
+```
+
+## Códigos com as Alterações <a name='codigos-com-alteracoes-136'></a>
+
+#### [^Sumário^](#sumario)
+
+```main.dart
+ 
+...
+  //Remove um Elemento da Lista de Transações
+  _removeWhere(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+...
+...
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            //* Filtra as Transações Recentes
+            Chart(_recentTransactions),
+            //* Comunicação Direta -> através de Dados
+>>>         TransactionList(_transactions, _removeWhere),
+          ],
+        ),
+      ),
+...
+```
+```
+transaction_list.dart
+ 
+...
+  final void Function(String) onRemove;
+ 
+  // ignore: use_key_in_widget_constructors
+  const TransactionList(this.transactions, this.onRemove);
+...
+...
+    trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.delete_forever_outlined),
+        color: Theme.of(context).errorColor,
+    ),
+...
+```
+
+# Finalizando o Módulo 4
+
+Finalizamos o Módulo com algumas pendencias, principalmente relacionado a responsividade do App, mas esse e outros tópicos serão abordados no próximo módulo.

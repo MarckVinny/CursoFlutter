@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
-import 'package:flutter/material.dart';
+import 'chart_bar.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransaction;
@@ -33,22 +34,24 @@ class Chart extends StatelessWidget {
         }
       }
 
-      print(DateFormat.E("pt_BR").format(weekDay)[0]);
-      print(totalSum);
-
       return {
         //todo: define a Letra do dia da Semana
-        'day': DateFormat.E().format(weekDay)[0],
+        'day': DateFormat.E('pt_BR').format(weekDay),
         'value': totalSum,
       };
+      //*todo: .reversed.toList() reverte a ordem dos dias da semana
+    }).reversed.toList();
+  }
+
+  //todo: Calcula o Valor Total da Semana
+  double get _weekTotalValue {
+    return groupedTransaction.fold(0.0, (sum, tr) {
+      return sum + (tr['value'] as double);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    //* Chamando a Função para ver as informações no console
-    groupedTransaction;
-
     /** 
        ** elevation: 6, -> cria um efeito de sombra no Card;
        ** margin: EdgesInserts.all(20), -> cria uma margem para que os componentes 
@@ -56,12 +59,33 @@ class Chart extends StatelessWidget {
        ** child: Row(), -> cria uma linha onde serão colocados os Componentes;
        ** children: [], -> cria uma Lista onde serão colocados os Componentes 
        ** propriamente dito;
-       **/
+    **/
     return Card(
       elevation: 6,
-      margin: const EdgeInsets.all(20),
-      child: Row(
-        children: const [],
+      margin: const EdgeInsets.all(12),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          //todo: Alinha com espaçamentos iguais
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransaction.map((tr) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                label: tr['day'],
+                value: tr['value'],
+                //todo: Calcula o Percentual da Semana
+                //? lê-se:
+                //? caso o Valor Total da Semana for igual a ZERO
+                //? retorna ZERO
+                //? caso contrário faz a divisão
+                percentage: _weekTotalValue == 0
+                    ? 0
+                    : (tr['value'] as double) / _weekTotalValue,
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

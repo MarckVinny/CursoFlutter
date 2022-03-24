@@ -4,9 +4,10 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final void Function(String) onRemove;
 
   // ignore: use_key_in_widget_constructors
-  const TransactionList(this.transactions);
+  const TransactionList(this.transactions, this.onRemove);
 
   @override
   Widget build(BuildContext context) {
@@ -42,42 +43,48 @@ class TransactionList extends StatelessWidget {
                 final tr = transactions[index];
 
                 return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2,
-                        )),
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          'R\$ ${tr.value.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Theme.of(context).colorScheme.primary,
+                  elevation: 6,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 3,
+                  ),
+                  child: ListTile(
+                    //*todo: leading: usado para definir ícone ou Avatar no
+                    //*todo: inicio do ListTile()
+                    leading: CircleAvatar(
+                      radius: 30,
+                      foregroundColor: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        //*todo: FittedBox() usado para ajustar o conteúdo
+                        child: FittedBox(
+                          child: Text(
+                            'R\$ ${tr.value.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(tr.title,
-                              style: Theme.of(context).textTheme.headline6),
-                          Text(
-                            DateFormat('dd-MM-y', "pt_BR").format(tr.date),
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                      //*todo: usa a cor primaria do Thema criado em main.dart
+                      //*todo: como preenchimento do CircleAvatar()
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    //*todo: title: usado para definir o Título do ListTile()
+                    title: Text(
+                      tr.title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    //*todo: subtitle: usado para definir o Subtitulo do ListTile()
+                    subtitle: Text(
+                      DateFormat('d MMMM y', "pt_BR").format(tr.date),
+                    ),
+                    //*todo: trailing: usado para definir ícone ou botão de ação no final do ListTile()
+                    trailing: IconButton(
+                      onPressed: () => onRemove(tr.id),
+                      icon: const Icon(Icons.delete_forever_outlined),
+                      color: Theme.of(context).errorColor,
+                    ),
                   ),
                 );
               },
