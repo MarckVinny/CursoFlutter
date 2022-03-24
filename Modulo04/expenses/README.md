@@ -72,9 +72,9 @@
   * [Refatorando o Formulário de Transações - Aula 133](#refatorando-formulario-transacoes)
   * [Exibindo o DatePicker() Modal de Data - Aula 134](#exibindo-datepicker-modal-data)
   * [Cadastrando uma Nova Transação com Data - Aula 135](#cadastrando-nova-transacao-data)
-* [](#)
-* [](#)
-* [](#)
+* [Implementando a Função Excluir Transação - Aula 136](#implementando-funcao-excluir-transacao)
+* [Definindo a Função removeTransaction() - Aula 136](#definindo-funcao-removetransacao)
+* [Códigos com as Alterações - Aula 136](#codigos-com-alteracoes-136)
 * [](#)
 * [](#)
 
@@ -2908,4 +2908,163 @@ class _TransactionFormState extends State<TransactionForm> {
 ...
 ```
 
-##
+## Implementando a Função Excluir Transação <a name='implementando-funcao-excluir-transacao'></a>
+
+#### [^Sumário^](#sumario)
+
+Neste exercício, iremos implementar a exclusão de uma transação, que é uma função muito importante em qualquer APP.
+
+Para fazer isso, devemos entrar no ***transaction_list.dart*** e devemos entrar no `Card()` -> `ListTile()` -> e logo após o `subtitle:`, adicionar o `trailing:` onde anteriormente definimos o ícone do cifrão.
+
+Mas agora, iremos substituí-lo por um botão que irá excluir a transação.
+
+No `trailing:`  iremos definir um `IconButton()` dentro, iremos definir a propriedade `icon:` iremos passar um objeto do Tipo `Icon()` e no Construtor iremos definir com `Icons.delete_forever_outlined` que é uma lixeira e este será o ícone que representará o botão.
+
+Para definir a cor do botão, será usado a propriedade `color:` e iremos definir a com `Theme.of(context).errorcolor,` com isso é definido a cor vermelha.
+
+No `onPressed:` será definido um Função Anônima Vazia `() {},` para poder ativar o botão, mas, posteriormente será substituída.
+
+```
+transaction_list.dart
+ 
+...
+    trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.delete_forever_outlined),
+        color: Theme.of(context).errorColor,
+    ),
+...
+```
+
+## Definindo a Função removeTransaction() <a name='definindo-funcao-removetransacao'></a>
+
+#### [^Sumário^](#sumario)
+
+Quem tem o Estado da Aplicação, é o ***Componente MyHomePage()*** em ***main.dart*** e dentro deste Componente encontramos:
+
+* A Lista de Transações: `final List<Transaction> _transactions = [];`
+
+* Cria o Formulário através do Modal que se abre: `TransactionForm(_addTransaction),`
+
+* Cria o List através do `TransactionList(_transactions),` ou seja, passamos a Lista de Transações para o ***Componente ListTile()***, mas agora teremos os eventos que eventualmente acontecerão dentro do Componente Lista que será a exclusão de cada Elemento.
+
+Anteriormente, foi definido um ***Componente Transaction()*** em ***transaction.dart*** e, além dele ter o Título `title:`, o Valor `value:` e a Data `date:`, ele também possui um `id:` que foi gerado automaticamente.
+
+Dento de ***main.dart***, existe uma Função chamada ***Adicionar Transação*** `_addTransaction()` e nela, foi criado através de `id: Random().nextDouble().toString(),` um valor ***String aleatório*** que será a identificação da Transação.
+
+Será exatamente em cima deste ***ID***, que será feito a implementação para excluir um Elemento da Lista de Transações.
+
+Então, para fazer isso, logo após a Função `_addTransaction(){...}` iremos definir nossa Função `_removeTransaction(){...}` "dentro dos parênteses" este Método vai receber uma `String id`.
+
+Dentro das chaves, será chamado o `setState((){...})` que seta o Estado para que possamos alterar a Lista de Transações
+
+```
+final List<Transaction> _transactions = [];
+```
+
+`_transactions` é um List, e um dos Métodos do List é o `.removeWhere((){...});` neste Método, será passado uma Função que servirá de filtro para remover um Elemento da Lista. Ela faz esse processo automaticamente.
+
+Então, `.removeWhere(` irá receber uma Transação `(tr)` e quando retornar `{return` true o Elemento será removido e para remover basta que o ***ID da Transação*** `tr.id` seja igual `==`  ao ID `id;})` que foi passado por parâmetro pelo Método _removeTransaction().
+
+>***Dica:*** da mesma forma que a ***Função Where()*** quando retorna true o Elemento é filtrado e quando retorna false aquele Elemento é desconsiderado na Lista Final.
+No caso do `removeWhere()` se retornar true o Elemento ***será removido*** e se retornar false o Elemento ***não será removido***.
+
+Foi chamado o `.removeWhere()` de dentro da Lista de Transações `_transactions` e para cada Elemento `(tr) {return tr.id == id;})` esta Função é chamada.
+
+E chamando esta Função, temos a expressão  `tr.id == id;` que dirá se o Elemento será ou não excluído.
+
+Então, toda vez que o ID passado `tr.id` for igual `==` ao ID da Transação `id;`, então a Transação será excluída, esperando que só exista uma Transação com aquele ID.
+
+Neste caso, como temos somente uma sentença de código e esta mesma sentença serve para ser retornada, podemos usar uma Arrow Function que ficará da seguinte forma:
+
+ ```
+ _transactions.removeWhere((tr) => tr.id == id);
+ ```
+
+
+```
+main.dart
+ 
+...
+  //Remove um Elemento da Lista de Transações
+  _removeWhere(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+...
+```
+
+Agora para que tudo isso funcione corretamente, precisamos passa a Função que acabamos de criar como parâmetro para a Lista, pois, é lá dentro que o Usuário irá clicar no botão para excluir o Elemento da Lista que será a Transação escolhida.
+
+Então, devemos passar essa Função dentro da Lista onde contém o Botão para excluir o Elemento.
+
+Esse processo é a ***Comunicação Indireta***, onde se passa um Função por parâmetro para o ***Componente Filho*** e o ***Componente Filho*** invoca essa Função quando acontecer algum Evento.
+
+Então, será passado para o Componente `TransactionList(_transactions, _removeWhere);` mas irá gerar um erro, pois, precisamos fazer uma alteração em ***transaction_list.dart*** para suportar no Construtor uma Função `final Function()` que retorna `void` e que recebe por parâmetro uma `String` e que se chamará `onRemove;`.
+
+
+```
+  final void Function(String) onRemove;
+```
+
+E devemos adicionada ao Construtor.
+
+```
+  const TransactionList(this.transactions, this.onRemove);
+```
+
+E para finalizar e para que o botão realmente funcione, iremos substituir a ***Função Anônima Vazia*** que definimos anteriormente no `onPressed:`, através de uma ***Arrow Function*** `() =>`, por nossa Função `onRemove()` que acabamos de criar e passaremos por parâmetro o ***ID*** `(tr.id)` da Transação que será excluída.
+
+Foi usada uma ***Arrow Function*** porquê, pela Função `onRemove()` precisar do parâmetro `tr.id` para que funcionasse, pois, se ela ***não precisasse*** receber parâmetro, poderia ter sido passada diretamente sem a ***Função Arrow***.
+
+```
+onPressed: () => onRemove(tr.id),
+```
+
+## Códigos com as Alterações <a name='codigos-com-alteracoes-136'></a>
+
+#### [^Sumário^](#sumario)
+
+```main.dart
+ 
+...
+  //Remove um Elemento da Lista de Transações
+  _removeWhere(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+...
+...
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            //* Filtra as Transações Recentes
+            Chart(_recentTransactions),
+            //* Comunicação Direta -> através de Dados
+>>>         TransactionList(_transactions, _removeWhere),
+          ],
+        ),
+      ),
+...
+```
+```
+transaction_list.dart
+ 
+...
+  final void Function(String) onRemove;
+ 
+  // ignore: use_key_in_widget_constructors
+  const TransactionList(this.transactions, this.onRemove);
+...
+...
+    trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.delete_forever_outlined),
+        color: Theme.of(context).errorColor,
+    ),
+...
+```
+

@@ -97,6 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  //Remove um Elemento da Lista de Transações
+  _removeWhere(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+
   //todo: Função que chama o Componente TransactionForm()
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
@@ -125,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //* Filtra as Transações Recentes
             Chart(_recentTransactions),
             //* Comunicação Direta -> através de Dados
-            TransactionList(_transactions),
+            TransactionList(_transactions, _removeWhere),
           ],
         ),
       ),
