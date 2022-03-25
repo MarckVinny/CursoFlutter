@@ -22,9 +22,13 @@ class ExpensesApp extends StatelessWidget {
       // ignore: prefer_const_literals_to_create_immutables
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('pt', 'BR')],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+        Locale('en', ''),
+      ],
 
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
