@@ -119,24 +119,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //todo: Coloca o Componente AppBar dentro da variável appBar
+    final appBar = AppBar(
+      title: const Text('Despesas Pessoais'),
+      actions: [
+        IconButton(
+          onPressed: () => _openTransactionFormModal(context),
+          icon: const Icon(Icons.add),
+        )
+      ],
+    );
+
+    //todo: Calcula a Altura Disponível da Tela;
+    //todo: 1 - Pega a Altura Total da Tela;
+    //todo: 2 - Subtrai a Altura do AppBar;
+    //todo: 3 - Subtrai a Altura da Barra de Status.
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Despesas Pessoais'),
-        actions: [
-          IconButton(
-            onPressed: () => _openTransactionFormModal(context),
-            icon: const Icon(Icons.add),
-          )
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             //* Filtra as Transações Recentes
-            Chart(_recentTransactions),
+            Container(
+              height: availableHeight * 0.4,
+              child: Chart(_recentTransactions),
+            ),
             //* Comunicação Direta -> através de Dados
-            TransactionList(_transactions, _removeWhere),
+            Container(
+              height: availableHeight * 0.6,
+              child: TransactionList(_transactions, _removeWhere),
+            ),
           ],
         ),
       ),
