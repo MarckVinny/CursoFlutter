@@ -1,9 +1,9 @@
 # SUMÁRIO<a name='sumario'></a>
 
 * [Calculando Dinamicamente a Altura da Tela - Aula 143](#calculando-dinamicamente-altura-tela)
-    * [Definindo o Cálculo da Altura Disponível - Aula 143](#definindo-calculo-altura-disponivel)
-    * [Código do exercício de hoje: - Aula 143](#codigo-do-exercicio-hoje-aula-143)
-* [Usando Responsividade no Texto - Aula 144](#usando-responsividade-no-texto)
+  * [Definindo o Cálculo da Altura Disponível - Aula 143](#definindo-calculo-altura-disponivel)
+  * [Código do exercício de hoje: - Aula 143](#codigo-do-exercicio-hoje-aula-143)
+  * [Usando Responsividade no Texto - Aula 144](#usando-responsividade-no-texto)
 * [](#)
 * [](#)
 * [](#)
