@@ -3,6 +3,9 @@
 * [Calculando Dinamicamente a Altura da Tela - Aula 143](#calculando-dinamicamente-altura-tela)
     * [Definindo o Cálculo da Altura Disponível - Aula 143](#definindo-calculo-altura-disponivel)
     * [Código do exercício de hoje: - Aula 143](#codigo-do-exercicio-hoje-aula-143)
+* [Usando Responsividade no Texto - Aula 144](#usando-responsividade-no-texto)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 
@@ -112,4 +115,28 @@ main.dart
 ...
 ```
 
-##
+## Usando Responsividade no Texto <a name='usando-responsividade-no-texto'></a>
+
+#### [^Sumário^](#sumario)
+
+Para que um texto no APP possa aumentar ou diminuir conforme a escolha do Usuário nas configurações do aparelho, precisamos usar o ***Componente MediaQuery.of(context).textScaleFactor***.
+
+Sendo assim, quando o Usuário escolher nas configurações do aparelho entre fontes grandes, pequenas e normais, o APP terá seus textos modificados, mas isso ocorrerá somente onde o ***Componente MediaQuery*** foi definido.
+
+E para que isso ocorra, é preciso que o tamanho da fonte `fontSize:` que você definiu `10` seja multiplicado `*` por `MediaQuery.of(context).textScaleFactor,` como no exemplo a seguir:
+
+```
+main.dart
+ 
+...
+    final appBar = AppBar(
+      title: Text(
+        'Despesas Pessoais',
+        style: TextStyle(
+          fontSize: 20 * MediaQuery.of(context).textScaleFactor,
+        ),
+      ),
+...
+```
+
+>Acredito que o Dart já faça isso automaticamente, pois, no teste de responsividade, percebi que outros componentes além do que definimos, também estavam sendo modificados, mesmo sem terem sidos definidos para tal.
