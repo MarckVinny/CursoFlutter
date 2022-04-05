@@ -6,6 +6,9 @@
   * [Usando Responsividade no Texto - Aula 144](#usando-responsividade-no-texto)
   * [Responsividade do ChartBar com LayoutBuilder - Aula 145](#responsividade-chartbar-layoutbuilder)
   * [Definindo a Orientação do APP - Aula 146](#definindo-orientacao-do-app)
+  * [Alternando entre Chart() e TransactionList() - Aula 147](#usando-responsividade-no-texto)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 
@@ -265,4 +268,106 @@ main.dart
 ...
 ```
 
-##
+## Alternando entre Chart() e TransactionList() <a name='usando-responsividade-no-texto'></a>
+
+#### [^Sumário^](#sumario)
+
+A estratégia será definir um ***Switch***, que irá fazer a alternância entre o ***Gráfico*** `Chart()` e a ***Lista de Transações*** `TransactionList()`.
+
+Em ***main.dart***,  dentro do Componente `_MyHomePageState{}` que é um Componente Statefulwidget dentro do `Scaffold()` e dentro de `body: SingleChildScrollView()` onde tem os Filhos `children:` da coluna `Column()`, tem o `Container()` do Componente `Chart()` e o `Container()` do Componente `TransactionList()` e a ideia inicial é fazer a alternância entre esses dois Componentes.
+
+>Até esse ponto, não está sendo considerado se está ou não no ***Modo Paisagem***, mas, mais adiante será considerado para que só exiba esta opção caso o ***Dispositivo esteja no Modo Paisagem***, mas, por enquanto estará disponível para a aplicação inteira *(em todos os Modos)*.
+
+Continuando `_MyHomePageState{}` -> `Scaffold()` -> `body: SingleChildScrollView()` -> `children: [`  existe um Componente chamado `Switch(` onde temos o atributo ***valor*** `value:` que pode ter seu ***valor*** como `true,` e temos outro atributo que é o Método `onChange:` esse Método recebe uma Função `(` que recebe por parâmetro um ***novo valor*** `value){...})`.
+
+Como a ***coluna*** `Column()` possui o atributo `crossAxisAlignment: CrossAxisAlignment.stretch,` ele ficará muito esticado e ficará estranho, então, iremos envolver o `Switch()` ***CTRL+PONTO*** com uma *Linha* ***Row*** `Wrap with Row` e com isso podemos também colocar um texto ao lado do ***Switch***, para isso, iremos definir nos ***Filhos*** `children:` desta *Linha* ***Row***, um texto chamado `Text('Exibir Gráfico'),` e para que o texto e o ***switch*** fiquem centralizados na *Linha* ***Row***, iremos definir o atributo `mainAxisAlignment: MainAxisAlignment.center,` logo abaixo de ***Row()***.
+
+
+```
+main.dart
+
+...
+    return Scaffold(
+      appBar: appBar,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Exibir Gráfico'),
+                //* Controle deslizante
+                Switch(
+                  value: _showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      _showChart = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+...
+```
+
+E a ideia, é quando estiver marcado aparece o ***Gráfico*** e quando tiver desmarcado aparece a ***Lista de Transações***.
+
+Para fazer isso, precisamos vincular o valor do ***Switch()*** `value:` com uma variável dentro do Estado deste Componente, então, em `_MyHomePageState{}` iremos definir a variável `bool` de nome Exibir Gráfico `_showChart`  recebendo `=` o valor `false;` no caso desativado.
+
+```
+main.dart
+
+...
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _transactions = [];
+  bool _showChart = false;
+...
+```
+
+E esta variável será ligada no ***valor*** `value:` substituindo ***verdadeiro*** `true,` que ficará assim: `value: _showChart,` e no `onChange: (value){` será usado o `setState((){` para chamar o `_showChart` que recebe `=` o valor `value;});})])`, que foi recebido no Método `onChange:`.
+
+Então, sempre que o ***Switch mudar***, o Método ***onChange:*** será chamado, passando o novo valor ***(value)*** e o novo valor ***value;*** será persistido no ***_showChart*** dentro de um ***setState()***.
+
+Agora para que as alterações apareçam na Tela, será preciso fazer uma renderização condicional para alternar entre o ***Gráfico*** e a ***Lista de Transações***.
+
+Anteriormente em ***transaction_list.dart*** usamos ***Operação Ternária*** para fazer isso, mas desta vez iremos usar uma abordagem diferente, iremos utilizar ***if()***.
+
+Então, iremos definir antes dos Containers `Chart()` e `TransactionList()`:
+
+Se `if(_showChart)` ***for verdadeiro*** `true` mostra Container `Chart()`,
+
+Se `if(!_showChart)` ***não for verdadeiro*** `false`, mostra Container `TransactionList()`,
+
+```
+main. dart
+
+...
+        //* Filtra as Transações Recentes
+        //? Se _showChart for true mostra o Chart()
+        if (_showChart)
+          Container(
+            height: availableHeight * 0.35,
+            child: Chart(_recentTransactions),
+          ),
+        //* Comunicação Direta -> através de Dados
+        //? Se !_showChart for false, mostra TransactionList()
+        if (!_showChart)
+          Container(
+            height: availableHeight * 0.65,
+            child: TransactionList(_transactions, _removeWhere),
+          ),
+...
+```
+
+>***Dica:*** um sinal de exclamação ***"!"*** antes de uma variável booleana bool significa negação ou seja tem valor contrário de true que no caso é false.
+
+A vantagem de se usar o `if()` ao invés de usar uma ***Operação Ternária*** `? :` , é que no ***if()*** podemos usar expressões mais complexas, inclusive expressões diferentes para cada componente.
+
+Já na ***Operação Ternária***, se precisa ter um ou o outro para que a operação aconteça.
+
+Já usando o ***if()***, podemos exibir a ***Row()*** somente se estiver no ***Modo Paisagem***, então, podemos ter uma certa independência na lógica que será abordada en cada Componente.
+
+Posteriormente podemos substituir esse controle deslizante por um botão na barra de Título que alternará entre um ícone de Gráfico e um ícone de Lista.
+
+## 

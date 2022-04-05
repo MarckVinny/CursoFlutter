@@ -72,6 +72,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+  //* Exibe ou ñ o Chart()
+  bool _showChart = false;
 
   //* Filtrando as Transações Recentes
   List<Transaction> get _recentTransactions {
@@ -144,16 +146,35 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Exibir Gráfico'),
+                //* Controle deslizante
+                Switch(
+                  value: _showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      _showChart = value;
+                    });
+                  },
+                ),
+              ],
+            ),
             //* Filtra as Transações Recentes
-            Container(
-              height: availableHeight * 0.35,
-              child: Chart(_recentTransactions),
-            ),
+            //? Se _showChart for true mostra o Chart()
+            if (_showChart)
+              Container(
+                height: availableHeight * 0.35,
+                child: Chart(_recentTransactions),
+              ),
             //* Comunicação Direta -> através de Dados
-            Container(
-              height: availableHeight * 0.65,
-              child: TransactionList(_transactions, _removeWhere),
-            ),
+            //? Se !_showChart for false, mostra TransactionList()
+            if (!_showChart)
+              Container(
+                height: availableHeight * 0.65,
+                child: TransactionList(_transactions, _removeWhere),
+              ),
           ],
         ),
       ),
