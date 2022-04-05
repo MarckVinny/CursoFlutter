@@ -4,7 +4,7 @@
   * [Definindo o Cálculo da Altura Disponível - Aula 143](#definindo-calculo-altura-disponivel)
   * [Código do exercício de hoje: - Aula 143](#codigo-do-exercicio-hoje-aula-143)
   * [Usando Responsividade no Texto - Aula 144](#usando-responsividade-no-texto)
-* [](#)
+  * [Responsividade do ChartBar com LayoutBuilder - Aula 145](#responsividade-chartbar-layoutbuilder)
 * [](#)
 * [](#)
 * [](#)
@@ -141,3 +141,107 @@ main.dart
 ```
 
 >Acredito que o Dart já faça isso automaticamente, pois, no teste de responsividade, percebi que outros componentes além do que definimos, também estavam sendo modificados, mesmo sem terem sidos definidos para tal.
+
+## Responsividade do ChartBar com LayoutBuilder <a name='responsividade-chartbar-layoutbuilder'></a>
+
+#### [^Sumário^](#sumario)
+
+Para poder usar a responsividade no ***Componente ChartBar*** para que ele possa considerar o tamanho *"no caso altura"* do Componente que está envolvido, *"no caso o Componente Chart"*.
+
+Para isso é usado o ***Componente LayoutBuilder*** através do atributo `builder:` usando uma Função que retornará parte da interface.
+
+No momento que esta Função é chamada, é passado um contexto `(ctx,` e no caso do ***LayoutBuilder*** algumas ***restrições*** `constraints)` e nesta ***restrição constraint*** se consegue ter acesso aos ***tamanhos***, *(altura, largura, etc.)* e isso nos ajuda a construir uma interface responsiva.
+
+Agora iremos definir a responsividade nos Componentes dentro do ChartBar.
+
+Abra o Componente ChartBar() ***chart_bar.dart***, lá no ***build()*** iremos encontrar todos os Componentes que compõe o ChartBar e se prestar um pouco de atenção, notará que as alturas ***height:*** estão fixas impossibilitando a responsividade do Componente.
+
+Inicialmente iremos aumentar a ***Altura do Container*** que contém a Barra do Gráfico, mas para isso não podemos usar o Tamanho da Tela como fizemos anteriormente com o ***MediaQuery()***, pois, precisamos usar o tamanho do Contexto em que ele está inserido, que em nosso caso é o ***ChartBar()***.
+
+Mas para que possamos fazer isso, precisamos envolver a `Column()` com um *Widget* ***CTRL + PONTO*** *Wrap with widget* e renomeie para `LayoutBuilder(){...}` ele irá receber um ***atributo*** `builder:` que receberá uma ***Função*** `() {...}` e esta Função irá ***retornar*** `return` a nossa ***coluna*** `Column()`, este é o Componente que nos permite realizar as alterações que precisamos pra tornar o ***ChartBar()*** responsivo.
+
+No momento que esta Função é chamada, é passado um ***contexto*** `(ctx,` e algumas ***restrições*** `constraints)` e nesta ***restrição constraint*** se consegue ter acesso aos ***tamanhos***, `(altura, largura, etc.)`.
+
+```
+chart_bar.dart
+ 
+...
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(3),
+      child: LayoutBuilder(
+        builder: (ctx, Constraints) {
+          return Column(
+            children: [
+              //*todo: Valor Transação
+              Container(
+                height: 20,
+                child: FittedBox(
+                  child: Text('${value.toStringAsFixed(2)}'),
+                ),
+              ),
+              const SizedBox(height: 5),
+              //*todo: Barra Cinza
+              Container(
+                height: 60,
+                width: 10,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    //*todo: Barra Fracionada Percentage
+                    FractionallySizedBox(
+                      heightFactor: percentage,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5),
+              //*todo: Dia da Semana
+              Container(
+                height: 20,
+                child: Text(label),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+Agora iremos realmente alterar a ***Altura do Container*** que corresponde a ***Barra Cinza***, no ***atributo*** `height:` iremos definir a ***Altura Máxima*** `constraints.maxHeight` multiplicando `*` por `0.6,` que corresponde a ***60%*** da altura do ***Componente ChartBar()***.
+
+>Para que a responsividade funcione corretamente, todos os Componentes do ***ChartBar()*** precisam estar definidos com ***valores percentual*** e não com valores fixos.
+
+Isso pode gerar problemas dependendo do tamanho do ***Card()***, ***60% 0.6*** é um tamanho adequado para a ***Barra Cinza***.
+
+Agora vamos definir os valores pela ordem dos Componentes no ChartBar();
+
+* 15% no Container ***Valor da Transação***: `height: constraints.maxHeight * 0.15,`;
+* 5% no ***SizedBox***: `(height: constraints.maxHeight * 0.05),`;
+* 60% no Container ***Barra Cinza***: `height: constraints.maxHeight * 0.6,`;
+* 5% no ***SizedBox***: `(height: constraints.maxHeight * 0.05),`;
+* 15% no Container ***Dia da Semana***: `height: constraints.maxHeight * 0.15,`.
+
+Para garantir que o ***Dia da Semana*** seja escalado corretamente, precisamos envolver o ***Componente Text()*** com um ***Widget*** `Wrap with widget` e renomear para ***FittedBox()*** para que o texto seja escalado.
+
+Com esses valores, definimos completamente o ***Componente ChartBar()***, para que o mesmo fique responsivo e bastando apenas definir em ***main.dart*** a ***percentagem da altura*** dos Componentes `Chart()` e `TransactionList()`.
+
+## 

@@ -146,12 +146,12 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             //* Filtra as Transações Recentes
             Container(
-              height: availableHeight * 0.45,
+              height: availableHeight * 0.35,
               child: Chart(_recentTransactions),
             ),
             //* Comunicação Direta -> através de Dados
             Container(
-              height: availableHeight * 0.55,
+              height: availableHeight * 0.65,
               child: TransactionList(_transactions, _removeWhere),
             ),
           ],

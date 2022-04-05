@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class ChartBar extends StatelessWidget {
   final label;
@@ -15,53 +16,59 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(3),
-      child: Column(
-        children: [
-          //*todo: Valor Transação
-          Container(
-            height: 20,
-            child: FittedBox(
-              child: Text('${value.toStringAsFixed(2)}'),
-            ),
-          ),
-          const SizedBox(height: 5),
-          //*todo: Barra Cinza
-          Container(
-            height: 60,
-            width: 10,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1,
-                    ),
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+      child: LayoutBuilder(
+        builder: (ctx, constraints) {
+          return Column(
+            children: [
+              //*todo: Valor Transação
+              Container(
+                height: constraints.maxHeight * 0.15,
+                child: FittedBox(
+                  child: Text('${value.toStringAsFixed(2)}'),
                 ),
-                //*todo: Barra Fracionada Percentage
-                FractionallySizedBox(
-                  heightFactor: percentage,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.circular(5),
+              ),
+              SizedBox(height: constraints.maxHeight * 0.05),
+              //*todo: Barra Cinza
+              Container(
+                height: constraints.maxHeight * 0.6,
+                width: 10,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 5),
-          //*todo: Dia da Semana
-          Container(
-            height: 20,
-            child: Text(label),
-          ),
-        ],
+                    //*todo: Barra Fracionada Percentage
+                    FractionallySizedBox(
+                      heightFactor: percentage,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: constraints.maxHeight * 0.05),
+              //*todo: Dia da Semana
+              Container(
+                height: constraints.maxHeight * 0.15,
+                child: FittedBox(
+                  child: Text(label),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
