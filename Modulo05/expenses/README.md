@@ -5,7 +5,7 @@
   * [Código do exercício de hoje: - Aula 143](#codigo-do-exercicio-hoje-aula-143)
   * [Usando Responsividade no Texto - Aula 144](#usando-responsividade-no-texto)
   * [Responsividade do ChartBar com LayoutBuilder - Aula 145](#responsividade-chartbar-layoutbuilder)
-* [](#)
+  * [Definindo a Orientação do APP - Aula 146](#definindo-orientacao-do-app)
 * [](#)
 * [](#)
 
@@ -244,4 +244,25 @@ Para garantir que o ***Dia da Semana*** seja escalado corretamente, precisamos e
 
 Com esses valores, definimos completamente o ***Componente ChartBar()***, para que o mesmo fique responsivo e bastando apenas definir em ***main.dart*** a ***percentagem da altura*** dos Componentes `Chart()` e `TransactionList()`.
 
-## 
+## Definindo a Orientação do APP <a name='definindo-orientacao-do-app'></a>
+
+#### [^Sumário^](#sumario)
+
+Em algumas situações e Aplicações é conveniente que a Orientação da Aplicação seja travada ou definida em uma certa posição.
+
+Para tal, no Método `build(){...}` do Componente principal da Aplicação deve se definir o seguinte Componente:
+
+`SystemChrome` e existe um Método `.setPreferredOrientations(` que recebe um Array `[`  de orientações `DeviceOrientation` que possui diversos ***Métodos*** relacionados a ***Orientação do Dispositivo*** e um desses ***Métodos*** é o `.portraitUp]);` que é a Orientação Retrato para Cima e para usar este Componente, devemos ***importar*** `import 'package:flutter/services.dart';`
+
+```
+main.dart
+
+...
+  Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp
+        ]);
+...
+```
+
+##
