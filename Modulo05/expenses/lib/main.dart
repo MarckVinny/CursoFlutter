@@ -121,6 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //todo: Verifica se está ou não no Modo Paisagem
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     //todo: Coloca o Componente AppBar dentro da variável appBar
     final appBar = AppBar(
       title: const Text('Despesas Pessoais'),
@@ -146,31 +149,38 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Exibir Gráfico'),
-                //* Controle deslizante
-                Switch(
-                  value: _showChart,
-                  onChanged: (value) {
-                    setState(() {
-                      _showChart = value;
-                    });
-                  },
-                ),
-              ],
-            ),
+            //? Está no Modo Paisagem?
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Exibir Gráfico'),
+                  //* Controle deslizante
+                  Switch(
+                    value: _showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showChart = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
             //* Filtra as Transações Recentes
             //? Se _showChart for true mostra o Chart()
-            if (_showChart)
+            //? ou || se não estiver no Modo Paisagem !isLandscape
+            if (_showChart || !isLandscape)
               Container(
-                height: availableHeight * 0.35,
+                //todo: Se estiver no Modo Paisagem isLandscape
+                //todo: ? multiplica Altura Disponível por 0.7
+                //todo: ? multiplica Altura Disponível por 0.35
+                height: availableHeight * (isLandscape ? 0.7 : 0.35),
                 child: Chart(_recentTransactions),
               ),
             //* Comunicação Direta -> através de Dados
             //? Se !_showChart for false, mostra TransactionList()
-            if (!_showChart)
+            //? ou || se não estiver no Modo Paisagem !isLandscape
+            if (!_showChart || !isLandscape)
               Container(
                 height: availableHeight * 0.65,
                 child: TransactionList(_transactions, _removeWhere),

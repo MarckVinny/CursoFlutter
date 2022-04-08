@@ -8,6 +8,9 @@
   * [Definindo a Orientação do APP - Aula 146](#definindo-orientacao-do-app)
   * [Alternando entre Chart() e TransactionList() - Aula 147](#usando-responsividade-no-texto)
   * [Refatorando TransactionList() Responsividade - Aula 148](#refatorando-transactionlist-responsividade)
+  * [Ajustando o Gráfico no Modo Paisagem - Aula 149](#ajustando-grafico-modo-paisagem)
+* [](#)
+* [](#)
 * [](#)
 * [](#)
 * [](#)
@@ -433,4 +436,48 @@ transaction_list.dart
 ...
 ```
 
-##
+## Ajustando o Gráfico no Modo Paisagem <a name='ajustando-grafico-modo-paisagem'></a>
+
+#### [^Sumário^](#sumario)
+
+Para que o gráfico ***Chart()*** apareça corretamente no ***Modo Paisagem*** `Orientation Landscape`, precisaremos definir uma variável ***booleana*** `bool` que irá verificar se o Dispositivo está ou não no ***Modo Paisagem***:
+
+* Logo no início do Método `build(){...}` iremos definir uma variável do Tipo ***booleana*** `bool` de nome `isLandscape` que irá receber `=` `MediaQuery.of(context)` com a propriedade `.orientation` e iremos comparar se é igual `==` ao Modo Paisagem `Orientation.landscape;` e estando no ***Modo Paisagem*** a variável ***isLandscape*** retornará ***true.***;
+
+* Então, somente será mostrado o ***switch*** para habilitar o gráfico, se o aparelho estiver no Modo Paisagem e para isso iremos definir `if(isLandscape)` se está no Modo Paisagem, antes do Componente `Row()`;
+
+* Para que o ***Gráfico*** e a ***Lista de Transações*** apareçam no Modo Retrato e NÃO apareça o switch, precisamos fazer uma checagem no Componente `Chart()` e no Componente `TransactionList()`:
+
+* Antes do Componente `Chart()` ficará assim `if (_showChart || !isLandscape)`;
+
+* Antes do Componente `TransactionList()` ficará assim `if (!_showChart || !isLandscape)`;
+
+* Agora para resolver o erro de não estar aparecendo corretamente o Gráfico no Modo Paisagem, iremos usar a variável ***isLandscape*** para definir o ***percentual de altura*** do Gráfico:
+
+```
+main.dart
+
+...
+    //* Filtra as Transações Recentes
+    //? Se _showChart for true mostra o Chart()
+    //? ou || se não estiver no Modo Paisagem !isLandscape
+    if (_showChart || !isLandscape)
+        Container(
+        //todo: Se estiver no Modo Paisagem isLandscape
+        //todo: ? multiplica Altura Disponível por 0.7
+        //todo: ? multiplica Altura Disponível por 0.35
+        height: availableHeight * (isLandscape ? 0.7 : 0.35),
+        child: Chart(_recentTransactions),
+        ),
+    //* Comunicação Direta -> através de Dados
+    //? Se !_showChart for false, mostra TransactionList()
+    //? ou || se não estiver no Modo Paisagem !isLandscape
+    if (!_showChart || !isLandscape)
+        Container(
+        height: availableHeight * 0.65,
+        child: TransactionList(_transactions, _removeWhere),
+        ),
+...
+```
+
+## 

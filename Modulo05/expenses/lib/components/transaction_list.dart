@@ -17,7 +17,7 @@ class TransactionList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: constraints.maxHeight * 0.05,
+                  height: constraints.maxHeight * 0.02,
                 ),
                 Container(
                   height: constraints.maxHeight * 0.3,
@@ -28,10 +28,10 @@ class TransactionList extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: constraints.maxHeight * 0.05,
+                  height: constraints.maxHeight * 0.02,
                 ),
                 Container(
-                  height: constraints.maxHeight * 0.6,
+                  height: constraints.maxHeight * 0.66,
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.fitHeight,
