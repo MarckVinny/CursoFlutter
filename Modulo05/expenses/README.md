@@ -7,7 +7,7 @@
   * [Responsividade do ChartBar com LayoutBuilder - Aula 145](#responsividade-chartbar-layoutbuilder)
   * [Definindo a Orientação do APP - Aula 146](#definindo-orientacao-do-app)
   * [Alternando entre Chart() e TransactionList() - Aula 147](#usando-responsividade-no-texto)
-* [](#)
+  * [Refatorando TransactionList() Responsividade - Aula 148](#refatorando-transactionlist-responsividade)
 * [](#)
 * [](#)
 * [](#)
@@ -370,4 +370,67 @@ Já usando o ***if()***, podemos exibir a ***Row()*** somente se estiver no ***M
 
 Posteriormente podemos substituir esse controle deslizante por um botão na barra de Título que alternará entre um ícone de Gráfico e um ícone de Lista.
 
-## 
+## Refatorando TransactionList() Responsividade <a name='refatorando-transactionlist-responsividade'></a>
+
+#### [^Sumário^](#sumario)
+
+Como nos Componentes anteriores, também iremos usar o Componente ***LayoutBuilder()*** para poder ajustar a imagem de quando não tem nenhuma transação cadastrada.
+
+Anteriormente foi usado o ***MediaQuery()*** para fazer esse ajuste, mas como já aprendemos a usar o ***LayoutBuilder()*** iremos usar este Componente.
+
+Antes usamos o ***Padding()*** para poder dar espaço entre os Componentes, mas iremos voltar ao padrão proposto, e iremos usar o ***SizedBox()*** para poder dar espaço entre os Componentes posto isso, as definições ficaram da seguinte forma:
+
+* Envolver toda a ***coluna*** `Column()` em `Widget` ***CTRL+PONTO*** `Wrap with widget` e renomear para `LayoutBuilder()`;
+
+* Definir o atributo `builder:` e adicionar o ***contexto*** `(ctx,` e as ***restrições*** `constraints) {...}`;
+
+* Dentro das ***chaves*** `{` irá ***retornar*** `return` todo o conteúdo da coluna `Column()`;
+
+* Antes de ***Text()*** adicionar um `SizedBox(` definindo o atributo `height:` com a restrição `constraints` altura máxima `.maxHeight` multiplicado `*` por 5% da altura do Componente `0.05),`;
+
+* Iremos envolver o ***Text()*** com um `Container()` ***CTRL+PONTO*** `Wrap with container` e definir o atributo de altura `height:` com a restrição `constraints` altura máxima `.maxHeight` multiplicado `*` por 30% da altura do Componente `0.3),`;
+
+* Após o ***Text()*** repetir o mesmo procedimento do ponto anterior, sendo assim, será: `SizedBox()` -> `Text()` -> `SizedBox()`;
+
+* Após o segundo ***SizedBox()*** vem o `Container()` que contém a imagem quando não há nenhuma transação cadastrada, com isso iremos adicionar o atributo de altura `height:` com a restrição `constraints` altura máxima `.maxHeight` multiplicado `*` por 60% da altura o Componente `0.6,`.
+
+## Código da Aula de hoje <a name='codigo-aula-148'></a>
+
+#### [^Sumário^](#sumario)
+
+```
+transaction_list.dart
+ 
+...
+        ? LayoutBuilder(builder: ((context, constraints) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: constraints.maxHeight * 0.05,
+                ),
+                Container(
+                  height: constraints.maxHeight * 0.3,
+                  child: Text(
+                    'Nenhuma Transação Cadastrada!',
+                    style: Theme.of(context).textTheme.headline6,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(
+                  height: constraints.maxHeight * 0.05,
+                ),
+                Container(
+                  height: constraints.maxHeight * 0.6,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.fitHeight,
+                  ),
+                )
+              ],
+            );
+          }))
+...
+```
+
+##
