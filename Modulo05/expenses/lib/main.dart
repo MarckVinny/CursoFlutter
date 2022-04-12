@@ -128,9 +128,25 @@ class _MyHomePageState extends State<MyHomePage> {
     final appBar = AppBar(
       title: const Text('Despesas Pessoais'),
       actions: [
+        //? Mostra o ícone, Se estiver no Modo Paisagem "isLandscape"
+        if (isLandscape)
+          IconButton(
+            //? Se _showChart for verdadeiro true
+            //? Mostre ? o ícone de Lista
+            //? Senão : mostre o ícone de Gráfico
+            icon: Icon(_showChart ? Icons.list : Icons.bar_chart),
+            onPressed: () {
+              //todo: muda os ícones,
+              //todo: Se verdadeiro mostra o Gráfico _showChart
+              //todo: Se falso mostra a Lista !_showChart
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+          ),
         IconButton(
-          onPressed: () => _openTransactionFormModal(context),
           icon: const Icon(Icons.add),
+          onPressed: () => _openTransactionFormModal(context),
         )
       ],
     );
@@ -149,23 +165,23 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            //? Está no Modo Paisagem?
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Exibir Gráfico'),
-                  //* Controle deslizante
-                  Switch(
-                    value: _showChart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showChart = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
+            // //? Está no Modo Paisagem?
+            // if (isLandscape)
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       const Text('Exibir Gráfico'),
+            //       //* Controle deslizante
+            //       Switch(
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       ),
+            //     ],
+            //   ),
             //* Filtra as Transações Recentes
             //? Se _showChart for true mostra o Chart()
             //? ou || se não estiver no Modo Paisagem !isLandscape

@@ -9,7 +9,7 @@
   * [Alternando entre Chart() e TransactionList() - Aula 146](#alternando-chart-transactionlist)
   * [Refatorando TransactionList() Responsividade - Aula 147](#refatorando-transactionlist-responsividade)
   * [Ajustando o Gráfico no Modo Paisagem - Aula 148](#ajustando-grafico-modo-paisagem)
-* [](#)
+  * [Mudando o Switch por um Botão de Ícone - Aula 149](#mudando-switch-botao-icone)
 * [](#)
 * [](#)
 * [](#)
@@ -480,4 +480,45 @@ main.dart
 ...
 ```
 
-## 
+## Mudando o Switch por um Botão de Ícone <a name='mudando-switch-botao-icone'></a>
+
+#### [^Sumário^](#sumario)
+
+Nesta aula iremos adicionar um botão na Barra de Títulos que irá alternar entre mostrar o Gráfico e mostrar a Lista de Transações.
+
+Primeiro iremos adicionar mais um ícone `IconButton()` na ***Barra de Título*** antes do ícone de ***Adicionar Transação***.
+
+No `onPressed:` iremos utilizar uma Função `() {...}` para controlar o Estado do Botão que irá alternar entre o ícone da Lista e o ícone do Chart;
+
+* Dentro das chaves `{` iremos definir o ***setState()*** que irá controlar o Estado do Botão, `setState(() {` definindo a variável true `_showChart`  que receberá `=` a variável false `!_showChart});`. Na lógica, ***se for verdadeiro*** true, mostra o Chart ***_showChart*** e ***se "não for verdadeiro"*** false ***!_showChart*** mostra a lista.
+
+* Agora iremos adicionar o atributo `icon:` com a propriedade `Icon(` Se `_showChart` for verdadeiro true `?` mostra o ícone da Lista `Icons.list` Se for falso false `:` mostra o ícone do Chart `Icons.bar_chart),`.
+
+* O que irá controlar se o ícone irá ou não aparecer no ***Modo Paisagem*** é a variável `isLandscape` que deverá ser definida antes do Componente `IconButton()` que acabamos de definir.
+
+* E para finalizar podemos comentar ou simplesmente excluir o Componente ***Row()*** que se encontra dentro de ***Scaffold()*** para que o ***Switch()*** não fique mais sendo exibido no App.
+
+### A seguir teremos o código da aula de hoje comentado:
+
+```
+main.dart
+ 
+...
+    //? Mostra o ícone, Se estiver no Modo Paisagem "isLandscape"
+    if (isLandscape)
+        IconButton(
+        //? Se _showChart for verdadeiro true
+        //? Mostre ? o ícone de Lista
+        //? Senão : mostre o ícone de Gráfico
+        icon: Icon(_showChart ? Icons.list : Icons.bar_chart),
+        onPressed: () {
+            //todo: muda os ícones,
+            //todo: Se verdadeiro mostra o Gráfico _showChart
+            //todo: Se falso mostra a Lista !_showChart
+            setState(() {
+            _showChart = !_showChart;
+            });
+        },
+        ),
+...
+```
