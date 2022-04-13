@@ -113,6 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
   //todo: Função que chama o Componente TransactionForm()
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
+        //todo: habilita o scroll
+        isScrollControlled: true,
         context: context,
         builder: (_) {
           return TransactionForm(_addTransaction);

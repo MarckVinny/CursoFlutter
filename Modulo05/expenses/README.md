@@ -10,6 +10,10 @@
   * [Refatorando TransactionList() Responsividade - Aula 147](#refatorando-transactionlist-responsividade)
   * [Ajustando o Gráfico no Modo Paisagem - Aula 148](#ajustando-grafico-modo-paisagem)
   * [Mudando o Switch por um Botão de Ícone - Aula 149](#mudando-switch-botao-icone)
+    * [Código da Aula - Aula 149](#codigo-aula-149)
+  * [Ajustando Modal do Formulário - Aula 150](#ajustando-modal-formulario)
+    * [A lógica que abordaremos será a seguinte: - Aula 150](#logica-abordada-aula-150)
+    * [Códigos da Aula - Aula 150](#codigo-aula-150)
 * [](#)
 * [](#)
 * [](#)
@@ -498,7 +502,9 @@ No `onPressed:` iremos utilizar uma Função `() {...}` para controlar o Estado 
 
 * E para finalizar podemos comentar ou simplesmente excluir o Componente ***Row()*** que se encontra dentro de ***Scaffold()*** para que o ***Switch()*** não fique mais sendo exibido no App.
 
-### A seguir teremos o código da aula de hoje comentado:
+### Código da Aula: <a name='codigo-aula-149'></a>
+
+#### [^Sumário^](#sumario)
 
 ```
 main.dart
@@ -522,3 +528,65 @@ main.dart
         ),
 ...
 ```
+
+## Ajustando Modal do Formulário <a name='ajustando-modal-formulario'></a>
+
+#### [^Sumário^](#sumario)
+
+Atualmente o Formulário que é criando através de um Modal, possui um problema que quando se clica em um ***TextField()*** o teclado abre por cima do Modal escondendo parte do Formulário.
+
+Na aula de hoje, veremos uma forma simples de resolver esse problema, mas em aulas futuras, voltaremos a esse assunto com uma abordagem mais profunda e avançada.
+
+>***Dica:*** Mas, no link a seguir, tem Modal melhorado http://encurtador.com.br/szIQ2
+
+### A lógica que abordaremos será a seguinte: <a name='logica-abordada-aula-150'></a>
+
+#### [^Sumário^](#sumario)
+
+* Detectar o tamanho do teclado, para poder somar o tamanho do teclado + 10 de padding na parte de baixo;
+
+* Em ***transaction_form.dart*** vamos envolver o `Card()` com um `Widget` ***CTRL+PONTO*** `Wrap with widget` e renomear para `SingleChildScrollView()`;
+
+* Alterar o `padding: EdgeInsets.all(7),` para `EdgeInsets.only(top: 7, right: 7, left: 7, bottom: 7 + o Tamanho do Teclado através de MediaQuery.of(context).viewInsets.bottom,),`. O `viewInserts` seriam as dimensões da View e quando o teclado sobre, a View fica menor e o espaço que o teclado ocupa é o `.bottom`. E somando com 7 vai dar um padding: com essas dimensões associado ao `Card()` que representa o Formulário;
+
+* E para terminar, dentro de main.dart em `showModalBottomSheet()` acrescentar a linha `isScrollControlled: true,` para habilitar o ***scroll do Modal***.
+
+### Códigos da Aula <a name='codigo-aula-150'></a>
+
+#### [^Sumário^](#sumario)
+
+```
+transaction_form.dart
+ 
+...
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 7,
+            right: 7,
+            left: 7,
+            bottom: 7 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+...
+```
+
+```
+main.dart
+ 
+...
+  _openTransactionFormModal(BuildContext context) {
+    showModalBottomSheet(
+        //todo: habilita o scroll
+        isScrollControlled: true,
+        context: context,
+        builder: (_) {
+          return TransactionForm(_addTransaction);
+        });
+  }
+...
+```
+
+##
