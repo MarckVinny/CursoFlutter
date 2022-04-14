@@ -478,7 +478,7 @@ main.dart
     //? ou || se não estiver no Modo Paisagem !isLandscape
     if (!_showChart || !isLandscape)
         Container(
-        height: availableHeight * 0.65,
+        height: availableHeight * (isLandscape ? 1 : 0.65),
         child: TransactionList(_transactions, _removeWhere),
         ),
 ...
