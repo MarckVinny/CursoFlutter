@@ -14,6 +14,9 @@
   * [Ajustando Modal do Formulário - Aula 150](#ajustando-modal-formulario)
     * [A lógica que abordaremos será a seguinte: - Aula 150](#logica-abordada-aula-150)
     * [Códigos da Aula - Aula 150](#codigo-aula-150)
+  * [Definindo Condicional Relacionada à Largura do Dispositivo - Aula 151](#definindo-confidencial-relacionada-largura-dispositivo)
+    * [Código da Aula - Aula 151](#codigo-aula-151)
+* [](#)
 * [](#)
 * [](#)
 * [](#)
@@ -589,4 +592,57 @@ main.dart
 ...
 ```
 
-##
+## Definindo Condicional Relacionada à Largura do Dispositivo <a name='definindo-confidencial-relacionada-largura-dispositivo'></a>
+
+#### [^Sumário^](#sumario)
+
+Iremos atribuir uma condicional para que apareça uma Label ao lado do ícone de excluir transação, para que quando estiver em um Dispositivo de Tela Maior que o tamanho que definimos, apareça a Label ou qualquer outra Função que venhamos a desejar.
+
+### A lógica será a seguinte:
+
+* Associado ao ***Botão Excluir Transação***, será adicionado uma ***Label*** caso a Largura seja maior que determinado tamanho;
+
+* A princípio, essa ***Label*** só irá aparecer em Telas Largas ou no Modo Paisagem;
+
+* A checagem não será feita para saber se o Dispositivo está ou não no Modo Paisagem ***"isLandscape"***;
+
+* Essa checagem será feita dentro do `trailing:` que fica dentro do `ListTiled()` dentro do `Card()`.
+
+Agora, abra o arquivo transaction_list.dart e dentro de `Widget build()` -> `ListView.builder()` -> `Card()` -> `child: ListTiled()` -> `trailing:` e a partir de ***trailing:*** iremos fazer a checagem do tamanho da tela:
+
+* Iremos pegar a Largura através de `MediaQuery.of(context).size.width` se a Largura for maior `>` que `480`;
+
+* Mostra `?` o `TextButton.icon()` caso contrário `:` mostra o ícone padrão `IconButton()`;
+
+* Será mostrado o ícone padrão **"Lixeira"** se a Largura for menor que 480 e um `TextButton()` com a Label junto com a Lixeira se a Largura for maior que 480;
+
+
+### Código da Aula: <a name='codigo-aula-151'></a>
+
+#### [^Sumário^](#sumario)
+
+```
+transaction_list.dart
+ 
+...
+    trailing: MediaQuery.of(context).size.width > 420
+        ? TextButton.icon(
+            onPressed: () => onRemove(tr.id),
+            icon: Icon(Icons.delete_forever_outlined,
+                color: Theme.of(context).errorColor),
+            label: Text(
+            'Excluir',
+            style:
+                TextStyle(color: Theme.of(context).errorColor),
+            ),
+        )
+        : IconButton(
+            onPressed: () => onRemove(tr.id),
+            icon: const Icon(Icons.delete_forever_outlined),
+            color: Theme.of(context).errorColor,
+        ),
+),
+...
+```
+
+## 
