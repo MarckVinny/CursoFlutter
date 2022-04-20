@@ -16,8 +16,8 @@
     * [Códigos da Aula - Aula 150](#codigo-aula-150)
   * [Definindo Condicional Relacionada à Largura do Dispositivo - Aula 151](#definindo-confidencial-relacionada-largura-dispositivo)
     * [Código da Aula - Aula 151](#codigo-aula-151)
-* [](#)
-* [](#)
+  * [Refatorando o MediaQuery() - Aula 152](#refatorando-media-query)
+  * [Detectando a Plataforma (Android, iOS, Windows, etc.) - Aula 154](#detectando-plataforma-aula-154)
 * [](#)
 * [](#)
 * [](#)
@@ -644,5 +644,80 @@ transaction_list.dart
 ),
 ...
 ```
+
+## Refatorando o MediaQuery() <a name='refatorando-media-query'></a>
+
+#### [^Sumário^](#sumario)
+
+Para otimizar o código e evitar de ficar reconstruindo o `MediaQuery.of(context)` toda vez que for chamado, iremos definir uma ***Constante do Tipo Final*** `final` de nome `mediaQuery` para armazenar este Método e iremos chamar esta Constante ao invés de chamar o Método mais de uma vez.
+
+```
+main.dart
+
+...
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+...
+```
+
+## Detectando a Plataforma (Android, iOS, Windows, etc.) <a name='detectando-plataforma-aula-154'></a>
+
+#### [^Sumário^](#sumario)
+
+Primeiramente para que possamos definir, como e se um determinado Componente irá comportar em determinada Plataforma.
+
+Vamos usar um exemplo do Componente `Switch()`, nele existe um Construtor Nomeado chamado `.adaptive()` que em outras palavras adapta o Componente dependendo em que Plataforma o App está sendo rodado.
+
+Também podemos definir que o `Switch()` tenha a mesma cor do Thema que estamos usando no App que no caso é:  `activeColor: Theme.of(context).colorScheme.secondary,`.
+
+Dessa forma definimos o `activeColor:` tanto para o Android quanto para o iOS.
+
+```
+main.dart
+ 
+...
+        Switch.adaptive(
+        activeColor: Theme.of(context).colorScheme.secondary,
+        value: _showChart,
+        onChanged: (value) {
+            setState(() {
+            _showChart = value;
+            });
+        },
+        ),
+    ],
+    ),
+...
+```
+
+Agora sim, iremos identificar qual Plataforma o App está rodando e usar uma definição diferente para um determinado Componente.
+Isso fale para qualquer uma das Plataformas suportadas pelo Dart.
+
+Para que possamos identifica a Plataforma, primeiro precisamos importar a Biblioteca dart:io `import 'dart:io';`
+
+Neste Exemplo, iremos ocultar o ***floatActionButton()*** no iOS, pois a Plataforma não utiliza esse tipo de botão.
+
+Para isso, iremos utilizar uma ***Função Ternária*** que irá verificar se estamos no iOS `Platform.isIOS`, se estivermos irá `?` mostrar um Container vazio `Container() :` caso contrário estamos no Android e irá mostrar o `floatActionButton();`
+
+```
+main.dart
+ 
+...
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () => _openTransactionFormModal(context),
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+...
+```
+
+Essas a princípio são as duas formas de se fazer com que o mesmo Componente seja renderizado de maneiras distintas e nativas na Plataforma em que estiver rodando.
+
+Podemos usar o ***Método Adaptativo***, fazendo com que o Flutter se encarregue automaticamente da conversão do Componente.
+
+Ou usando a ***Biblioteca Dart IO*** e Definindo manualmente o comportamento do Componente.
 
 ## 

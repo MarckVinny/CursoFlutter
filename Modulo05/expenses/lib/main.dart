@@ -1,6 +1,7 @@
+import 'dart:math';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'dart:math';
 import 'components/transaction_list.dart';
 import 'components/transaction_form.dart';
 import 'components/chart.dart';
@@ -123,9 +124,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     //todo: Verifica se está ou não no Modo Paisagem
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     //todo: Coloca o Componente AppBar dentro da variável appBar
     final appBar = AppBar(
       title: const Text('Despesas Pessoais'),
@@ -157,9 +158,9 @@ class _MyHomePageState extends State<MyHomePage> {
     //todo: 1 - Pega a Altura Total da Tela;
     //todo: 2 - Subtrai a Altura do AppBar;
     //todo: 3 - Subtrai a Altura da Barra de Status.
-    final availableHeight = MediaQuery.of(context).size.height -
+    final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+        mediaQuery.padding.top;
 
     return Scaffold(
       appBar: appBar,
@@ -167,23 +168,24 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // //? Está no Modo Paisagem?
-            // if (isLandscape)
-            //   Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       const Text('Exibir Gráfico'),
-            //       //* Controle deslizante
-            //       Switch(
-            //         value: _showChart,
-            //         onChanged: (value) {
-            //           setState(() {
-            //             _showChart = value;
-            //           });
-            //         },
-            //       ),
-            //     ],
-            //   ),
+            //? Está no Modo Paisagem?
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Exibir Gráfico'),
+                  //* Controle deslizante
+                  Switch.adaptive(
+                    activeColor: Theme.of(context).colorScheme.secondary,
+                    value: _showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showChart = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
             //* Filtra as Transações Recentes
             //? Se _showChart for true mostra o Chart()
             //? ou || se não estiver no Modo Paisagem !isLandscape
@@ -206,10 +208,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => _openTransactionFormModal(context),
-      ),
+      //todo: Platform.isIOS identifica se o App está ou não rodando no iOS
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () => _openTransactionFormModal(context),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
