@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'components/transaction_list.dart';
@@ -122,36 +123,47 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  //todo: Método que cria o ícone e a Função do botão
+  Widget _getIconButton(IconData icon, Function() fn) {
+    return Platform.isIOS
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(icon: Icon(icon), onPressed: fn);
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+
     //todo: Verifica se está ou não no Modo Paisagem
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+
+    final actions = [
+      //? Mostra o ícone, Se estiver no Modo Paisagem "isLandscape"
+      if (isLandscape)
+        _getIconButton(
+          //? Se _showChart for verdadeiro true
+          //? Mostre ? o ícone de Lista
+          //? Senão : mostre o ícone de Gráfico
+          _showChart ? Icons.list : Icons.bar_chart,
+          () {
+            //todo: muda os ícones,
+            //todo: Se verdadeiro mostra o Gráfico _showChart
+            //todo: Se falso mostra a Lista !_showChart
+            setState(() {
+              _showChart = !_showChart;
+            });
+          },
+        ),
+      _getIconButton(
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+        () => _openTransactionFormModal(context),
+      ),
+    ];
+
     //todo: Coloca o Componente AppBar dentro da variável appBar
-    final appBar = AppBar(
+    final PreferredSizeWidget appBar = AppBar(
       title: const Text('Despesas Pessoais'),
-      actions: [
-        //? Mostra o ícone, Se estiver no Modo Paisagem "isLandscape"
-        if (isLandscape)
-          IconButton(
-            //? Se _showChart for verdadeiro true
-            //? Mostre ? o ícone de Lista
-            //? Senão : mostre o ícone de Gráfico
-            icon: Icon(_showChart ? Icons.list : Icons.bar_chart),
-            onPressed: () {
-              //todo: muda os ícones,
-              //todo: Se verdadeiro mostra o Gráfico _showChart
-              //todo: Se falso mostra a Lista !_showChart
-              setState(() {
-                _showChart = !_showChart;
-              });
-            },
-          ),
-        IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () => _openTransactionFormModal(context),
-        )
-      ],
+      actions: actions,
     );
 
     //todo: Calcula a Altura Disponível da Tela;
@@ -162,60 +174,77 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar.preferredSize.height -
         mediaQuery.padding.top;
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            //? Está no Modo Paisagem?
-            // if (isLandscape)
-            //   Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       const Text('Exibir Gráfico'),
-            //       //* Controle deslizante
-            //       Switch.adaptive(
-            //         activeColor: Theme.of(context).colorScheme.secondary,
-            //         value: _showChart,
-            //         onChanged: (value) {
-            //           setState(() {
-            //             _showChart = value;
-            //           });
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            //* Filtra as Transações Recentes
-            //? Se _showChart for true mostra o Chart()
-            //? ou || se não estiver no Modo Paisagem !isLandscape
-            if (_showChart || !isLandscape)
-              Container(
-                //todo: Se estiver no Modo Paisagem isLandscape
-                //todo: ? multiplica Altura Disponível por 0.7
-                //todo: ? multiplica Altura Disponível por 0.35
-                height: availableHeight * (isLandscape ? 0.7 : 0.35),
-                child: Chart(_recentTransactions),
-              ),
-            //* Comunicação Direta -> através de Dados
-            //? Se !_showChart for false, mostra TransactionList()
-            //? ou || se não estiver no Modo Paisagem !isLandscape
-            if (!_showChart || !isLandscape)
-              Container(
-                height: availableHeight * (isLandscape ? 1 : 0.65),
-                child: TransactionList(_transactions, _removeWhere),
-              ),
-          ],
-        ),
-      ),
-      //todo: Platform.isIOS identifica se o App está ou não rodando no iOS
-      floatingActionButton: Platform.isIOS
-          ? Container()
-          : FloatingActionButton(
-              child: const Icon(Icons.add),
-              onPressed: () => _openTransactionFormModal(context),
+    final bodyPage = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          //? Está no Modo Paisagem?
+          // if (isLandscape)
+          //   Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       const Text('Exibir Gráfico'),
+          //       //* Controle deslizante
+          //       Switch.adaptive(
+          //         activeColor: Theme.of(context).colorScheme.secondary,
+          //         value: _showChart,
+          //         onChanged: (value) {
+          //           setState(() {
+          //             _showChart = value;
+          //           });
+          //         },
+          //       ),
+          //     ],
+          //   ),
+          //* Filtra as Transações Recentes
+          //? Se _showChart for true mostra o Chart()
+          //? ou || se não estiver no Modo Paisagem !isLandscape
+          if (_showChart || !isLandscape)
+            Container(
+              //todo: Se estiver no Modo Paisagem isLandscape
+              //todo: ? multiplica Altura Disponível por 0.7
+              //todo: ? multiplica Altura Disponível por 0.35
+              height: availableHeight * (isLandscape ? 0.7 : 0.35),
+              child: Chart(_recentTransactions),
             ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          //* Comunicação Direta -> através de Dados
+          //? Se !_showChart for false, mostra TransactionList()
+          //? ou || se não estiver no Modo Paisagem !isLandscape
+          if (!_showChart || !isLandscape)
+            Container(
+              height: availableHeight * (isLandscape ? 1 : 0.65),
+              child: TransactionList(_transactions, _removeWhere),
+            ),
+        ],
+      ),
     );
+
+    //todo: Se a Plataforma for IOS
+    //todo: ? mostra CupertinoPageScaffold()
+    //todo: senão for : mostra Scaffold()
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: const Text('Despesas Pessoais'),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: actions,
+              ),
+            ),
+            child: bodyPage,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: bodyPage,
+            //todo: Platform.isIOS identifica se o App está ou não rodando no iOS
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: const Icon(Icons.add),
+                    onPressed: () => _openTransactionFormModal(context),
+                  ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
   }
 }

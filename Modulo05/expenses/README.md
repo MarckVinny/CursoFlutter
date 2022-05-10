@@ -17,9 +17,9 @@
   * [Definindo Condicional Relacionada à Largura do Dispositivo - Aula 151](#definindo-confidencial-relacionada-largura-dispositivo)
     * [Código da Aula - Aula 151](#codigo-aula-151)
   * [Refatorando o MediaQuery() - Aula 152](#refatorando-media-query)
-  * [Detectando a Plataforma (Android, iOS, Windows, etc.) - Aula 154](#detectando-plataforma-aula-154)
-* [](#)
-* [](#)
+* [Detectando a Plataforma (Android, iOS, Windows, etc.) - Aula 153](#detectando-plataforma-aula-154)
+  * [Correção Componente iOS - Aula 154](#correcao-componente-ios-aula-154)
+  * [Refatorando Componentes iOS e Android - Aula 155](#refatorando-componente-ios-android-aula-155)
 * [](#)
 
 ============================================================
@@ -660,9 +660,11 @@ main.dart
 ...
 ```
 
-## Detectando a Plataforma (Android, iOS, Windows, etc.) <a name='detectando-plataforma-aula-154'></a>
+## Detectando a Plataforma (Android, iOS, Windows, etc.) <a name='detectando-plataforma-aula-153'></a>
 
 #### [^Sumário^](#sumario)
+
+>### ***A partir desde ponto, precisaríamos de um dispositivo Apple para poder testar os códigos a seguir, na Vídeo Aula do Curso de Flutter da [COD3R](http://www.cod3r.com.br), o Professor Leonardo Moura, utilizou um dispositivo pra fazer os testes "coisa que não possuo no momento". Então só irei repassar sem testar os códigos, pois, nem mesmo consegui encontrar um emulador para iPhone para efetuar os testes.***
 
 Primeiramente para que possamos definir, como e se um determinado Componente irá comportar em determinada Plataforma.
 
@@ -719,5 +721,161 @@ Essas a princípio são as duas formas de se fazer com que o mesmo Componente se
 Podemos usar o ***Método Adaptativo***, fazendo com que o Flutter se encarregue automaticamente da conversão do Componente.
 
 Ou usando a ***Biblioteca Dart IO*** e Definindo manualmente o comportamento do Componente.
+
+## Correção Componente iOS <a name='correcao-componente-ios-aula-154'></a>
+
+#### [^Sumário^](#sumario)
+
+### Fala pessoal!
+
+Na próxima aula, faremos algumas correções por conta das atualizações do Flutter 2. A primeira delas se trata da refatoração da ***AppBar***, o ***PreferredSizeWidget*** não funciona mais com a ***CupertinoNavigationBar***, então é necessário deixar essa parte do código lá no local dela mesmo, ao invés de refatorar como na aula. Ficará assim:
+
+```
+return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              middle: Text('Despesas Pessoais'),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: actions,
+              ),
+            ),
+            child: bodyPage,
+          )
+```
+
+A outra correção se trata da refatoração dos botões. Uma pequena mudança vai ser necessária da definição da função de refatoração. Será necessário adicionar ***()*** na Function que é parâmetro. Deixando o código assim:
+
+```
+Widget _getIconButton(IconData icon, Function() fn) {
+    return Platform.isIOS
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(icon: Icon(icon), onPressed: fn);
+  }
+```
+
+## Refatorando Componentes iOS e Android <a name='refatorando-componente-ios-android-aula-155'></a>
+
+#### [^Sumário^](#sumario)
+
+Neste tópico estaremos refatorando os Componentes para que seja apresentado visualmente de forma correta tanto em um dispositivo iOS usando o `Cupertino()` quanto em um dispositivo Android usando o `Material()`.
+
+Para iniciar vamos começar pelo componente principal da Aplicação, iremos criar uma Função Ternária que irá verificar se é um dispositivo iOS `Platform.isIOS` e se for `?` usa `CupertinoPageScaffold()` se não for `:` usa `Scaffold()`.
+
+Se o VS Code não fizer automaticamente, não esquece de importar o a biblioteca do Cupertino.
+
+```
+import 'package:flutter/cupertino.dart';
+```
+
+Existe uma peculiaridade em relação as Nomenclaturas, enquanto no `CupertinoPageScaffold()` temos um atributo `child:` no `Scaffold()` temos um atributo `body:` e isso pode causar problemas na hora de renderizar corretamente, por isso, iremos pegar todo o Componente `SingleChildScrollView()` e colocar dentro de uma constante chamada `bodyPage` que será referenciada tanto no ***child:*** quanto no ***body:***.
+
+```
+main.dart
+ 
+...
+final bodyPage = SingleChildScrollView(
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+        if (_showChart || !isLandscape)
+        Container(
+            height: availableHeight * (isLandscape ? 0.7 : 0.35),
+            child: Chart(_recentTransactions),
+        ),
+        if (!_showChart || !isLandscape)
+        Container(
+            height: availableHeight * (isLandscape ? 1 : 0.65),
+            child: TransactionList(_transactions, _removeWhere),
+        ),
+    ],
+    ),
+);
+ 
+   return Platform.isIOS
+        ? CupertinoPageScaffold(child: bodyPage)
+        : Scaffold(
+            appBar: appBar,
+            body: bodyPage,
+...
+```
+
+Continuando a refatoração, assim como antes os atributos `navigationBar:` e `appBar:` possuem a mesma função a de definir a Barra de Títulos.
+
+No atributo `navigationBar:` também será usado a constante `appBar`, mas, será preciso criar um `appBar` condicional.
+
+Lá onde foi definida a constante ***appBar*** deverá ser feito uma alteração que todo ***appBar*** precisa ser do Tipo `PreferredSizeWidget` que será mostrada a seguir:
+
+
+```
+    //todo: Coloca o Componente AppBar dentro da variável appBar
+    final PreferredSizeWidget appBar = AppBar(
+      title: const Text('Despesas Pessoais'),
+      actions: actions,
+    );
+```
+Assim como o `appBar:` implementa esta interface e o `CupertinoNavigationBar:` faz a mesma coisa, então, mais uma vez iremos implementar uma Função Ternária que verificará se é ou não iOS `Platform.isIOS` se for `?` mostra `CupertinoNavigationBar()` caso contrário `:` mostra `AppBar()`.
+
+Assim como no CupertinoPageScaffold() o CupertinoNavigationBar() possui algumas diferenças em comparação ao AppBar().
+
+O Título é definido através do atributo `middle:` que conterá o texto `Text('Despesas Pessoais'),` e relacionado as actions, ele não possui este atributo e sim um `trailing:` onde são colocados os botões de ação dentro de uma `Row()` no atributo `children:` e para que o Texto apareça corretamente, será usado o atributo `mainAxisSize:` com a propriedade `MainAxisSize.min` para que o botão de ação actions ocupe o menor espaço possível.
+
+```
+main.dart
+ 
+...
+    navigationBar: CupertinoNavigationBar(
+        middle: const Text('Despesas Pessoais'),
+        trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: actions,
+        ),
+    ),
+...
+```
+
+Agora iremos pegar as actions do ***AppBar()*** e colocar dentro de uma constante `final` chamada `actions` para que possa realizar algumas modificações, para que o Título e os Botões sejam renderizados corretamente tanto no iOS quanto no Android.
+
+Da forma que está até o momento, a renderização no iOS apresentará um erro pois o ***IconButton()*** não é um Componente do Cupertino e para resolver esse problema, será criado um Método chamado `_getIconButton(`que receberá um `IconData icon,` e uma Função que não retorna nada `Function() fn)` que será a Função executada quando o botão for pressionado.
+
+Mais uma vez utilizaremos uma Função Ternária para realizar nossa lógica:
+
+O Método `_getIconButton()` irá verificar se a plataforma é iOS `Platform.isIOS` se for `?` retorna `return GestureDetector()` caso contrário `:` retorna `return IconButton();`
+
+```
+main.dart
+ 
+...
+  Widget _getIconButton(IconData icon, Function() fn) {
+    return Platform.isIOS
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(icon: Icon(icon), onPressed: fn);
+  }
+...
+```
+
+Com isso, conseguimos criar dentro das actions os botões, chamando o Método ***_getIconButton()*** ao invés de ***IconButton()*** e passando por parâmetro tanto os ***ícones*** quanto a ***Função*** e através de **Platform.isIOS** verificamos a plataforma e selecionamos o ícone correto para ser mostrado.
+
+```
+main.dart
+ 
+...
+    final actions = [
+      if (isLandscape)
+        _getIconButton(
+          _showChart ? Icons.list : Icons.bar_chart,
+          () {
+            setState(() {
+              _showChart = !_showChart;
+            });
+          },
+        ),
+      _getIconButton(
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+        () => _openTransactionFormModal(context),
+      ),
+    ];
+...
+```
 
 ## 
