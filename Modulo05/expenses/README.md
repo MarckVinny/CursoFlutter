@@ -20,6 +20,10 @@
 * [Detectando a Plataforma (Android, iOS, Windows, etc.) - Aula 153](#detectando-plataforma-aula-154)
   * [Correção Componente iOS - Aula 154](#correcao-componente-ios-aula-154)
   * [Refatorando Componentes iOS e Android - Aula 155](#refatorando-componente-ios-android-aula-155)
+  * [Conhecendo o Componente SafeArea() - Aula 156](#conhecendo-safearea-aula-156)
+* [](#)
+* [](#)
+* [](#)
 * [](#)
 
 ============================================================
@@ -865,6 +869,82 @@ main.dart
         _getIconButton(
           _showChart ? Icons.list : Icons.bar_chart,
           () {
+            setState(() {
+              _showChart = !_showChart;
+            });
+          },
+        ),
+      _getIconButton(
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+        () => _openTransactionFormModal(context),
+      ),
+    ];
+...
+```
+
+## Conhecendo o Componente SafeArea() <a name='conhecendo-safearea-aula-156'></a>
+
+#### [^Sumário^](#sumario)
+
+***SafeArea()*** é um widget que insere um `child:` ***filho*** com preenchimento suficiente para evitar invasões do sistema operacional.
+
+Por exemplo, isso irá recuar o `child:` ***filho*** o suficiente para evitar a barra de status na parte superior da tela.
+
+Ele também irá recuar `child:` ***filho*** pela quantidade necessária para evitar o ***The Notch no iPhone X***, ou outros recursos físicos criativos semelhantes da tela.
+
+O motivo de estar ocorrendo erro no ***Cupertino*** é o espaço do ***The Notch*** não estar sendo considerado na hora do cálculo, uma forma de resolver isso é usando o Componente `SafeArea()` pois, ele cria uma ***Área Segura*** para renderizar os componentes corretamente na tela desconsiderando os espaços proibidos como o ***The Notch***.
+
+Agora para resolver esse erro, vamos envolver o ***SingleChildScrollView()*** com o Componente `SafeArea()` e iremos colocar todo o conteúdo do `SingleChildScrollView()` dentro do atributo `child:`.
+
+```
+main.dart
+ 
+...
+final bodyPage = SafeArea(
+    child: SingleChildScrollView(
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+        if (_showChart || !isLandscape)
+        Container(
+            height: availableHeight * (isLandscape ? 0.7 : 0.35),
+            child: Chart(_recentTransactions),
+        ),
+        if (!_showChart || !isLandscape)
+        Container(
+            height: availableHeight * (isLandscape ? 1 : 0.65),
+            child: TransactionList(_transactions, _removeWhere),
+        ),
+    ],
+    ),
+));
+...
+```
+Definindo os ícones para se ajustarem tanto no ***Cupertino*** quanto no ***Material***.
+
+Iremos definir uma variável `final` para o ***ícone de Lista*** com nome `iconList` e outra variável `final` para o ***ícone de Gráfico*** com nome `iconChart`.
+
+```
+main.dart
+ 
+...
+    //todo: Cria variável para os ícones
+    final iconList = Platform.isIOS ? CupertinoIcons.list_bullet : Icons.list;
+    final iconChart =
+        Platform.isIOS ? CupertinoIcons.chart_bar_alt_fill : Icons.bar_chart;
+ 
+    final actions = [
+      //? Mostra o ícone, Se estiver no Modo Paisagem "isLandscape"
+      if (isLandscape)
+        _getIconButton(
+          //? Se _showChart for verdadeiro true
+          //? Mostre ? o ícone de Lista
+          //? Senão : mostre o ícone de Gráfico
+          _showChart ? iconList : iconChart,
+          () {
+            //todo: muda os ícones,
+            //todo: Se verdadeiro mostra o Gráfico _showChart
+            //todo: Se falso mostra a Lista !_showChart
             setState(() {
               _showChart = !_showChart;
             });

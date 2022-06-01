@@ -137,6 +137,11 @@ class _MyHomePageState extends State<MyHomePage> {
     //todo: Verifica se está ou não no Modo Paisagem
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
+    //todo: Cria variável para os ícones
+    final iconList = Platform.isIOS ? CupertinoIcons.list_bullet : Icons.list;
+    final iconChart =
+        Platform.isIOS ? CupertinoIcons.chart_bar_alt_fill : Icons.bar_chart;
+
     final actions = [
       //? Mostra o ícone, Se estiver no Modo Paisagem "isLandscape"
       if (isLandscape)
@@ -144,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
           //? Se _showChart for verdadeiro true
           //? Mostre ? o ícone de Lista
           //? Senão : mostre o ícone de Gráfico
-          _showChart ? Icons.list : Icons.bar_chart,
+          _showChart ? iconList : iconChart,
           () {
             //todo: muda os ícones,
             //todo: Se verdadeiro mostra o Gráfico _showChart
@@ -174,7 +179,8 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar.preferredSize.height -
         mediaQuery.padding.top;
 
-    final bodyPage = SingleChildScrollView(
+    final bodyPage = SafeArea(
+        child: SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -217,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
         ],
       ),
-    );
+    ));
 
     //todo: Se a Plataforma for IOS
     //todo: ? mostra CupertinoPageScaffold()
