@@ -21,7 +21,7 @@
   * [Correção Componente iOS - Aula 154](#correcao-componente-ios-aula-154)
   * [Refatorando Componentes iOS e Android - Aula 155](#refatorando-componente-ios-android-aula-155)
   * [Conhecendo o Componente SafeArea() - Aula 156](#conhecendo-safearea-aula-156)
-  * [Criando um Botão Adaptativo - Aula 157'](#criando-botao-adaptativo-aula-157)
+  * [Criando um Botão Adaptativo - Aula 157](#criando-botao-adaptativo-aula-157)
 * [](#)
 * [](#)
 * [](#)
