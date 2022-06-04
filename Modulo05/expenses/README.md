@@ -21,7 +21,7 @@
   * [Correção Componente iOS - Aula 154](#correcao-componente-ios-aula-154)
   * [Refatorando Componentes iOS e Android - Aula 155](#refatorando-componente-ios-android-aula-155)
   * [Conhecendo o Componente SafeArea() - Aula 156](#conhecendo-safearea-aula-156)
-* [](#)
+  * [Criando um Botão Adaptativo - Aula 157'](#criando-botao-adaptativo-aula-157)
 * [](#)
 * [](#)
 * [](#)
@@ -955,6 +955,111 @@ main.dart
         () => _openTransactionFormModal(context),
       ),
     ];
+...
+```
+
+## Criando um Botão Adaptativo <a name='criando-botao-adaptativo-aula-157'></a>
+
+#### [^Sumário^](#sumario)
+
+Uma das estratégias que podemos tomar na hora de definir as interfaces, é criar Componentes que se adaptam ao Sistema Operacional em que estão sendo exibidas, é criar Classes e dentro destas Classes definir a Renderização Condicional baseado na plataforma *(iOS, Android, Windows, etc.)*.
+
+Uma vez criado a Classe que encapsula toda esta complexidade, não será preciso se preocupar de ficar fazendo teste ou renderização condicional em cada Componente separadamente, pois, essa lógica está encapsulada na Classe.
+
+Agora sim vamos criar a ***Classe AdaptativeButton***:
+
+Dentro da pasta ***components***, iremos criar o arquivo ***adaptative_button.dart*** e dentro deste arquivo iremos nossa Classe.
+
+Agora iremos criar um `StatelessWidget` apenas digitado ***stl*** no VSCode que completará parte do código para nós escolhendo a opção `Flutter Stateless Widget`.
+
+Depois de completar o código o cursor vai ficar piscando e iremos digitar o nome de nossa Classe que será `AdaptativeButton`.
+
+Para que possamos usar o ***Platform***, precisamos importar a biblioteca ***dart:io*** através do comando `import 'dart:io';`.
+
+E para usar os Componentes tanto Cupertino e o Material, precisamos importar suas respectivas bibliotecas:
+
+```
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+```
+
+Agora dentro do build, iremos fazer o teste para verificar o Sistema Operacional que o APP está rodando.
+
+Será retornado `return` caso a plataforma seja iOS `Platform.isIOS` será renderizado `? CupertinoButton()` caso contrário `:` será renderizado um `ElevatedButton()`.
+
+A partir deste botão, iremos receber dois parâmetros, mas, a medida que precisarmos, podemos adicionar novos parâmetros.
+
+Iremos criar duas variáveis `final`, uma `String` e outra `Function()`:
+
+```
+adptative_button.dart
+ 
+...
+  final String label;
+  final Function() onPressed;
+...
+```
+
+O ***label*** está sendo recebido como uma ***String***, mas caso fosse colocar um ***ícone*** ou uma ***imagem*** o melhor seria colocar um ***Widget*** por dar mais flexibilidade.
+
+Agora que as variáveis já foram criadas, iremos atribuí-las ao Construtor de nossa Classe.
+
+
+
+adptative_button.dart
+ 
+...
+  AdaptativeButton({
+    required this.label,
+    required this.onPressed,
+  }); 
+...
+
+O próximo passo é passar por parâmetro o label e a Função onPressed para o CupertinoButton() e para o TextButton().
+
+```
+adaptative_button.dart
+ 
+...
+    return Platform.isIOS
+        ? CupertinoButton(
+            child: Text(label),
+            onPressed: onPressed,
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+          )
+        : Padding(
+            padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+            child: ElevatedButton(
+              onPressed: onPressed,
+              child: Text(label),
+            ),
+          );
+...
+```
+
+Agora em ***transaction_form.dart***, iremos chamar o ***Botão Adaptativo*** que acabamos de definir.
+
+Primeiramente precisamos importar nosso Componente:
+
+```
+import 'package:expenses/components/adaptative_button.dart';
+```
+
+Agora iremos chamar o ***Botão Adaptativo*** `adaptativeButton()` ao invés de usar o `ElevateButton()`  tendo o `label:` como `'Nova Transação',` e o `onPressed:` como `_submitForm,`.
+
+```
+transaction_form.dart
+ 
+...
+Row(
+mainAxisAlignment: MainAxisAlignment.end,
+children: [
+    AdaptativeButton(
+        label: 'Nova Transação',
+        onPressed: _submitForm,
+    ),
+],
+),
 ...
 ```
 
