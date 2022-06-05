@@ -968,13 +968,17 @@ Uma vez criado a Classe que encapsula toda esta complexidade, não será preciso
 
 Agora sim vamos criar a ***Classe AdaptativeButton***:
 
-Dentro da pasta ***components***, iremos criar o arquivo ***adaptative_button.dart*** e dentro deste arquivo iremos nossa Classe.
+Dentro da pasta ***components***, iremos criar o arquivo ***adaptative_button.dart*** e dentro deste arquivo iremos definir nossa Classe.
 
 Agora iremos criar um `StatelessWidget` apenas digitado ***stl*** no VSCode que completará parte do código para nós escolhendo a opção `Flutter Stateless Widget`.
 
 Depois de completar o código o cursor vai ficar piscando e iremos digitar o nome de nossa Classe que será `AdaptativeButton`.
 
-Para que possamos usar o ***Platform***, precisamos importar a biblioteca ***dart:io*** através do comando `import 'dart:io';`.
+Para que possamos usar o ***Platform***, precisamos importar a biblioteca ***dart:io*** através do comando:
+
+```
+import 'dart:io';
+```
 
 E para usar os Componentes tanto Cupertino e o Material, precisamos importar suas respectivas bibliotecas:
 
@@ -992,7 +996,7 @@ A partir deste botão, iremos receber dois parâmetros, mas, a medida que precis
 Iremos criar duas variáveis `final`, uma `String` e outra `Function()`:
 
 ```
-adptative_button.dart
+adaptative_button.dart
  
 ...
   final String label;
@@ -1004,9 +1008,8 @@ O ***label*** está sendo recebido como uma ***String***, mas caso fosse colocar
 
 Agora que as variáveis já foram criadas, iremos atribuí-las ao Construtor de nossa Classe.
 
-
-
-adptative_button.dart
+```
+adaptative_button.dart
  
 ...
   AdaptativeButton({
@@ -1014,7 +1017,7 @@ adptative_button.dart
     required this.onPressed,
   }); 
 ...
-
+```
 O próximo passo é passar por parâmetro o label e a Função onPressed para o CupertinoButton() e para o TextButton().
 
 ```
@@ -1045,7 +1048,7 @@ Primeiramente precisamos importar nosso Componente:
 import 'package:expenses/components/adaptative_button.dart';
 ```
 
-Agora iremos chamar o ***Botão Adaptativo*** `adaptativeButton()` ao invés de usar o `ElevateButton()`  tendo o `label:` como `'Nova Transação',` e o `onPressed:` como `_submitForm,`.
+Agora iremos chamar o ***Botão Adaptativo*** `AdaptativeButton()` ao invés de usar o `ElevateButton()`  tendo o `label:` como `'Nova Transação',` e o `onPressed:` como `_submitForm,`.
 
 ```
 transaction_form.dart
@@ -1060,6 +1063,129 @@ children: [
     ),
 ],
 ),
+...
+```
+
+## TextField Adaptativo <a name='text-field-adaptativo-aula-159'></a>
+
+#### [^Sumário^](#sumario)
+
+Agora vamos criar a Classe ***AdaptativeTextField***:
+
+Dentro da pasta ***components***, iremos criar o arquivo ***adaptative_text_field.dart*** e dentro deste arquivo iremos definir nossa Classe.
+
+Agora iremos criar um `StatelessWidget` apenas digitado ***stl*** no VSCode que completará parte do código para nós escolhendo a opção `Flutter Stateless Widget`.
+
+Depois de completar o código o cursor vai ficar piscando e iremos digitar o nome de nossa Classe que será `AdaptativeTextField`.
+
+Para que possamos usar o ***Platform***, precisamos importar a biblioteca ***dart:io*** através do comando:
+
+```
+import 'dart:io';
+```
+E para usar os Componentes tanto Cupertino e o Material, precisamos importar suas respectivas bibliotecas:
+
+```
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+```
+
+Agora dentro do build, iremos fazer o teste para verificar o Sistema Operacional que o APP está rodando.
+
+Será retornado `return` caso a plataforma seja iOS `Platform.isIOS` será renderizado `? CupertinoTextField()` caso contrário `:` será renderizado um `TextField()`.
+
+A partir deste botão, iremos receber 4 parâmetros, mas, a medida que precisarmos, podemos adicionar novos parâmetros.
+
+Iremos criar 4 variáveis `final`, uma `String`, uma `TextEditingController`, uma `TextInputType` e outra `Function(String)`:
+
+```
+adaptative_text_field.dart
+ 
+...
+  final String label;
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final Function(String) onSubmitted
+...
+```
+
+O ***label*** está sendo recebido como uma ***String***, mas caso fosse colocar um ***ícone*** ou uma ***imagem*** o melhor seria colocar um ***Widget*** por dar mais flexibilidade.
+
+Agora que as variáveis já foram criadas, iremos atribuí-las ao Construtor de nossa Classe.
+
+O ***keyboardType*** terá seu valor setado para ***TextInputType.text*** que terá o teclado de texto como teclado padrão.
+
+```
+adaptative_text_field.dart
+ 
+...
+  const AdaptativeTextField({
+    required this.label,
+    required this.controller,
+    this.keyboardType = TextInputType.text,
+    required this.onSubmitted,
+  });
+...
+```
+O próximo passo é passar por parâmetro o `label`, o `controller`, o `keyboardType` e a Função `onSubmitted` para o CupertinoTextField() e para o TextField().
+
+No ***CupertinoTextField()*** o `label` foi adicionado no atributo`placeholder:` e foi acrescentado um atributo `padding:` para formatar melhor o TextField no iOS.
+
+Já no ***TextField()*** foi utilizado o atributo `decoration: InputDecoration()` onde seu atributo `labelText:` recebeu o valor da variável `label`.
+
+```
+adaptative_button.dart
+ 
+...
+    return Platform.isIOS
+        ? CupertinoTextField(
+            controller: controller,
+            keyboardType: keyboardType,
+            onSubmitted: onSubmitted,
+            placeholder: label,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 6,
+              vertical: 12,
+            ),
+          )
+        : TextField(
+            controller: controller,
+            keyboardType: keyboardType,
+            onSubmitted: onSubmitted,
+            decoration: InputDecoration(
+              labelText: label,
+            ),
+          );
+...
+```
+
+Agora em ***transaction_form.dart***, iremos chamar o ***TextField Adaptativo*** que acabamos de definir.
+
+Primeiramente precisamos importar nosso Componente:
+
+```
+import 'adaptative_text_field.dart';
+```
+
+Agora iremos chamar o ***TextField Adaptativo*** `AdaptativeTextField()` ao invés de usar o `TextField()`  tendo o `label:` como `'Título',`, `controller:` como `_titleController,` e o `onSubmitted:` como `(_) => _submitForm,`.
+
+```
+transaction_form.dart
+ 
+...
+    child: Column(
+      children: [
+        AdaptativeTextField(
+          label: 'Título',
+          controller: _titleController,
+          onSubmitted: (_) => _submitForm(),
+        ),
+        AdaptativeTextField(
+          controller: _valueController,
+          keyboardType: TextInputType.number,
+          onSubmitted: (_) => _submitForm(),
+          label: 'Valor (R\$)',
+        ),
 ...
 ```
 
