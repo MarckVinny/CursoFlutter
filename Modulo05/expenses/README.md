@@ -27,9 +27,6 @@
     * [Inicio da Definição do Componente Android: - Aula 160](#definindo-componente-android-aula-160)
     * [Definição do Componente iOS: - Aula 160](#componente-ios-aula-160)
     * [Código Completo - Aula 160](#codigo-completo-aula-160)
-* [](#)
-* [](#)
-* [](#)
 
 ============================================================
 
