@@ -21,7 +21,12 @@
   * [Correção Componente iOS - Aula 154](#correcao-componente-ios-aula-154)
   * [Refatorando Componentes iOS e Android - Aula 155](#refatorando-componente-ios-android-aula-155)
   * [Conhecendo o Componente SafeArea() - Aula 156](#conhecendo-safearea-aula-156)
-  * [Criando um Botão Adaptativo - Aula 157](#criando-botao-adaptativo-aula-157)
+  * [Definindo um Botão Adaptativo - Aula 157](#botao-adaptativo-aula-157)
+  * [Definindo um TextField Adaptativo - Aula 159](#text-field-adaptativo-aula-159)
+  * [Definindo um DatePicker Adaptativo - Aula 160](#date-picker-adaptativo-aula-160)
+    * [Inicio da Definição do Componente Android: - Aula 160](#definindo-componente-android-aula-160)
+    * [Definição do Componente iOS: - Aula 160](#componente-ios-aula-160)
+    * [Código Completo - Aula 160](#codigo-completo-aula-160)
 * [](#)
 * [](#)
 * [](#)
@@ -958,7 +963,7 @@ main.dart
 ...
 ```
 
-## Criando um Botão Adaptativo <a name='criando-botao-adaptativo-aula-157'></a>
+## Definindo um Botão Adaptativo <a name='botao-adaptativo-aula-157'></a>
 
 #### [^Sumário^](#sumario)
 
@@ -1066,7 +1071,7 @@ children: [
 ...
 ```
 
-## TextField Adaptativo <a name='text-field-adaptativo-aula-159'></a>
+## Definindo um TextField Adaptativo <a name='text-field-adaptativo-aula-159'></a>
 
 #### [^Sumário^](#sumario)
 
@@ -1186,6 +1191,335 @@ transaction_form.dart
           onSubmitted: (_) => _submitForm(),
           label: 'Valor (R\$)',
         ),
+...
+```
+
+## Definindo um DatePicker Adaptativo <a name='date-picker-adaptativo-aula-160'></a>
+
+#### [^Sumário^](#sumario)
+
+Agora vamos criar a Classe ***AdaptativeDatePicker***:
+
+Dentro da pasta ***components***, iremos criar o arquivo ***adaptative_date_picker.dart*** e dentro deste arquivo iremos definir nossa Classe.
+
+Agora iremos criar um `StatelessWidget` apenas digitado ***stl*** no VSCode que completará parte do código para nós escolhendo a opção `Flutter Stateless Widget`.
+
+Depois de completar o código o cursor vai ficar piscando e iremos digitar o nome de nossa Classe que será `AdaptativeDatePicker`.
+
+Para que possamos usar o ***Platform***, precisamos importar a biblioteca ***dart:io*** através do comando:
+
+```
+import 'dart:io';
+```
+E para usar os Componentes tanto Cupertino e o Material, precisamos importar suas respectivas bibliotecas:
+
+```
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+```
+
+Agora iremos definir a ***Configuração Android***, dentro do `build`, iremos fazer o teste para verificar o Sistema Operacional que o APP está rodando.
+
+Será retornado `return` caso a plataforma seja iOS `Platform.isIOS` será renderizado `? ComponenteIOS()` caso contrário `:` será renderizado um `ComponenteAndroid()`.
+
+### Inicio da Definição do Componente Android: <a name='definindo-componente-android-aula-160'></a>
+
+#### [^Sumário^](#sumario)
+
+Agora iremos pegar parte do código do `transaction_form.dart` que compõe a seleção de data:
+
+```
+transaction_form.dart
+
+...
+Container(
+    height: 50,
+    child: Row(
+      children: [
+        Expanded(
+          child: Text(
+            _selectedDate == null
+                ? 'Nenhuma Data Selecionada!'
+                : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
+          ),
+        ),
+        TextButton(
+          //*todo: chama a Função do Modal da Data por referência
+          onPressed: _showDatePicker,
+          child: const Text(
+            'Selecionar Data',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    ),
+  ),
+...
+```
+Agora nós temos dois problemas relacionados aos componentes que acabamos de recortar do ***TransactionForm()***:
+
+Temos o erro no `_selectedDate` ***Data Selecionada*** e no `_showDatePicker` que é a ***Função que mostra o DataPicker***.
+
+Então para resolver esse erro, iremos recortar mais um pedaço de código do ***TransactionForm()***, que será a Função mencionada anteriormente:
+
+```
+transaction_form.dart
+
+...
+  //*todo: Cria o Modal para Selecionar a Data
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+      //*todo: Função que seleciona uma Data
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
+  }
+...
+```
+Com isso, apresentam alguns problemas, pois, o ***_showDatePicker()*** está chamando um `setState()` mas o Componente não é um ***Componente StatefulWidget***, e está esperando receber um `context`, e para resolver essa parte do context, basta passar o `BuildContext` com o `context` no ***_showDatePicker()***:
+
+```
+adaptative_date_picker.dart
+
+...
+_showDatePicker(BuildContext context) {}
+...
+```
+E na hora de chamar essa Função, lá no `onPressed:` ao invés de chamar a Função direto, será chamado usando uma ***Arrow Function*** passando o contexto `context`:
+
+```
+adaptative_date_picker.dart
+
+...
+  TextButton(
+    //*todo: chama a Função do Modal da Data por referência
+    onPressed: () => _showDatePicker(context),
+...
+```
+Agora iremos precisar importar a biblioteca de Internacionalização:
+
+```
+adaptative_date_picker.dart
+
+...
+import 'package:intl/intl.dart';
+...
+```
+Nós também iremos precisar receber algumas informações por parâmetro:
+
+```
+adaptative_date_picker.dart
+
+...
+    final DateTime selectedDate;
+    //todo: Comunicação Indireta
+    //todo: Passa uma Função para o Componente para quando a Data mudar,
+    //todo: ele comunicar ao Pai já que este Componente ñ tem Estado.
+    final Function (DateTime) onDateChanged;
+...
+```
+Que serão passadas pelo Construtor do Componente por parâmetro:
+
+```
+adaptative_date_picker.dart
+
+...
+  const AdaptativeDatePicker({
+    //todo: Data Selecionada
+    required this.selectedDate,
+    //todo: Data foi Alterada
+    required this.onDateChanged,
+  });
+...
+```
+Agora, ***quando entrar*** no `_showDatePicker()` e a ***Data for selecionada*** `showDatePicker()` então, ao invés de chamar o `setState()`, será chamado o `onDataChanged(` e essa Função recebe como parâmetro um DateTime `picketDate)`.
+
+```
+adaptative_date_picker.dart
+
+...
+  //todo: Cria o Modal para Selecionar a Data
+  _showDatePicker(BuildContext context) {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+      //todo: Função que seleciona uma Data
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+
+      onDateChanged(pickedDate);
+    });
+  }
+...
+```
+Já que a ***Data Selecionada*** `selectedDate()` não é mais **privada** e sim `final`, não precisa mais ser precedida de um `_` underline.
+
+```
+adaptative_date_picker.dart
+
+...
+  Expanded(
+    child: Text(
+      selectedDate == null
+          ? 'Nenhuma Data Selecionada!'
+          : 'Data Selecionada: ${DateFormat('dd/MM/y').format(selectedDate)}',
+    ),
+  ),
+...
+```
+Com isso, corrigimos todos os erros relacionados ao Android.
+
+### Definição do Componente iOS: <a name='componente-ios-aula-160'></a>
+
+#### [^Sumário^](#sumario)
+
+Agora, iremos definir os Componentes para o iOS:
+
+O Componente que iremos usar é o `CupertinoDatePicker()`, irá receber por parâmetro o atributo `mode:` que receberá o valor `CupertinoDatePickerMode.date,` que pega a Data *"por padrão ele pega a hora".*
+
+Nos próximos atributos, iremos fazer semelhante ao que foi feito no Android para selecionar a Data:
+
+`inicialDateTime:` Data inicial `DateTime.now(),`
+
+`minimumDate:` primeira Data `DateTime(2019),`
+
+`maximumDate:` última Data `DateTime.now(),`
+
+`onDateTimeChanged:` chama e Função `onDateChanged,` quando houver mudança na Data pois, assim como o ***onDateTimeChanged:*** ele também recebe uma Função que recebe um ***DateTime*** então não haverá problemas.
+
+```
+adaptative_date_picker.dart
+
+...
+  ? CupertinoDatePicker(
+      mode: CupertinoDatePickerMode.date,
+      initialDateTime: DateTime.now(),
+      minimumDate: DateTime(2019),
+      maximumDate: DateTime.now(),
+      onDateTimeChanged: onDateChanged,
+    )
+...
+```
+Outra coisa que precisamos resolver, é que o ***CupertinoDatePicker()***, precisa estar dentro de uma área com um tamanho específico para funcionar, por isso, iremos envolver com um `Container` ***CTRL+PONTO*** `Wrap with Container` e adicionar um atributo de altura `height:` com o valor de `180,`.
+
+### Código Completo <a name='codigo-completo-aula-160'></a>
+
+#### [^Sumário^](#sumario)
+
+```
+adaptative_date_picker.dart
+
+...
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+class AdaptativeDatePicker extends StatelessWidget {
+  final DateTime selectedDate;
+  //todo: Comunicação Indireta
+  //todo: Passa uma Função para o Componente para quando a Data mudar,
+  //todo: ele comunicar ao Pai já que este Componente ñ tem Estado.
+  final Function(DateTime) onDateChanged;
+
+  const AdaptativeDatePicker({
+    //todo: Data Selecionada
+    required this.selectedDate,
+    //todo: Data foi Alterada
+    required this.onDateChanged,
+  });
+
+  //todo: Cria o Modal para Selecionar a Data
+  _showDatePicker(BuildContext context) {
+    //todo: Seleciona a Data
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+      //todo: Função que seleciona uma Data
+    ).then((pickedDate) {
+      //todo: Testa se a Data é Nula e se for retorna
+      if (pickedDate == null) {
+        return;
+      }
+      //todo: Função que chama a Data Selecionada
+      onDateChanged(pickedDate);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Platform.isIOS
+        ? Container(
+            height: 180,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              initialDateTime: DateTime.now(),
+              minimumDate: DateTime(2019),
+              maximumDate: DateTime.now(),
+              onDateTimeChanged: onDateChanged,
+            ),
+          )
+        : Container(
+            height: 50,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    selectedDate == null
+                        ? 'Nenhuma Data Selecionada!'
+                        : 'Data Selecionada: ${DateFormat('dd/MM/y').format(selectedDate)}',
+                  ),
+                ),
+                TextButton(
+                  //todo: chama a Função do Modal da Data por referência
+                  onPressed: () => _showDatePicker(context),
+                  child: const Text(
+                    'Selecionar Data',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          );
+  }
+}
+...
+```
+
+Para finalizar, iremos voltar ao ***Componente TransactionForm()*** lá onde iniciamos retirando nosso código, para então chamar o ***Componente Adaptativo*** que acabamos de definir `AdaptativeDatePicker()`.
+
+Passando por parâmetro a ***Data Selecionada*** `selectedDate: _selectedDate,`.
+
+E o `onDateChange:` que receberá uma ***Nova Data*** `(newDate) {` chamar o `setState((){`passar uma Função que irá alterar o `_selectedDate` para receber `=` a Nova Data `newDate });`
+
+```
+transaction_form.dart
+
+...
+    AdaptativeDatePicker(
+      selectedDate: _selectedDate,
+      onDateChanged: (newDate) {
+        setState(() {
+          _selectedDate = newDate;
+        });
+      },
+    ),
 ...
 ```
 
