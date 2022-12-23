@@ -2,7 +2,7 @@
 # SUMÁRIO <a name='sumario'></a>
 
 * [MÓDULO 06 - Funcionamento Interno do Flutter](#módulo-6---funcionamento-interno-do-flutter)
-    * [Flutter e Widget Internamente](#flutter-widgets-internamente)
+    * [Flutter e Widget Internamente - Aula 162](#flutter-widgets-internamente)
 
     * []()
 
@@ -15,7 +15,7 @@ Neste capítulo iremos entender como que o **Flutter** funciona internamente, n�
 
 #### [^Sumário^](#sumario)
 
-![](images\flutter_11_010_intro_modulo-1.png)
+![](lib\imagens\flutter_11_010_intro_modulo-1.png)
 
 Neste capítulo estaremos entendo melhor os detalhes internos do **Flutter**, anteriormente, fizemos algumas aplicações sem necessariamente entender as partes internas do **Framework**.
 
