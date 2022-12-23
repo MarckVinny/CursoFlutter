@@ -1,0 +1,4 @@
+#Fri Jun 10 00:02:13 BRT 2022
+base.0=D\:\\ProjetosProgramacao\\LEONARDO_LEITAO_COD3R\\CursoFlutter\\Modulo05\\expenses\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

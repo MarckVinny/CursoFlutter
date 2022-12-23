@@ -1,0 +1,10 @@
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/CMakeFiles/INSTALL.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/CMakeFiles/ALL_BUILD.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/CMakeFiles/ZERO_CHECK.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/flutter/CMakeFiles/flutter_wrapper_plugin.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/flutter/CMakeFiles/flutter_wrapper_app.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/flutter/CMakeFiles/flutter_assemble.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/flutter/CMakeFiles/INSTALL.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/runner/CMakeFiles/expenses.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/runner/CMakeFiles/INSTALL.dir
+D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/runner/CMakeFiles/ALL_BUILD.dir

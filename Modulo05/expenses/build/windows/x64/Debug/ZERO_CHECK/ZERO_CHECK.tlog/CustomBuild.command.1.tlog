@@ -1,0 +1,10 @@
+^D:\PROJETOSPROGRAMACAO\LEONARDO_LEITAO_COD3R\CURSOFLUTTER\MODULO05\EXPENSES\BUILD\WINDOWS\CMAKEFILES\FA9A5443CFECFA6EADF096C0B76C933F\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/windows -BD:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/expenses.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

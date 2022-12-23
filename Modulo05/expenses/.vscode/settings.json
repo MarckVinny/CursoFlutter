@@ -1,0 +1,38 @@
+{
+    "cSpell.words": [
+        "booleana",
+        "errorcolor",
+        "Fracionally",
+        "grey",
+        "LTRB",
+        "pubspec",
+        "Sizedbox",
+        "Thema",
+    ],
+    "cSpell.language": "en,pt-BR,pt,en-US",
+    "cSpell.enableFiletypes": [
+        "!css",
+        "!html",
+        "!javascript",
+        "!jupyter",
+        "!less",
+        "!php",
+        "!pug",
+        "!python",
+        "!rust",
+        "!scss",
+        "!vue",
+        "dart",
+        "git-rebase",
+        "groovy",
+        "ignore",
+        "ini",
+        "makefile",
+        "markdown-math",
+        "markdown_latex_combined",
+        "objective-c",
+        "objective-cpp",
+        "properties",
+        "tex"
+    ]
+}

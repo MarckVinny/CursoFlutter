@@ -1,0 +1,28 @@
+^D:\PROJETOSPROGRAMACAO\LEONARDO_LEITAO_COD3R\CURSOFLUTTER\MODULO05\EXPENSES\BUILD\WINDOWS\CMAKEFILES\F9F7AB8D6DAC1CB1237BBEFD38DD74E9\FLUTTER_WINDOWS.DLL.RULE
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E env FLUTTER_ROOT=D:\flutter PROJECT_DIR=D:\ProjetosProgramacao\LEONARDO_LEITAO_COD3R\CursoFlutter\Modulo05\expenses FLUTTER_ROOT=D:\flutter FLUTTER_EPHEMERAL_DIR=D:\ProjetosProgramacao\LEONARDO_LEITAO_COD3R\CursoFlutter\Modulo05\expenses\windows\flutter\ephemeral PROJECT_DIR=D:\ProjetosProgramacao\LEONARDO_LEITAO_COD3R\CursoFlutter\Modulo05\expenses FLUTTER_TARGET=D:\ProjetosProgramacao\LEONARDO_LEITAO_COD3R\CursoFlutter\Modulo05\expenses\lib\main.dart DART_DEFINES=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz10cnVl,RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ== DART_OBFUSCATION=false TRACK_WIDGET_CREATION=true TREE_SHAKE_ICONS=false PACKAGE_CONFIG=D:\ProjetosProgramacao\LEONARDO_LEITAO_COD3R\CursoFlutter\Modulo05\expenses\.dart_tool\package_config.json D:/flutter/packages/flutter_tools/bin/tool_backend.bat windows-x64 Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOSPROGRAMACAO\LEONARDO_LEITAO_COD3R\CURSOFLUTTER\MODULO05\EXPENSES\BUILD\WINDOWS\CMAKEFILES\A5CBBAEE55AFFF7FB4803828A1C8E129\FLUTTER_ASSEMBLE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOSPROGRAMACAO\LEONARDO_LEITAO_COD3R\CURSOFLUTTER\MODULO05\EXPENSES\WINDOWS\FLUTTER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/windows -BD:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows --check-stamp-file D:/ProjetosProgramacao/LEONARDO_LEITAO_COD3R/CursoFlutter/Modulo05/expenses/build/windows/flutter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
