@@ -7,5 +7,7 @@
 
 * [MÓDULO 05](https://github.com/MarckVinny/CursoFlutter/tree/main/Modulo05/expenses)
 
+* [MÓDULO 06](https://github.com/MarckVinny/CursoFlutter/tree/main/Modulo06/)
+
 Em cada Módulo terá um README contendo minhas anotações, peço desculpas se hover algum erro no arquivo README, pois formatei conforme consegui.
 Tentei criar um Índice automaticamente mas não consegui, futuramente tentarei criar novamente ou se alguém souber como criar índice em MARKDOWN serei muito grato.
