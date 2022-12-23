@@ -15,7 +15,7 @@ Neste capítulo iremos entender como que o **Flutter** funciona internamente, n�
 
 #### [^Sumário^](#sumario)
 
-![](flutter_11_010_intro_modulo-1.png)
+![](/Modulo05/expenses/lib/images/flutter_11_010_intro_modulo-1.png)
 
 Neste capítulo estaremos entendo melhor os detalhes internos do **Flutter**, anteriormente, fizemos algumas aplicações sem necessariamente entender as partes internas do **Framework**.
 
